@@ -1,5 +1,7 @@
 package info.bladt.scanstation;
 
+import info.bladt.scanstation.image.acquisition.Acquisition;
+import info.bladt.scanstation.image.acquisition.AcquisitionFactory;
 import javafx.application.Application;
 import javafx.concurrent.Task;
 import javafx.event.ActionEvent;
@@ -12,8 +14,6 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
-
-import java.io.FileInputStream;
 
 public class ScanStationApp extends Application {
 
@@ -73,11 +73,13 @@ public class ScanStationApp extends Application {
             Task<Image> scanImage = new Task<>() {
                 @Override
                 protected Image call() throws Exception {
-                    Thread.sleep(500);
-                    FileInputStream inputStream = new FileInputStream("kitten.jpg");
-                    imageView.setImage(new Image(inputStream));
+
+                    Acquisition acquisition = AcquisitionFactory.getAcquisition();
+                    Image image = acquisition.acquireImage();
+
+                    imageView.setImage(image);
                     proceed.setVisible(true);
-                    return new Image(inputStream);
+                    return image;
                 }
             };
             new Thread(scanImage).start();
