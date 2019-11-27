@@ -32,6 +32,8 @@
                                                         <ChoiceBox prefWidth="150.0" />
                                                         <Label text="Instrument" />
                                                         <ChoiceBox prefWidth="150.0" />
+                                                        <Label text="Scanner" />
+                                                        <ChoiceBox fx:id="scannerChoiceBox" prefWidth="150.0" />
                                                         <Button fx:id="scanButton" defaultButton="true" mnemonicParsing="false" text="Scan">
                                                             <opaqueInsets>
                                                                 <Insets />

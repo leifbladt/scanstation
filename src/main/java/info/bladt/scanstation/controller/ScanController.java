@@ -1,14 +1,15 @@
 package info.bladt.scanstation.controller;
 
-import info.bladt.scanstation.image.scan.Scanner;
-import info.bladt.scanstation.image.scan.ScannerFactory;
 import info.bladt.scanstation.image.scan.ScanModule;
+import info.bladt.scanstation.image.scan.ScannerFactory;
+import javafx.collections.FXCollections;
 import javafx.concurrent.Task;
 import javafx.embed.swing.SwingFXUtils;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
+import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -38,6 +39,9 @@ public class ScanController {
     @FXML
     private HBox proceed;
 
+    @FXML
+    private ChoiceBox<String> scannerChoiceBox;
+
     private ScanModule scanModule;
 
     public ScanController() {
@@ -45,13 +49,15 @@ public class ScanController {
 
     @FXML
     private void initialize() {
-        Scanner scanner = ScannerFactory.getScanner();
-        scanModule = new ScanModule(scanner);
+        scanModule = new ScanModule();
 
         scanButton.setOnAction(new ScanEventHandler());
         nextPageButton.setOnAction(new NextPageEventHandler());
         retryButton.setOnAction(new RetryEventHandler());
         finishButton.setOnAction(new FinishEventHandler());
+
+        scannerChoiceBox.setItems(FXCollections.observableArrayList("Demo", "Canon LiDE 210"));
+        scannerChoiceBox.setValue("Demo");
     }
 
     private class ScanEventHandler implements EventHandler<ActionEvent> {
@@ -63,6 +69,7 @@ public class ScanController {
             Task<Void> scanImage = new Task<>() {
                 @Override
                 protected Void call() {
+                    scanModule.setScanner(ScannerFactory.getScanner(scannerChoiceBox.getValue()));
                     scanModule.scanPage();
                     return null;
                 }
@@ -141,6 +148,7 @@ public class ScanController {
             scanImage.setOnSucceeded(e -> {
                 proceed.setVisible(false);
                 imageView.setImage(null);
+                scanButton.setDisable(false);
             });
 
             new Thread(scanImage).start();

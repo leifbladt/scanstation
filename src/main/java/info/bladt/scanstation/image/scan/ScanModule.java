@@ -13,7 +13,7 @@ public class ScanModule {
 
     private BufferedImage image;
 
-    public ScanModule(Scanner scanner) {
+    public void setScanner(Scanner scanner) {
         this.scanner = scanner;
     }
 
