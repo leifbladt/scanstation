@@ -1,4 +1,4 @@
-package info.bladt.scanstation.image.acquisition;
+package info.bladt.scanstation.image.scan;
 
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
@@ -9,12 +9,12 @@ public class ScanModule {
 
     private int page = 0;
 
-    private Acquisition acquisition;
+    private Scanner scanner;
 
     private BufferedImage image;
 
-    public ScanModule(Acquisition acquisition) {
-        this.acquisition = acquisition;
+    public ScanModule(Scanner scanner) {
+        this.scanner = scanner;
     }
 
     public void scanPage() {
@@ -43,7 +43,7 @@ public class ScanModule {
     }
 
     private void scanPage(boolean nextPage) {
-        image = acquisition.acquireImage();
+        image = scanner.acquireImage();
 
         if (nextPage) {
             page++;

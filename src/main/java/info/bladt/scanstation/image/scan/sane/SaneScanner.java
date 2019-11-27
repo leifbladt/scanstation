@@ -1,9 +1,9 @@
-package info.bladt.scanstation.image.acquisition.sane;
+package info.bladt.scanstation.image.scan.sane;
 
 import au.com.southsky.jfreesane.SaneDevice;
 import au.com.southsky.jfreesane.SaneException;
 import au.com.southsky.jfreesane.SaneSession;
-import info.bladt.scanstation.image.acquisition.Acquisition;
+import info.bladt.scanstation.image.scan.Scanner;
 
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
@@ -12,7 +12,7 @@ import java.io.IOException;
 import java.net.InetAddress;
 import java.util.List;
 
-public class SaneAcquisition implements Acquisition {
+public class SaneScanner implements Scanner {
 
     @Override
     public BufferedImage acquireImage() {

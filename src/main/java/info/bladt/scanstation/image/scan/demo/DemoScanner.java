@@ -1,12 +1,12 @@
-package info.bladt.scanstation.image.acquisition.demo;
+package info.bladt.scanstation.image.scan.demo;
 
-import info.bladt.scanstation.image.acquisition.Acquisition;
+import info.bladt.scanstation.image.scan.Scanner;
 
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 
-public class DemoAcquisition implements Acquisition {
+public class DemoScanner implements Scanner {
 
     private int page = 1;
 
@@ -15,7 +15,7 @@ public class DemoAcquisition implements Acquisition {
         try {
             Thread.sleep(250);
 
-            BufferedImage image = ImageIO.read(DemoAcquisition.class.getResourceAsStream(String.format("page_%02d.jpg", page)));
+            BufferedImage image = ImageIO.read(DemoScanner.class.getResourceAsStream(String.format("page_%02d.jpg", page)));
             page++;
             return image;
         } catch (InterruptedException e) {

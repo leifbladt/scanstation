@@ -1,8 +1,8 @@
 package info.bladt.scanstation.controller;
 
-import info.bladt.scanstation.image.acquisition.Acquisition;
-import info.bladt.scanstation.image.acquisition.AcquisitionFactory;
-import info.bladt.scanstation.image.acquisition.ScanModule;
+import info.bladt.scanstation.image.scan.Scanner;
+import info.bladt.scanstation.image.scan.ScannerFactory;
+import info.bladt.scanstation.image.scan.ScanModule;
 import javafx.concurrent.Task;
 import javafx.embed.swing.SwingFXUtils;
 import javafx.event.ActionEvent;
@@ -45,13 +45,13 @@ public class ScanController {
 
     @FXML
     private void initialize() {
+        Scanner scanner = ScannerFactory.getScanner();
+        scanModule = new ScanModule(scanner);
+
         scanButton.setOnAction(new ScanEventHandler());
         nextPageButton.setOnAction(new NextPageEventHandler());
         retryButton.setOnAction(new RetryEventHandler());
         finishButton.setOnAction(new FinishEventHandler());
-
-        Acquisition acquisition = AcquisitionFactory.getAcquisition();
-        scanModule = new ScanModule(acquisition);
     }
 
     private class ScanEventHandler implements EventHandler<ActionEvent> {
