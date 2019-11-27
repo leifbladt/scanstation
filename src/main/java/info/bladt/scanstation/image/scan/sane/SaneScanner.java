@@ -5,9 +5,7 @@ import au.com.southsky.jfreesane.SaneException;
 import au.com.southsky.jfreesane.SaneSession;
 import info.bladt.scanstation.image.scan.Scanner;
 
-import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
-import java.io.File;
 import java.io.IOException;
 import java.net.InetAddress;
 import java.util.List;
@@ -40,12 +38,6 @@ public class SaneScanner implements Scanner {
 
             // Actually get image
             BufferedImage bufferedImage = device.acquireImage();
-
-            // TODO Move to separate module
-            System.out.println("### Write scan to file");
-            if (!ImageIO.write(bufferedImage, "JPG", new File("scan.jpg"))) {
-                System.out.println("Error while writing file");
-            }
 
             // TODO Move to finally block
             device.close();
