@@ -5,7 +5,10 @@ import info.bladt.scanstation.image.scan.sane.SaneScanner;
 
 public class ScannerFactory {
 
-    private final static boolean USE_DEMO = true;
+    private static final boolean USE_DEMO = true;
+
+    private ScannerFactory() {
+    }
 
     // TODO Synchronized
     public static Scanner getScanner(String scannerName) {
