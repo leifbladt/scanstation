@@ -44,9 +44,6 @@ public class ScanController {
 
     private ScanModule scanModule;
 
-    public ScanController() {
-    }
-
     @FXML
     private void initialize() {
         scanModule = new ScanModule();
