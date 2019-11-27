@@ -1,8 +1,8 @@
 package info.bladt.scanstation.image.acquisition;
 
-import javafx.scene.image.Image;
+import java.awt.image.BufferedImage;
 
 public interface Acquisition {
 
-    Image acquireImage();
+    BufferedImage acquireImage();
 }

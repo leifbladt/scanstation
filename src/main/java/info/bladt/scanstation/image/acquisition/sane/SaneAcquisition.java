@@ -4,8 +4,6 @@ import au.com.southsky.jfreesane.SaneDevice;
 import au.com.southsky.jfreesane.SaneException;
 import au.com.southsky.jfreesane.SaneSession;
 import info.bladt.scanstation.image.acquisition.Acquisition;
-import javafx.embed.swing.SwingFXUtils;
-import javafx.scene.image.Image;
 
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
@@ -17,7 +15,7 @@ import java.util.List;
 public class SaneAcquisition implements Acquisition {
 
     @Override
-    public Image acquireImage() {
+    public BufferedImage acquireImage() {
         try {
             System.out.println("### Connecting to SANE");
             InetAddress address = InetAddress.getByName("scanner.fritz.box");
@@ -52,7 +50,7 @@ public class SaneAcquisition implements Acquisition {
             // TODO Move to finally block
             device.close();
 
-            return SwingFXUtils.toFXImage(bufferedImage, null);
+            return bufferedImage;
         } catch (IOException | SaneException e) {
             return null;
         }
