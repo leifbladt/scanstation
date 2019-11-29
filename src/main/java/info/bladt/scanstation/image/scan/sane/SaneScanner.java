@@ -26,7 +26,7 @@ public class SaneScanner implements Scanner {
             LOGGER.debug("### List devices");
             List<SaneDevice> devices = session.listDevices();
             for (SaneDevice device : devices) {
-                LOGGER.debug(device.getVendor() + ": " + device.getModel());
+                LOGGER.debug("{}: {}", device.getVendor(), device.getModel());
             }
 
             LOGGER.debug("### Prepare device");
