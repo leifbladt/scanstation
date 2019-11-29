@@ -77,8 +77,8 @@ public class ScanModule {
             Path path = Path.of("ScanStation", "Scan", composition.getName());
             Files.createDirectories(path);
 
-            Path path2 = Path.of(path.toString(), String.format("%s_%02d.tif", instrument.getName(), page));
-            if (!ImageIO.write(image, "TIFF", path2.toFile())) {
+            Path path2 = Path.of(path.toString(), String.format("%s %02d.jpg", instrument.getName(), page));
+            if (!ImageIO.write(image, "JPG", path2.toFile())) {
                 LOGGER.error("Could not write file to '{}'", path2);
             }
         } catch (IOException e) {

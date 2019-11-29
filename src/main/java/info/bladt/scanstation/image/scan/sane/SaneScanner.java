@@ -35,10 +35,10 @@ public class SaneScanner implements Scanner {
             device.open();
 
             // Set scan options
-            device.getOption("mode").setStringValue("Color");
-            device.getOption("resolution").setIntegerValue(150);
-            device.getOption("br-x").setFixedValue(80d);
-            device.getOption("br-y").setFixedValue(120d);
+            device.getOption("mode").setStringValue("Gray");
+            device.getOption("resolution").setIntegerValue(300);
+            device.getOption("br-x").setFixedValue(210d);
+            device.getOption("br-y").setFixedValue(297d);
 
             // Actually get image
             BufferedImage bufferedImage = device.acquireImage();
