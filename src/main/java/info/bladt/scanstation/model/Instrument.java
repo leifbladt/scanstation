@@ -8,7 +8,9 @@ import java.util.Objects;
 public class Instrument {
 
     public static final List<Instrument> INSTRUMENTS = Collections.unmodifiableList(Arrays.asList(
-            new Instrument("Soprano Cornet"), new Instrument("Solo Cornet")
+            new Instrument("Solo Horn"),
+            new Instrument("Soprano Cornet"),
+            new Instrument("Solo Cornet")
     ));
 
     private final String name;

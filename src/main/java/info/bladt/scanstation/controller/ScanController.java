@@ -1,5 +1,6 @@
 package info.bladt.scanstation.controller;
 
+import info.bladt.scanstation.image.export.PdfExporter;
 import info.bladt.scanstation.image.scan.ScanModule;
 import info.bladt.scanstation.image.scan.ScannerFactory;
 import info.bladt.scanstation.model.Composition;
@@ -16,12 +17,16 @@ import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import static info.bladt.scanstation.model.Composition.COMPOSITIONS;
 import static info.bladt.scanstation.model.Instrument.INSTRUMENTS;
 
 
 public class ScanController {
+
+    private static final Logger LOGGER = LogManager.getLogger(ScanController.class);
 
     @FXML
     private Label pageLabel;
@@ -53,6 +58,9 @@ public class ScanController {
     @FXML
     private ChoiceBox<String> scannerChoiceBox;
 
+    @FXML
+    private Button exportButton;
+
     private ScanModule scanModule;
 
     @FXML
@@ -63,6 +71,7 @@ public class ScanController {
         nextPageButton.setOnAction(new NextPageEventHandler());
         retryButton.setOnAction(new RetryEventHandler());
         finishButton.setOnAction(new FinishEventHandler());
+        exportButton.setOnAction(new ExportEventHandler());
 
         compositionChoiceBox.setItems(FXCollections.observableArrayList(COMPOSITIONS));
         compositionChoiceBox.setValue(COMPOSITIONS.get(0));
@@ -100,6 +109,10 @@ public class ScanController {
                 proceed.setVisible(true);
             });
 
+            scanImage.setOnFailed(e -> {
+                LOGGER.error("Failed to scan image ({})", e.toString());
+            });
+
             new Thread(scanImage).start();
         }
     }
@@ -121,6 +134,10 @@ public class ScanController {
 
                 pageLabel.setText(scanModule.getPage() + "");
                 imageView.setImage(image);
+            });
+
+            scanImage.setOnFailed(e -> {
+                LOGGER.error("Failed to scan next page ({})", e.toString());
             });
 
             new Thread(scanImage).start();
@@ -170,7 +187,39 @@ public class ScanController {
                 scanButton.setDisable(false);
             });
 
+            scanImage.setOnFailed(e -> {
+                LOGGER.error("Failed to finish ({})", e.toString());
+            });
+
             new Thread(scanImage).start();
+        }
+    }
+
+    private class ExportEventHandler implements EventHandler<ActionEvent> {
+
+        @Override
+        public void handle(ActionEvent actionEvent) {
+            Task<Void> export = new Task<>() {
+                @Override
+                protected Void call() {
+                    exportButton.setDisable(true);
+                    PdfExporter pdfExporter = new PdfExporter();
+                    pdfExporter.savePdf(compositionChoiceBox.getValue(), instrumentChoiceBox.getValue());
+                    return null;
+                }
+            };
+
+            export.setOnSucceeded(e -> {
+                LOGGER.info("Successfully saved PDF file");
+                exportButton.setDisable(false);
+            });
+
+            export.setOnFailed(e -> {
+                LOGGER.error("Failed to save PDF file ({})", e.toString());
+                exportButton.setDisable(false);
+            });
+
+            new Thread(export).start();
         }
     }
 }

@@ -8,8 +8,9 @@ import java.util.Objects;
 public class Composition {
 
     public static final List<Composition> COMPOSITIONS = Collections.unmodifiableList(Arrays.asList(
-            new Composition("120 Hymns For Brass Band"),
             new Composition("Abide With Me"),
+            new Composition("A Moorside Suite"),
+            new Composition("120 Hymns For Brass Band"),
             new Composition("Shepherd Hey")
     ));
 
