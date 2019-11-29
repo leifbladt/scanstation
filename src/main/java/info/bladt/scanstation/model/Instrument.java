@@ -1,14 +1,15 @@
 package info.bladt.scanstation.model;
 
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 
 public class Instrument {
 
-    public static final List<Instrument> INSTRUMENTS = Arrays.asList(
+    public static final List<Instrument> INSTRUMENTS = Collections.unmodifiableList(Arrays.asList(
             new Instrument("Soprano Cornet"), new Instrument("Solo Cornet")
-    );
+    ));
 
     private final String name;
 

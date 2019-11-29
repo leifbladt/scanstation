@@ -1,16 +1,17 @@
 package info.bladt.scanstation.model;
 
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 
 public class Composition {
 
-    public static final List<Composition> COMPOSITIONS = Arrays.asList(
+    public static final List<Composition> COMPOSITIONS = Collections.unmodifiableList(Arrays.asList(
             new Composition("120 Hymns For Brass Band"),
             new Composition("Abide With Me"),
             new Composition("Shepherd Hey")
-    );
+    ));
 
     private final String name;
 
