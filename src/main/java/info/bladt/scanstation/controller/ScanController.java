@@ -2,6 +2,8 @@ package info.bladt.scanstation.controller;
 
 import info.bladt.scanstation.image.scan.ScanModule;
 import info.bladt.scanstation.image.scan.ScannerFactory;
+import info.bladt.scanstation.model.Composition;
+import info.bladt.scanstation.model.Instrument;
 import javafx.collections.FXCollections;
 import javafx.concurrent.Task;
 import javafx.embed.swing.SwingFXUtils;
@@ -14,6 +16,9 @@ import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
+
+import static info.bladt.scanstation.model.Composition.COMPOSITIONS;
+import static info.bladt.scanstation.model.Instrument.INSTRUMENTS;
 
 
 public class ScanController {
@@ -40,6 +45,12 @@ public class ScanController {
     private HBox proceed;
 
     @FXML
+    private ChoiceBox<Composition> compositionChoiceBox;
+
+    @FXML
+    private ChoiceBox<Instrument> instrumentChoiceBox;
+
+    @FXML
     private ChoiceBox<String> scannerChoiceBox;
 
     private ScanModule scanModule;
@@ -52,6 +63,12 @@ public class ScanController {
         nextPageButton.setOnAction(new NextPageEventHandler());
         retryButton.setOnAction(new RetryEventHandler());
         finishButton.setOnAction(new FinishEventHandler());
+
+        compositionChoiceBox.setItems(FXCollections.observableArrayList(COMPOSITIONS));
+        compositionChoiceBox.setValue(COMPOSITIONS.get(0));
+
+        instrumentChoiceBox.setItems(FXCollections.observableArrayList(INSTRUMENTS));
+        instrumentChoiceBox.setValue(INSTRUMENTS.get(0));
 
         scannerChoiceBox.setItems(FXCollections.observableArrayList("Demo", "Canon LiDE 210"));
         scannerChoiceBox.setValue("Demo");
@@ -66,7 +83,10 @@ public class ScanController {
             Task<Void> scanImage = new Task<>() {
                 @Override
                 protected Void call() {
+                    scanModule.setComposition(compositionChoiceBox.getValue());
+                    scanModule.setInstrument(instrumentChoiceBox.getValue());
                     scanModule.setScanner(ScannerFactory.getScanner(scannerChoiceBox.getValue()));
+
                     scanModule.scanPage();
                     return null;
                 }
@@ -143,6 +163,8 @@ public class ScanController {
             };
 
             scanImage.setOnSucceeded(e -> {
+                scanModule.reset();
+
                 proceed.setVisible(false);
                 imageView.setImage(null);
                 scanButton.setDisable(false);

@@ -1,17 +1,31 @@
 package info.bladt.scanstation.image.scan;
 
+import info.bladt.scanstation.model.Composition;
+import info.bladt.scanstation.model.Instrument;
+
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
-import java.io.File;
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
 
 public class ScanModule {
 
     private int page = 0;
 
+    private Composition composition;
+    private Instrument instrument;
     private Scanner scanner;
 
     private BufferedImage image;
+
+    public void setComposition(Composition composition) {
+        this.composition = composition;
+    }
+
+    public void setInstrument(Instrument instrument) {
+        this.instrument = instrument;
+    }
 
     public void setScanner(Scanner scanner) {
         this.scanner = scanner;
@@ -34,6 +48,10 @@ public class ScanModule {
         saveImage();
     }
 
+    public void reset() {
+        page = 0;
+    }
+
     public int getPage() {
         return page;
     }
@@ -52,7 +70,11 @@ public class ScanModule {
 
     private void saveImage() {
         try {
-            if (!ImageIO.write(image, "TIFF", new File(String.format("scan_%02d.tif", page)))) {
+            Path path = Path.of("ScanStation", "Scan", composition.getName());
+            Files.createDirectories(path);
+
+            Path path2 = Path.of(path.toString(), String.format("%s_%02d.tif", instrument.getName(), page));
+            if (!ImageIO.write(image, "TIFF", path2.toFile())) {
                 System.out.println("Error while writing file");
             }
         } catch (IOException e) {
