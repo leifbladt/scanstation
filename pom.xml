@@ -6,6 +6,10 @@
     <properties>
         <maven.compiler.release>13</maven.compiler.release>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+
+        <sonar.projectKey>leifbladt_scanstation</sonar.projectKey>
+        <sonar.organization>leifbladt</sonar.organization>
+        <sonar.host.url>https://sonarcloud.io</sonar.host.url>
     </properties>
 
     <build>
@@ -39,16 +43,16 @@
         </plugins>
     </build>
 
-<!--    <dependencyManagement>-->
-<!--        <dependencies>-->
-<!--            <dependency>-->
-<!--                <groupId>org.junit</groupId>-->
-<!--                <artifactId>junit-bom</artifactId>-->
-<!--                <version>5.5.2</version>-->
-<!--                <scope>test</scope>-->
-<!--            </dependency>-->
-<!--        </dependencies>-->
-<!--    </dependencyManagement>-->
+    <!--    <dependencyManagement>-->
+    <!--        <dependencies>-->
+    <!--            <dependency>-->
+    <!--                <groupId>org.junit</groupId>-->
+    <!--                <artifactId>junit-bom</artifactId>-->
+    <!--                <version>5.5.2</version>-->
+    <!--                <scope>test</scope>-->
+    <!--            </dependency>-->
+    <!--        </dependencies>-->
+    <!--    </dependencyManagement>-->
 
     <dependencies>
         <dependency>
