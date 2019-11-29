@@ -25,8 +25,7 @@ public class PdfExporter {
 
     public void savePdf(Composition composition, Instrument instrument) {
 
-        try {
-            PDDocument doc = new PDDocument();
+        try (PDDocument doc = new PDDocument()) {
 
             Path outputPath = Path.of("ScanStation", "Export", composition.getName());
             Files.createDirectories(outputPath);
@@ -53,7 +52,6 @@ public class PdfExporter {
             }
 
             doc.save(outputPath2.toFile());
-            doc.close();
         } catch (IOException e) {
             LOGGER.error("Error creating PDF file", e);
         }
@@ -61,9 +59,12 @@ public class PdfExporter {
 
     private List<Path> getInputImages(Composition composition, Instrument instrument) throws IOException {
         Path inputPath = Path.of("ScanStation", "Scan", composition.getName());
-        Stream<Path> pathStream = Files.find(inputPath, 1,
-                (path, basicFileAttributes) -> path.toFile().getName().matches(instrument.getName() + " [0-9][0-9].jpg"));
-        return pathStream.collect(Collectors.toList());
+
+        try (Stream<Path> pathStream = Files.find(inputPath, 1,
+                (path, basicFileAttributes) -> path.toFile().getName().matches(instrument.getName() + " [0-9][0-9].jpg"))) {
+
+            return pathStream.collect(Collectors.toList());
+        }
     }
 
     private float calculateScale(PDRectangle mediaBox, PDImageXObject image) {
