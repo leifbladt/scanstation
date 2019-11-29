@@ -10,7 +10,7 @@ import org.apache.logging.log4j.Logger;
 
 public class ScanStationApp extends Application {
 
-    private final static Logger LOGGER = LogManager.getLogger(ScanStationApp.class);
+    private static final Logger LOGGER = LogManager.getLogger(ScanStationApp.class);
 
     @Override
     public void start(Stage primaryStage) {

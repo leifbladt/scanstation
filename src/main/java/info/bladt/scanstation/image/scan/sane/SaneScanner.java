@@ -14,7 +14,7 @@ import java.util.List;
 
 public class SaneScanner implements Scanner {
 
-    private final static Logger LOGGER = LogManager.getLogger(SaneScanner.class);
+    private static final Logger LOGGER = LogManager.getLogger(SaneScanner.class);
 
     @Override
     public BufferedImage acquireImage() {

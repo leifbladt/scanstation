@@ -10,7 +10,7 @@ import java.io.IOException;
 
 public class DemoScanner implements Scanner {
 
-    private final static Logger LOGGER = LogManager.getLogger(DemoScanner.class);
+    private static final Logger LOGGER = LogManager.getLogger(DemoScanner.class);
 
     private int page = 1;
 

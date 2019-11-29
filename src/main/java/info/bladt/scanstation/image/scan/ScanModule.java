@@ -13,7 +13,7 @@ import java.nio.file.Path;
 
 public class ScanModule {
 
-    private final static Logger LOGGER = LogManager.getLogger(ScanModule.class);
+    private static final Logger LOGGER = LogManager.getLogger(ScanModule.class);
 
     private int page = 0;
 
