@@ -43,17 +43,6 @@
         </plugins>
     </build>
 
-    <!--    <dependencyManagement>-->
-    <!--        <dependencies>-->
-    <!--            <dependency>-->
-    <!--                <groupId>org.junit</groupId>-->
-    <!--                <artifactId>junit-bom</artifactId>-->
-    <!--                <version>5.5.2</version>-->
-    <!--                <scope>test</scope>-->
-    <!--            </dependency>-->
-    <!--        </dependencies>-->
-    <!--    </dependencyManagement>-->
-
     <dependencies>
         <dependency>
             <groupId>org.openjfx</groupId>
