@@ -3,7 +3,6 @@ package info.bladt.scanstation.image.scan.sane;
 import au.com.southsky.jfreesane.SaneDevice;
 import au.com.southsky.jfreesane.SaneException;
 import au.com.southsky.jfreesane.SaneSession;
-import info.bladt.scanstation.image.scan.ScanModule;
 import info.bladt.scanstation.image.scan.Scanner;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
