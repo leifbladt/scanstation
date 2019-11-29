@@ -2,6 +2,8 @@ package info.bladt.scanstation.image.scan;
 
 import info.bladt.scanstation.model.Composition;
 import info.bladt.scanstation.model.Instrument;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
@@ -10,6 +12,8 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 
 public class ScanModule {
+
+    private final static Logger LOGGER = LogManager.getLogger(ScanModule.class);
 
     private int page = 0;
 
@@ -75,10 +79,10 @@ public class ScanModule {
 
             Path path2 = Path.of(path.toString(), String.format("%s_%02d.tif", instrument.getName(), page));
             if (!ImageIO.write(image, "TIFF", path2.toFile())) {
-                System.out.println("Error while writing file");
+                LOGGER.error("Could not write file to '{}'", path2);
             }
         } catch (IOException e) {
-            e.printStackTrace();
+            LOGGER.error("Could not write file", e);
         }
     }
 }

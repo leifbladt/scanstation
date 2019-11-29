@@ -5,8 +5,12 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 public class ScanStationApp extends Application {
+
+    private final static Logger LOGGER = LogManager.getLogger(ScanStationApp.class);
 
     @Override
     public void start(Stage primaryStage) {
@@ -22,8 +26,7 @@ public class ScanStationApp extends Application {
 
             primaryStage.show();
         } catch (Exception e) {
-            e.printStackTrace();
-            System.out.println("Wrong");
+            LOGGER.error("Could not start application", e);
         }
     }
 

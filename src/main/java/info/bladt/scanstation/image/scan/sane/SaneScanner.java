@@ -3,7 +3,10 @@ package info.bladt.scanstation.image.scan.sane;
 import au.com.southsky.jfreesane.SaneDevice;
 import au.com.southsky.jfreesane.SaneException;
 import au.com.southsky.jfreesane.SaneSession;
+import info.bladt.scanstation.image.scan.ScanModule;
 import info.bladt.scanstation.image.scan.Scanner;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.awt.image.BufferedImage;
 import java.io.IOException;
@@ -12,20 +15,22 @@ import java.util.List;
 
 public class SaneScanner implements Scanner {
 
+    private final static Logger LOGGER = LogManager.getLogger(SaneScanner.class);
+
     @Override
     public BufferedImage acquireImage() {
         try {
-            System.out.println("### Connecting to SANE");
+            LOGGER.debug("### Connecting to SANE");
             InetAddress address = InetAddress.getByName("scanner.fritz.box");
             SaneSession session = SaneSession.withRemoteSane(address);
 
-            System.out.println("### List devices");
+            LOGGER.debug("### List devices");
             List<SaneDevice> devices = session.listDevices();
             for (SaneDevice device : devices) {
-                System.out.println(device.getVendor() + ": " + device.getModel());
+                LOGGER.debug(device.getVendor() + ": " + device.getModel());
             }
 
-            System.out.println("### Prepare device");
+            LOGGER.debug("### Prepare device");
             // Prepare device
             SaneDevice device = devices.get(0);
             device.open();
@@ -44,6 +49,7 @@ public class SaneScanner implements Scanner {
 
             return bufferedImage;
         } catch (IOException | SaneException e) {
+            LOGGER.error("Could acquire image", e);
             return null;
         }
     }
