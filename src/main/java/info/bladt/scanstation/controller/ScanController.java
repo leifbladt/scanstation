@@ -109,9 +109,7 @@ public class ScanController {
                 proceed.setVisible(true);
             });
 
-            scanImage.setOnFailed(e -> {
-                LOGGER.error("Failed to scan image ({})", e.toString());
-            });
+            scanImage.setOnFailed(e -> LOGGER.error("Failed to scan image ({})", e));
 
             new Thread(scanImage).start();
         }
@@ -136,9 +134,7 @@ public class ScanController {
                 imageView.setImage(image);
             });
 
-            scanImage.setOnFailed(e -> {
-                LOGGER.error("Failed to scan next page ({})", e.toString());
-            });
+            scanImage.setOnFailed(e -> LOGGER.error("Failed to scan next page ({})", e));
 
             new Thread(scanImage).start();
         }
@@ -187,9 +183,7 @@ public class ScanController {
                 scanButton.setDisable(false);
             });
 
-            scanImage.setOnFailed(e -> {
-                LOGGER.error("Failed to finish ({})", e.toString());
-            });
+            scanImage.setOnFailed(e -> LOGGER.error("Failed to finish ({})", e));
 
             new Thread(scanImage).start();
         }
@@ -215,7 +209,7 @@ public class ScanController {
             });
 
             export.setOnFailed(e -> {
-                LOGGER.error("Failed to save PDF file ({})", e.toString());
+                LOGGER.error("Failed to save PDF file ({})", e);
                 exportButton.setDisable(false);
             });
 
