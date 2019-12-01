@@ -18,6 +18,8 @@ public class SaneScanner implements Scanner {
 
     @Override
     public BufferedImage acquireImage() {
+        SaneDevice device = null;
+
         try {
             LOGGER.debug("### Connecting to SANE");
             InetAddress address = InetAddress.getByName("scanner.fritz.box");
@@ -25,13 +27,12 @@ public class SaneScanner implements Scanner {
 
             LOGGER.debug("### List devices");
             List<SaneDevice> devices = session.listDevices();
-            for (SaneDevice device : devices) {
-                LOGGER.debug("{}: {}", device.getVendor(), device.getModel());
+            for (SaneDevice d : devices) {
+                LOGGER.debug("{}: {}", d.getVendor(), d.getModel());
             }
 
             LOGGER.debug("### Prepare device");
-            // Prepare device
-            SaneDevice device = devices.get(0);
+            device = devices.get(0);
             device.open();
 
             // Set scan options
@@ -43,13 +44,19 @@ public class SaneScanner implements Scanner {
             // Actually get image
             BufferedImage bufferedImage = device.acquireImage();
 
-            // TODO Move to finally block
-            device.close();
-
             return bufferedImage;
         } catch (IOException | SaneException e) {
             LOGGER.error("Could acquire image", e);
             return null;
+        } finally {
+            if (device != null ) {
+                try {
+                    device.close();
+                } catch (IOException e) {
+                    LOGGER.error("Could acquire image", e);
+                    return null;
+                }
+            }
         }
     }
 }
