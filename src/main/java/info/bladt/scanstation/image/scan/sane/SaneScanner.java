@@ -42,9 +42,7 @@ public class SaneScanner implements Scanner {
             device.getOption("br-y").setFixedValue(297d);
 
             // Actually get image
-            BufferedImage bufferedImage = device.acquireImage();
-
-            return bufferedImage;
+            return device.acquireImage();
         } catch (IOException | SaneException e) {
             LOGGER.error("Could acquire image", e);
             return null;
