@@ -37,7 +37,7 @@ public class SaneScanner implements Scanner {
 
             // Set scan options
             device.getOption("mode").setStringValue("Gray");
-            device.getOption("resolution").setIntegerValue(300);
+            device.getOption("resolution").setIntegerValue(600);
             device.getOption("br-x").setFixedValue(210d);
             device.getOption("br-y").setFixedValue(297d);
 
