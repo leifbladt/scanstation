@@ -45,16 +45,16 @@ public class SaneScanner implements Scanner {
             return device.acquireImage();
         } catch (IOException | SaneException e) {
             LOGGER.error("Could acquire image", e);
-            return null;
         } finally {
-            if (device != null ) {
+            if (device != null) {
                 try {
                     device.close();
                 } catch (IOException e) {
                     LOGGER.error("Could acquire image", e);
-                    return null;
                 }
             }
         }
+
+        return null;
     }
 }
