@@ -10,8 +10,7 @@ public class ScannerFactory {
     private ScannerFactory() {
     }
 
-    // TODO Synchronized
-    public static Scanner getScanner(String scannerName) {
+    public static synchronized Scanner getScanner(String scannerName) {
         if (scannerName.equals("Demo")) {
             return new DemoScanner();
         } else {
