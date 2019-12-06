@@ -8,8 +8,11 @@ import org.apache.pdfbox.pdmodel.PDDocument;
 import org.apache.pdfbox.pdmodel.PDPage;
 import org.apache.pdfbox.pdmodel.PDPageContentStream;
 import org.apache.pdfbox.pdmodel.common.PDRectangle;
+import org.apache.pdfbox.pdmodel.graphics.image.LosslessFactory;
 import org.apache.pdfbox.pdmodel.graphics.image.PDImageXObject;
 
+import javax.imageio.ImageIO;
+import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -35,7 +38,8 @@ public class PdfExporter {
             for (Path inputImage : inputImages) {
                 PDPage page = new PDPage(PDRectangle.A4);
 
-                PDImageXObject image = PDImageXObject.createFromFileByExtension(inputImage.toFile(), doc);
+                BufferedImage bufferedImage = ImageIO.read(inputImage.toFile());
+                PDImageXObject image = LosslessFactory.createFromImage(doc, bufferedImage);
 
                 try (PDPageContentStream contentStream = new PDPageContentStream(doc, page, APPEND, true, true)) {
                     PDRectangle mediaBox = page.getMediaBox();
@@ -61,7 +65,7 @@ public class PdfExporter {
         Path inputPath = Path.of("ScanStation", "Scan", composition.getName());
 
         try (Stream<Path> pathStream = Files.find(inputPath, 1,
-                (path, basicFileAttributes) -> path.toFile().getName().matches(instrument.getName() + " [0-9][0-9].jpg"))) {
+                (path, basicFileAttributes) -> path.toFile().getName().matches(instrument.getName() + " [0-9][0-9].tif"))) {
 
             return pathStream.collect(Collectors.toList());
         }
