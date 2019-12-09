@@ -5,6 +5,9 @@ import java.awt.image.BufferedImage;
 
 public class Converter {
 
+    private Converter() {
+    }
+
     public static BufferedImage toBinary(BufferedImage input) {
 
         BufferedImage binary = new BufferedImage(input.getWidth(), input.getHeight(), BufferedImage.TYPE_BYTE_BINARY);
