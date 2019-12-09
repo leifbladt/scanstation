@@ -35,10 +35,32 @@
                                                 <VBox prefHeight="724.0" prefWidth="338.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                                                     <children>
                                                         <Label text="Instrument" />
-                                                        <ChoiceBox fx:id="instrumentChoiceBox" prefWidth="150.0" />
+                                                        <ChoiceBox fx:id="scanInstrumentChoiceBox" prefWidth="150.0" />
                                                         <Label text="Scanner" />
                                                         <ChoiceBox fx:id="scannerChoiceBox" prefWidth="150.0" />
                                                         <Button fx:id="scanButton" defaultButton="true" mnemonicParsing="false" text="Scan">
+                                                            <opaqueInsets>
+                                                                <Insets />
+                                                            </opaqueInsets>
+                                                            <VBox.margin>
+                                                                <Insets top="20.0" />
+                                                            </VBox.margin>
+                                                        </Button>
+                                                    </children>
+                                                </VBox>
+                                            </children>
+                                        </AnchorPane>
+                                    </content>
+                                </TitledPane>
+                                <TitledPane animated="false" text="Edit">
+                                    <content>
+                                        <AnchorPane>
+                                            <children>
+                                                <VBox prefHeight="724.0" prefWidth="338.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                                    <children>
+                                                        <Label text="Instrument" />
+                                                        <ChoiceBox fx:id="editInstrumentChoiceBox" prefWidth="150.0" />
+                                                        <Button fx:id="editButton" defaultButton="true" mnemonicParsing="false" text="Edit">
                                                             <opaqueInsets>
                                                                 <Insets />
                                                             </opaqueInsets>
@@ -58,11 +80,6 @@
                                                 </VBox>
                                             </children>
                                         </AnchorPane>
-                                    </content>
-                                </TitledPane>
-                                <TitledPane animated="false" text="Edit">
-                                    <content>
-                                        <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
                                     </content>
                                 </TitledPane>
                                 <TitledPane animated="false" text="Export">

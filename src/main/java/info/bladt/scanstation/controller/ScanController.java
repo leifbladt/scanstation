@@ -44,6 +44,9 @@ public class ScanController {
     private Button finishButton;
 
     @FXML
+    private Button editButton;
+
+    @FXML
     private ImageView imageView;
 
     @FXML
@@ -53,10 +56,13 @@ public class ScanController {
     private ChoiceBox<Composition> compositionChoiceBox;
 
     @FXML
-    private ChoiceBox<Instrument> instrumentChoiceBox;
+    private ChoiceBox<Instrument> scanInstrumentChoiceBox;
 
     @FXML
     private ChoiceBox<String> scannerChoiceBox;
+
+    @FXML
+    private ChoiceBox<Instrument> editInstrumentChoiceBox;
 
     @FXML
     private Button exportButton;
@@ -71,13 +77,17 @@ public class ScanController {
         nextPageButton.setOnAction(new NextPageEventHandler());
         retryButton.setOnAction(new RetryEventHandler());
         finishButton.setOnAction(new FinishEventHandler());
+        editButton.setOnAction(new EditEventHandler());
         exportButton.setOnAction(new ExportEventHandler());
 
         compositionChoiceBox.setItems(FXCollections.observableArrayList(COMPOSITIONS));
         compositionChoiceBox.setValue(COMPOSITIONS.get(0));
 
-        instrumentChoiceBox.setItems(FXCollections.observableArrayList(INSTRUMENTS));
-        instrumentChoiceBox.setValue(INSTRUMENTS.get(0));
+        scanInstrumentChoiceBox.setItems(FXCollections.observableArrayList(INSTRUMENTS));
+        scanInstrumentChoiceBox.setValue(INSTRUMENTS.get(0));
+
+        editInstrumentChoiceBox.setItems(FXCollections.observableArrayList(INSTRUMENTS));
+        editInstrumentChoiceBox.setValue(INSTRUMENTS.get(0));
 
         scannerChoiceBox.setItems(FXCollections.observableArrayList("Demo", "Canon LiDE 210"));
         scannerChoiceBox.setValue("Demo");
@@ -93,7 +103,7 @@ public class ScanController {
                 @Override
                 protected Void call() {
                     scanModule.setComposition(compositionChoiceBox.getValue());
-                    scanModule.setInstrument(instrumentChoiceBox.getValue());
+                    scanModule.setInstrument(scanInstrumentChoiceBox.getValue());
                     scanModule.setScanner(ScannerFactory.getScanner(scannerChoiceBox.getValue()));
 
                     scanModule.scanPage();
@@ -189,6 +199,14 @@ public class ScanController {
         }
     }
 
+    private class EditEventHandler implements EventHandler<ActionEvent> {
+
+        @Override
+        public void handle(ActionEvent actionEvent) {
+            LOGGER.info("Edit button pressed!");
+        }
+    }
+
     private class ExportEventHandler implements EventHandler<ActionEvent> {
 
         @Override
@@ -198,7 +216,7 @@ public class ScanController {
                 protected Void call() {
                     exportButton.setDisable(true);
                     PdfExporter pdfExporter = new PdfExporter();
-                    pdfExporter.savePdf(compositionChoiceBox.getValue(), instrumentChoiceBox.getValue());
+                    pdfExporter.savePdf(compositionChoiceBox.getValue(), editInstrumentChoiceBox.getValue());
                     return null;
                 }
             };
