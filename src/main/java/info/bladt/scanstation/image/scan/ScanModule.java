@@ -81,7 +81,7 @@ public class ScanModule {
             Path path = Path.of("ScanStation", "Scan", composition.getName());
             Files.createDirectories(path);
 
-            Path path2 = Path.of(path.toString(), String.format("%s %02d.tif", instrument.getName(), page));
+            Path path2 = Path.of(path.toString(), String.format("%s %02d.tif", instrument.getFilenamePart(), page));
 
             ImageWriter tiffWriter = ImageIO.getImageWritersByFormatName("tiff").next();
             ImageWriteParam writeParam = tiffWriter.getDefaultWriteParam();

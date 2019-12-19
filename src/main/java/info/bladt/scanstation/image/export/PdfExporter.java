@@ -32,7 +32,7 @@ public class PdfExporter {
 
             Path outputPath = Path.of("ScanStation", "Export", composition.getName());
             Files.createDirectories(outputPath);
-            Path outputPath2 = Path.of(outputPath.toString(), instrument.getName() + ".pdf");
+            Path outputPath2 = Path.of(outputPath.toString(), instrument.getFilenamePart() + ".pdf");
 
             List<Path> inputImages = getInputImages(composition, instrument);
             for (Path inputImage : inputImages) {
@@ -65,7 +65,7 @@ public class PdfExporter {
         Path inputPath = Path.of("ScanStation", "Scan", composition.getName());
 
         try (Stream<Path> pathStream = Files.find(inputPath, 1,
-                (path, basicFileAttributes) -> path.toFile().getName().matches(instrument.getName() + " [0-9][0-9].tif"))) {
+                (path, basicFileAttributes) -> path.toFile().getName().matches(instrument.getFilenamePart() + " [0-9][0-9].tif"))) {
 
             return pathStream.collect(Collectors.toList());
         }
