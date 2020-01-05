@@ -1,5 +1,6 @@
 package info.bladt.scanstation.image.scan;
 
+import info.bladt.scanstation.image.file.TiffWriter;
 import info.bladt.scanstation.model.Composition;
 import info.bladt.scanstation.model.Instrument;
 import org.apache.logging.log4j.LogManager;
@@ -48,12 +49,12 @@ public class ScanModule {
     }
 
     public void scanNextPage() {
-        saveImage();
+        TiffWriter.saveImage(image, "Scan", page, composition, instrument);
         scanPage(true);
     }
 
     public void finish() {
-        saveImage();
+        TiffWriter.saveImage(image, "Scan", page, composition, instrument);
     }
 
     public void reset() {
@@ -73,27 +74,6 @@ public class ScanModule {
 
         if (nextPage) {
             page++;
-        }
-    }
-
-    private void saveImage() {
-        try {
-            Path path = Path.of("ScanStation", "Scan", composition.getName());
-            Files.createDirectories(path);
-
-            Path path2 = Path.of(path.toString(), String.format("%s %02d.tif", instrument.getFilenamePart(), page));
-
-            ImageWriter tiffWriter = ImageIO.getImageWritersByFormatName("tiff").next();
-            ImageWriteParam writeParam = tiffWriter.getDefaultWriteParam();
-            writeParam.setCompressionMode(MODE_EXPLICIT);
-            writeParam.setCompressionType("LZW");
-
-            tiffWriter.setOutput(ImageIO.createImageOutputStream(path2.toFile()));
-
-            tiffWriter.write(null, new IIOImage(image, null, null), writeParam);
-            tiffWriter.dispose();
-        } catch (Exception e) {
-            LOGGER.error("Could not write file", e);
         }
     }
 }
