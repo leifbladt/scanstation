@@ -1,5 +1,7 @@
 package info.bladt.scanstation.image.export;
 
+import info.bladt.scanstation.image.file.TiffReader;
+import info.bladt.scanstation.image.processing.Converter;
 import info.bladt.scanstation.model.Composition;
 import info.bladt.scanstation.model.Instrument;
 import org.apache.logging.log4j.LogManager;
@@ -34,17 +36,21 @@ public class PdfExporter {
             Files.createDirectories(outputPath);
             Path outputPath2 = Path.of(outputPath.toString(), instrument.getFilenamePart() + ".pdf");
 
-            List<Path> inputImages = getInputImages(composition, instrument);
-            for (Path inputImage : inputImages) {
+            List<TiffReader.Page> inputImages = TiffReader.getInputImages("Work", composition, instrument);
+            for (TiffReader.Page inputImage : inputImages) {
                 PDPage page = new PDPage(PDRectangle.A4);
+//                PDPage page = new PDPage(new PDRectangle(PDRectangle.A5.getHeight(), PDRectangle.A5.getWidth()));
 
-                BufferedImage bufferedImage = ImageIO.read(inputImage.toFile());
-                PDImageXObject image = LosslessFactory.createFromImage(doc, bufferedImage);
+
+                BufferedImage bufferedImage = ImageIO.read(inputImage.getPath().toFile());
+                BufferedImage binaryImage = Converter.toBinary(bufferedImage);
+                PDImageXObject image = LosslessFactory.createFromImage(doc, binaryImage);
 
                 try (PDPageContentStream contentStream = new PDPageContentStream(doc, page, APPEND, true, true)) {
                     PDRectangle mediaBox = page.getMediaBox();
 
                     float scale = calculateScale(mediaBox, image);
+//                    float scale = 72 / 600f;
                     float newWidth = image.getWidth() * scale;
                     float newHeight = image.getHeight() * scale;
                     float offsetX = (mediaBox.getWidth() - newWidth) / 2;
@@ -58,16 +64,6 @@ public class PdfExporter {
             doc.save(outputPath2.toFile());
         } catch (IOException e) {
             LOGGER.error("Error creating PDF file", e);
-        }
-    }
-
-    private List<Path> getInputImages(Composition composition, Instrument instrument) throws IOException {
-        Path inputPath = Path.of("ScanStation", "Scan", composition.getName());
-
-        try (Stream<Path> pathStream = Files.find(inputPath, 1,
-                (path, basicFileAttributes) -> path.toFile().getName().matches(instrument.getFilenamePart() + " [0-9][0-9].tif"))) {
-
-            return pathStream.collect(Collectors.toList());
         }
     }
 
