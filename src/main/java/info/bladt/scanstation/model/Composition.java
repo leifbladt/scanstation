@@ -8,6 +8,15 @@ import java.util.Objects;
 public class Composition {
 
     public static final List<Composition> COMPOSITIONS = Collections.unmodifiableList(Arrays.asList(
+            new Composition("Men Of Harlech"),
+            new Composition("Share My Yoke"),
+            new Composition("Bramwyn"),
+            new Composition("Buster Strikes Back"),
+            new Composition("Abide With Me"),
+            new Composition("Anchors Aweigh"),
+            new Composition("Concert Overture - Fingals Cave"),
+            new Composition("13 Crimond"),
+            new Composition("29 Eventide"),
             new Composition("Zum Geburtstag (Happy Birthday)"),
             new Composition("Abide With Me"),
             new Composition("A Moorside Suite"),
