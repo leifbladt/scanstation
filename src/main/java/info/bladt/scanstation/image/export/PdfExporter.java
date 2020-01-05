@@ -19,9 +19,8 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.List;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
+import static info.bladt.scanstation.configuration.ApplicationProperties.getScanStationDirectory;
 import static org.apache.pdfbox.pdmodel.PDPageContentStream.AppendMode.APPEND;
 
 public class PdfExporter {
@@ -32,14 +31,14 @@ public class PdfExporter {
 
         try (PDDocument doc = new PDDocument()) {
 
-            Path outputPath = Path.of("ScanStation", "Export", composition.getName());
+            Path outputPath = Path.of(getScanStationDirectory(), "Export", composition.getName());
             Files.createDirectories(outputPath);
             Path outputPath2 = Path.of(outputPath.toString(), instrument.getFilenamePart() + ".pdf");
 
             List<TiffReader.Page> inputImages = TiffReader.getInputImages("Work", composition, instrument);
             for (TiffReader.Page inputImage : inputImages) {
-                PDPage page = new PDPage(PDRectangle.A4);
-//                PDPage page = new PDPage(new PDRectangle(PDRectangle.A5.getHeight(), PDRectangle.A5.getWidth()));
+//                PDPage page = new PDPage(PDRectangle.A4);
+                PDPage page = new PDPage(new PDRectangle(PDRectangle.A5.getHeight(), PDRectangle.A5.getWidth()));
 
 
                 BufferedImage bufferedImage = ImageIO.read(inputImage.getPath().toFile());
@@ -50,7 +49,7 @@ public class PdfExporter {
                     PDRectangle mediaBox = page.getMediaBox();
 
                     float scale = calculateScale(mediaBox, image);
-//                    float scale = 72 / 600f;
+//                    float scale = 72 / 600f * 1.15f;
                     float newWidth = image.getWidth() * scale;
                     float newHeight = image.getHeight() * scale;
                     float offsetX = (mediaBox.getWidth() - newWidth) / 2;

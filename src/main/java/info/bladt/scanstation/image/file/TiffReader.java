@@ -12,10 +12,12 @@ import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
+import static info.bladt.scanstation.configuration.ApplicationProperties.getScanStationDirectory;
+
 public class TiffReader {
 
     public static List<Page> getInputImages(String folder, Composition composition, Instrument instrument) throws IOException {
-        Path inputPath = Path.of("ScanStation", folder, composition.getName());
+        Path inputPath = Path.of(getScanStationDirectory(), folder, composition.getName());
 
         try (Stream<Path> pathStream = Files.find(inputPath, 1,
                 (path, basicFileAttributes) -> path.toFile().getName().matches(instrument.getFilenamePart() + " [0-9][0-9].tif"))) {

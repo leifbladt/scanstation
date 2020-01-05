@@ -6,15 +6,7 @@ import info.bladt.scanstation.model.Instrument;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import javax.imageio.IIOImage;
-import javax.imageio.ImageIO;
-import javax.imageio.ImageWriteParam;
-import javax.imageio.ImageWriter;
 import java.awt.image.BufferedImage;
-import java.nio.file.Files;
-import java.nio.file.Path;
-
-import static javax.imageio.ImageWriteParam.MODE_EXPLICIT;
 
 public class ScanModule {
 
