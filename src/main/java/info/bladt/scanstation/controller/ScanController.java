@@ -1,6 +1,7 @@
 package info.bladt.scanstation.controller;
 
 import info.bladt.scanstation.image.export.PdfExporter;
+import info.bladt.scanstation.image.processing.Converter;
 import info.bladt.scanstation.image.scan.ScanModule;
 import info.bladt.scanstation.image.scan.ScannerFactory;
 import info.bladt.scanstation.model.Composition;
@@ -203,7 +204,26 @@ public class ScanController {
 
         @Override
         public void handle(ActionEvent actionEvent) {
-            LOGGER.info("Edit button pressed!");
+            Task<Void> export = new Task<>() {
+                @Override
+                protected Void call() {
+                    editButton.setDisable(true);
+                    Converter.process(compositionChoiceBox.getValue(), editInstrumentChoiceBox.getValue());
+                    return null;
+                }
+            };
+
+            export.setOnSucceeded(e -> {
+                LOGGER.info("Successfully saved TIFF files");
+                editButton.setDisable(false);
+            });
+
+            export.setOnFailed(e -> {
+                LOGGER.error("Failed to save TIFF files ({})", e);
+                editButton.setDisable(false);
+            });
+
+            new Thread(export).start();
         }
     }
 
