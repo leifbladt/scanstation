@@ -41,8 +41,8 @@ public class Converter {
                 BufferedImage bufferedImage = ImageIO.read(inputImage.getPath().toFile());
 
                 bufferedImage = convert.process(bufferedImage, ImageType.GRAY);
-                bufferedImage = crop.process(bufferedImage, new Rectangle(4250, 3140));
-                bufferedImage = rotate.process(bufferedImage, 0);
+//                bufferedImage = crop.process(bufferedImage, new Rectangle(4250, 3140));
+//                bufferedImage = rotate.process(bufferedImage, 0);
                 bufferedImage = deskew.process(bufferedImage);
                 bufferedImage = removeEdges.process(bufferedImage, 70);
 //                bufferedImage = convert.process(bufferedImage, ImageType.BINARY);
