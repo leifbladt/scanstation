@@ -16,6 +16,8 @@ import static info.bladt.scanstation.configuration.ApplicationProperties.getScan
 
 public class TiffReader {
 
+    private TiffReader() {}
+
     public static List<Page> getInputImages(String folder, Composition composition, Instrument instrument) throws IOException {
         Path inputPath = Path.of(getScanStationDirectory(), folder, composition.getName());
 

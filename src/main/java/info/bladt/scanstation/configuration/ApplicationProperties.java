@@ -21,6 +21,9 @@ public class ApplicationProperties {
             LOGGER.error("Could not read application properties file", e);
         }
     }
+
+    private ApplicationProperties() {}
+
     public static String getScanStationDirectory() {
         return properties.getProperty("scanStationDirectory", "./ScanStation");
     }

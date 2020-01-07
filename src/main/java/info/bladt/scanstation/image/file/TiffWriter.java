@@ -20,6 +20,8 @@ public class TiffWriter {
 
     private static final Logger LOGGER = LogManager.getLogger(TiffWriter.class);
 
+    private TiffWriter() {}
+
     public static void saveImage(BufferedImage image, String folder, int page, Composition composition, Instrument instrument) {
         try {
             Path path = Path.of(getScanStationDirectory(), folder, composition.getName());
