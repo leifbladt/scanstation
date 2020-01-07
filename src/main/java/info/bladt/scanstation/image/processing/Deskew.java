@@ -51,7 +51,7 @@ public class Deskew {
         }
         final int w2 = nextPow2(byteWidth);
         final int sSize = 2 * w2 - 1; // Size of sharpness table
-        final int sharpness[] = new int[sSize];
+        final int[] sharpness = new int[sSize];
         radon(img.getWidth(), img.getHeight(), buffer, 1, sharpness);
         radon(img.getWidth(), img.getHeight(), buffer, -1, sharpness);
         int i;
@@ -74,10 +74,10 @@ public class Deskew {
         return Math.atan(iskew / (8 * w2));
     }
 
-    static void radon(final int width, final int height, final DataBuffer buffer, final int sign,
-                      final int sharpness[]) {
+    static void radon(final int width, final int height, final DataBuffer buffer, final int sign, final int[] sharpness) {
 
-        int[] p1_, p2_; // Stored columnwise
+        int[] p1_;
+        int[] p2_; // Stored columnwise
 
         final int w2 = nextPow2(getByteWidth(width));
         final int w = getByteWidth(width);
@@ -87,7 +87,8 @@ public class Deskew {
         p1_ = new int[s];
         p2_ = new int[s];
         // Fill in the first table
-        int row, column;
+        int row;
+        int column;
         int scanlinePosition = 0;
         for (row = 0; row < h; row++) {
             scanlinePosition = row * w;
@@ -160,7 +161,8 @@ public class Deskew {
 
         static {
             for (int i = 0; i < 256; i++) {
-                int j = i, cnt = 0;
+                int j = i;
+                int cnt = 0;
                 do {
                     cnt += j & 1;
                 } while ((j >>= 1) != 0);
