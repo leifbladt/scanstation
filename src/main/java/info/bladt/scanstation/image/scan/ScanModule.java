@@ -3,14 +3,10 @@ package info.bladt.scanstation.image.scan;
 import info.bladt.scanstation.image.file.TiffWriter;
 import info.bladt.scanstation.model.Composition;
 import info.bladt.scanstation.model.Instrument;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 
 import java.awt.image.BufferedImage;
 
 public class ScanModule {
-
-    private static final Logger LOGGER = LogManager.getLogger(ScanModule.class);
 
     private int page = 0;
 
