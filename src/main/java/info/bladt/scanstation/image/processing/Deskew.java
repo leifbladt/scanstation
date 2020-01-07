@@ -26,17 +26,17 @@ public class Deskew {
     }
 
     static int nextPow2(final int n) {
-        int retval = 1;
-        while (retval < n) {
-            retval <<= 1;
+        int retVal = 1;
+        while (retVal < n) {
+            retVal <<= 1;
         }
-        return retval;
+        return retVal;
     }
 
     static double findSkew(final BufferedImage img) {
         final DataBuffer buffer = img.getRaster().getDataBuffer();
         final int byteWidth = getByteWidth(img.getWidth());
-        final int padmask = 0xFF << ((img.getWidth() + 7) % 8);
+        final int padMask = 0xFF << ((img.getWidth() + 7) % 8);
         int elementIndex = 0;
         for (int row = 0; row < img.getHeight(); row++) {
             for (int col = 0; col < byteWidth; col++) {
@@ -46,30 +46,31 @@ public class Deskew {
                 buffer.setElem(elementIndex, elem);
                 elementIndex++;
             }
-            final int lastElement = buffer.getElem(elementIndex - 1) & padmask;
+            final int lastElement = buffer.getElem(elementIndex - 1) & padMask;
             buffer.setElem(elementIndex - 1, lastElement); // Zero trailing bits
         }
         final int w2 = nextPow2(byteWidth);
-        final int ssize = 2 * w2 - 1; // Size of sharpness table
-        final int sharpness[] = new int[ssize];
+        final int sSize = 2 * w2 - 1; // Size of sharpness table
+        final int sharpness[] = new int[sSize];
         radon(img.getWidth(), img.getHeight(), buffer, 1, sharpness);
         radon(img.getWidth(), img.getHeight(), buffer, -1, sharpness);
-        int i, imax = 0;
-        int vmax = 0;
+        int i;
+        int iMax = 0;
+        int vMax = 0;
         double sum = 0.;
-        for (i = 0; i < ssize; i++) {
+        for (i = 0; i < sSize; i++) {
             final int s = sharpness[i];
-            if (s > vmax) {
-                imax = i;
-                vmax = s;
+            if (s > vMax) {
+                iMax = i;
+                vMax = s;
             }
             sum += s;
         }
         final int h = img.getHeight();
-        if (vmax <= 3 * sum / h) { // Heuristics !!!
+        if (vMax <= 3 * sum / h) { // Heuristics !!!
             return 0;
         }
-        final double iskew = imax - w2 + 1;
+        final double iskew = iMax - w2 + 1;
         return Math.atan(iskew / (8 * w2));
     }
 
@@ -170,6 +171,8 @@ public class Deskew {
                 invbits_[i] = x;
             }
         }
+
+        private BitUtils() {}
     }
 
 }
