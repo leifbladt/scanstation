@@ -37,16 +37,16 @@ public class TiffReader {
     }
 
     public static class Page {
-        private final int page;
+        private final int number;
         private final Path path;
 
-        public Page(int page, Path path) {
-            this.page = page;
+        public Page(int number, Path path) {
+            this.number = number;
             this.path = path;
         }
 
-        public int getPage() {
-            return page;
+        public int getNumber() {
+            return number;
         }
 
         public Path getPath() {

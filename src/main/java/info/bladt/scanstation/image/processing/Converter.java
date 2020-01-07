@@ -46,7 +46,7 @@ public class Converter {
                 bufferedImage = removeEdgeStep.process(bufferedImage, new RemoveEdgeStep.Configuration(70));
 //                bufferedImage = binaryStep.process(bufferedImage, null);
 
-                TiffWriter.saveImage(bufferedImage, "Work", inputImage.getPage(), composition, instrument);
+                TiffWriter.saveImage(bufferedImage, "Work", inputImage.getNumber(), composition, instrument);
             }
         } catch (IOException e) {
             LOGGER.error("Error creating PDF file", e);
