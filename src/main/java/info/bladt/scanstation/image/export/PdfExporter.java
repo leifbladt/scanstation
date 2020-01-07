@@ -52,7 +52,6 @@ public class PdfExporter {
 
 //                    float scale = calculateScale(mediaBox, image);
                     float scale = 72 / 600f;
-                    System.out.println("Scale: " + scale);
                     float newWidth = image.getWidth() * scale;
                     float newHeight = image.getHeight() * scale;
                     float offsetX = (mediaBox.getWidth() - newWidth) / 2;
