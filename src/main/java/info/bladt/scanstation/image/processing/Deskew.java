@@ -70,7 +70,7 @@ public class Deskew {
         if (vMax <= 3 * sum / h) { // Heuristics !!!
             return 0;
         }
-        final double iskew = iMax - w2 + 1;
+        final double iskew = iMax - w2 + 1d;
         return Math.atan(iskew / (8 * w2));
     }
 

@@ -17,7 +17,7 @@ public class Rotate {
         g.setPaint(new Color(255, 255, 255));
         g.fillRect(0, 0, w, h);
 
-        g.rotate(Math.toRadians(angle), w / 2, h / 2);
+        g.rotate(Math.toRadians(angle), w / 2d, h / 2d);
         g.drawImage(input, null, 0, 0);
         g.dispose();
 
