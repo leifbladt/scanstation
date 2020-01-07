@@ -3,12 +3,9 @@ package info.bladt.scanstation.image.processing;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 
-public class RemoveEdgeStep implements ProcessingStep {
+public class RemoveEdges {
 
-    @Override
-    public BufferedImage process(BufferedImage input, ProcessingStep.Configuration configuration) {
-
-        int width = ((Configuration)configuration).getWidth();
+    public BufferedImage process(BufferedImage input, int width) {
 
         Graphics2D g = input.createGraphics();
 
@@ -22,17 +19,5 @@ public class RemoveEdgeStep implements ProcessingStep {
         g.dispose();
 
         return input;
-    }
-
-    public static class Configuration extends ProcessingStep.Configuration {
-        private final int width;
-
-        public Configuration(int width) {
-            this.width = width;
-        }
-
-        public int getWidth() {
-            return width;
-        }
     }
 }

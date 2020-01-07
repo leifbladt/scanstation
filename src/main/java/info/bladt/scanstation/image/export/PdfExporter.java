@@ -1,7 +1,8 @@
 package info.bladt.scanstation.image.export;
 
 import info.bladt.scanstation.image.file.TiffReader;
-import info.bladt.scanstation.image.processing.BinaryStep;
+import info.bladt.scanstation.image.processing.Convert;
+import info.bladt.scanstation.image.processing.Convert.ImageType;
 import info.bladt.scanstation.model.Composition;
 import info.bladt.scanstation.model.Instrument;
 import org.apache.logging.log4j.LogManager;
@@ -27,7 +28,7 @@ public class PdfExporter {
 
     private static final Logger LOGGER = LogManager.getLogger(PdfExporter.class);
 
-    private final BinaryStep binaryStep = new BinaryStep();
+    private final Convert convert = new Convert();
 
     public void savePdf(Composition composition, Instrument instrument) {
 
@@ -44,7 +45,7 @@ public class PdfExporter {
 
 
                 BufferedImage bufferedImage = ImageIO.read(inputImage.getPath().toFile());
-                BufferedImage binaryImage = binaryStep.process(bufferedImage, null);
+                BufferedImage binaryImage = convert.process(bufferedImage, ImageType.BINARY);
                 PDImageXObject image = LosslessFactory.createFromImage(doc, binaryImage);
 
                 try (PDPageContentStream contentStream = new PDPageContentStream(doc, page, APPEND, true, true)) {

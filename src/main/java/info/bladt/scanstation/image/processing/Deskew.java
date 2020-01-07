@@ -1,23 +1,24 @@
 package info.bladt.scanstation.image.processing;
 
+import info.bladt.scanstation.image.processing.Convert.ImageType;
+
 import java.awt.image.BufferedImage;
 import java.awt.image.DataBuffer;
 
-public class DeskewStep implements ProcessingStep {
+public class Deskew {
 
-    private final BinaryStep binaryStep;
-    private final RotateStep rotateStep;
+    private final Convert convert;
+    private final Rotate rotate;
 
-    public DeskewStep() {
-        binaryStep = new BinaryStep();
-        rotateStep = new RotateStep();
+    public Deskew() {
+        convert = new Convert();
+        rotate = new Rotate();
     }
 
-    @Override
-    public BufferedImage process(BufferedImage input, Configuration configuration) {
-        double skewRadians = findSkew(binaryStep.process(input, null));
+    public BufferedImage process(BufferedImage input) {
+        double skewRadians = findSkew(convert.process(input, ImageType.BINARY));
 
-        return rotateStep.process(input, new RotateStep.Configuration(Math.toDegrees(skewRadians)));
+        return rotate.process(input, Math.toDegrees(skewRadians));
     }
 
     static int getByteWidth(final int width) {

@@ -2,6 +2,7 @@ package info.bladt.scanstation.image.processing;
 
 import info.bladt.scanstation.image.file.TiffReader;
 import info.bladt.scanstation.image.file.TiffWriter;
+import info.bladt.scanstation.image.processing.Crop.Rectangle;
 import info.bladt.scanstation.model.Composition;
 import info.bladt.scanstation.model.Instrument;
 import org.apache.logging.log4j.LogManager;
@@ -12,24 +13,24 @@ import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.util.List;
 
+import static info.bladt.scanstation.image.processing.Convert.ImageType;
+
 public class Converter {
 
     private static final Logger LOGGER = LogManager.getLogger(Converter.class);
 
-    private final BinaryStep binaryStep;
-    private final GrayscaleStep grayscaleStep;
-    private final CropStep cropStep;
-    private final DeskewStep deskewStep;
-    private final RemoveEdgeStep removeEdgeStep;
-    private final RotateStep rotateStep;
+    private final Convert convert;
+    private final Crop crop;
+    private final Deskew deskew;
+    private final RemoveEdges removeEdges;
+    private final Rotate rotate;
 
     public Converter() {
-        binaryStep = new BinaryStep();
-        grayscaleStep = new GrayscaleStep();
-        cropStep = new CropStep();
-        deskewStep = new DeskewStep();
-        removeEdgeStep = new RemoveEdgeStep();
-        rotateStep = new RotateStep();
+        convert = new Convert();
+        crop = new Crop();
+        deskew = new Deskew();
+        removeEdges = new RemoveEdges();
+        rotate = new Rotate();
     }
 
     public void process(Composition composition, Instrument instrument) {
@@ -39,12 +40,12 @@ public class Converter {
             for (TiffReader.Page inputImage : inputImages) {
                 BufferedImage bufferedImage = ImageIO.read(inputImage.getPath().toFile());
 
-                bufferedImage = grayscaleStep.process(bufferedImage, null);
-                bufferedImage = cropStep.process(bufferedImage, null);
-//                bufferedImage = rotateStep.process(bufferedImage, new RotateStep.Configuration(180));
-                bufferedImage = deskewStep.process(bufferedImage, null);
-                bufferedImage = removeEdgeStep.process(bufferedImage, new RemoveEdgeStep.Configuration(70));
-//                bufferedImage = binaryStep.process(bufferedImage, null);
+                bufferedImage = convert.process(bufferedImage, ImageType.GRAY);
+                bufferedImage = crop.process(bufferedImage, new Rectangle(4250, 3140));
+                bufferedImage = rotate.process(bufferedImage, 0);
+                bufferedImage = deskew.process(bufferedImage);
+                bufferedImage = removeEdges.process(bufferedImage, 70);
+//                bufferedImage = convert.process(bufferedImage, ImageType.BINARY);
 
                 TiffWriter.saveImage(bufferedImage, "Work", inputImage.getNumber(), composition, instrument);
             }
