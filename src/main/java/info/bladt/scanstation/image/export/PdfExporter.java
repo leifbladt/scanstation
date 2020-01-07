@@ -30,7 +30,7 @@ public class PdfExporter {
 
     private final Convert convert = new Convert();
 
-    public void savePdf(Composition composition, Instrument instrument) {
+    public void savePdf(Composition composition, Instrument instrument, Configuration configuration) {
 
         try (PDDocument doc = new PDDocument()) {
 
@@ -43,7 +43,6 @@ public class PdfExporter {
                 PDPage page = new PDPage(PDRectangle.A5);
 //                PDPage page = new PDPage(new PDRectangle(PDRectangle.A5.getHeight(), PDRectangle.A5.getWidth()));
 
-
                 BufferedImage bufferedImage = ImageIO.read(inputImage.getPath().toFile());
                 BufferedImage binaryImage = convert.process(bufferedImage, ImageType.BINARY);
                 PDImageXObject image = LosslessFactory.createFromImage(doc, binaryImage);
@@ -51,8 +50,13 @@ public class PdfExporter {
                 try (PDPageContentStream contentStream = new PDPageContentStream(doc, page, APPEND, true, true)) {
                     PDRectangle mediaBox = page.getMediaBox();
 
-//                    float scale = calculateScale(mediaBox, image);
-                    float scale = 72 / 600f;
+                    float scale;
+
+                    if (configuration.isScaleToFit()) {
+                        scale = calculateScale(mediaBox, image);
+                    } else {
+                        scale = configuration.getScale();
+                    }
                     float newWidth = image.getWidth() * scale;
                     float newHeight = image.getHeight() * scale;
                     float offsetX = (mediaBox.getWidth() - newWidth) / 2;
@@ -72,5 +76,35 @@ public class PdfExporter {
     private float calculateScale(PDRectangle mediaBox, PDImageXObject image) {
         float scale = Math.min(mediaBox.getWidth() / image.getWidth(), mediaBox.getHeight() / image.getHeight());
         return Math.min(scale, 1f); // Don't upscale image
+    }
+
+    public static class Configuration {
+
+        private boolean scaleToFit;
+        private float scale;
+
+        public boolean isScaleToFit() {
+            return scaleToFit;
+        }
+
+        public void setScaleToFit(boolean scaleToFit) {
+            this.scaleToFit = scaleToFit;
+        }
+
+        public float getScale() {
+            return scale;
+        }
+
+        public void setScale(float scale) {
+            this.scale = scale;
+        }
+    }
+
+    public static class TestConfiguration extends Configuration {
+
+        private TestConfiguration() {
+            setScaleToFit(false);
+            setScale(72 / 600f);
+        }
     }
 }

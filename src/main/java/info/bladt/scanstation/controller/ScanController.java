@@ -236,7 +236,7 @@ public class ScanController {
                 protected Void call() {
                     exportButton.setDisable(true);
                     PdfExporter pdfExporter = new PdfExporter();
-                    pdfExporter.savePdf(compositionChoiceBox.getValue(), editInstrumentChoiceBox.getValue());
+                    pdfExporter.savePdf(compositionChoiceBox.getValue(), editInstrumentChoiceBox.getValue(), new PdfExporter.Configuration());
                     return null;
                 }
             };
