@@ -1,6 +1,7 @@
 package info.bladt.scanstation.image.export;
 
 import info.bladt.scanstation.image.file.TiffReader;
+import info.bladt.scanstation.image.processing.BinaryStep;
 import info.bladt.scanstation.image.processing.Converter;
 import info.bladt.scanstation.model.Composition;
 import info.bladt.scanstation.model.Instrument;
@@ -27,6 +28,8 @@ public class PdfExporter {
 
     private static final Logger LOGGER = LogManager.getLogger(PdfExporter.class);
 
+    private final BinaryStep binaryStep = new BinaryStep();
+
     public void savePdf(Composition composition, Instrument instrument) {
 
         try (PDDocument doc = new PDDocument()) {
@@ -37,19 +40,20 @@ public class PdfExporter {
 
             List<TiffReader.Page> inputImages = TiffReader.getInputImages("Work", composition, instrument);
             for (TiffReader.Page inputImage : inputImages) {
-//                PDPage page = new PDPage(PDRectangle.A4);
-                PDPage page = new PDPage(new PDRectangle(PDRectangle.A5.getHeight(), PDRectangle.A5.getWidth()));
+                PDPage page = new PDPage(PDRectangle.A5);
+//                PDPage page = new PDPage(new PDRectangle(PDRectangle.A5.getHeight(), PDRectangle.A5.getWidth()));
 
 
                 BufferedImage bufferedImage = ImageIO.read(inputImage.getPath().toFile());
-                BufferedImage binaryImage = Converter.toBinary(bufferedImage);
+                BufferedImage binaryImage = binaryStep.process(bufferedImage, null);
                 PDImageXObject image = LosslessFactory.createFromImage(doc, binaryImage);
 
                 try (PDPageContentStream contentStream = new PDPageContentStream(doc, page, APPEND, true, true)) {
                     PDRectangle mediaBox = page.getMediaBox();
 
-                    float scale = calculateScale(mediaBox, image);
-//                    float scale = 72 / 600f * 1.15f;
+//                    float scale = calculateScale(mediaBox, image);
+                    float scale = 72 / 600f;
+                    System.out.println("Scale: " + scale);
                     float newWidth = image.getWidth() * scale;
                     float newHeight = image.getHeight() * scale;
                     float offsetX = (mediaBox.getWidth() - newWidth) / 2;
