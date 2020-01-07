@@ -2,7 +2,6 @@ package info.bladt.scanstation.image.export;
 
 import info.bladt.scanstation.image.file.TiffReader;
 import info.bladt.scanstation.image.processing.BinaryStep;
-import info.bladt.scanstation.image.processing.Converter;
 import info.bladt.scanstation.model.Composition;
 import info.bladt.scanstation.model.Instrument;
 import org.apache.logging.log4j.LogManager;
