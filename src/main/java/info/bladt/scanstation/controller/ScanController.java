@@ -208,7 +208,7 @@ public class ScanController {
                 @Override
                 protected Void call() {
                     editButton.setDisable(true);
-                    new Converter().process(compositionChoiceBox.getValue(), editInstrumentChoiceBox.getValue());
+                    new Converter().process(compositionChoiceBox.getValue(), editInstrumentChoiceBox.getValue(), new Converter.TestConfiguration());
                     return null;
                 }
             };
