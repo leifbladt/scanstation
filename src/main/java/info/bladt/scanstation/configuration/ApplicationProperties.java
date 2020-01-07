@@ -22,7 +22,7 @@ public class ApplicationProperties {
         }
     }
     public static String getScanStationDirectory() {
-        return properties.getProperty("scanStationDirectory", ".");
+        return properties.getProperty("scanStationDirectory", "./ScanStation");
     }
 
     private static String getHomeDirectory() {
