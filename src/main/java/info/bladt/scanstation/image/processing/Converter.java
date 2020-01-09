@@ -33,117 +33,39 @@ public class Converter {
         rotate = new Rotate();
     }
 
-    public void process(Composition composition, Instrument instrument, Configuration configuration) {
+    public void process(Composition composition, Instrument instrument, ProcessingConfiguration configuration) {
 
         try {
             List<TiffReader.Page> inputImages = TiffReader.getInputImages("Scan", composition, instrument);
-            for (TiffReader.Page inputImage : inputImages) {
-                BufferedImage bufferedImage = ImageIO.read(inputImage.getPath().toFile());
+            for (TiffReader.Page page : inputImages) {
+                BufferedImage bufferedImage = ImageIO.read(page.getPath().toFile());
 
                 bufferedImage = convert.process(bufferedImage, ImageType.GRAY);
 
-                if (configuration.isCrop()) {
-                    bufferedImage = crop.process(bufferedImage, new Rectangle(configuration.getPageHeight(), configuration.getPageWidth()));
+                if (configuration.isCrop(instrument)) {
+                    bufferedImage = crop.process(bufferedImage, new Rectangle(configuration.getPageHeight(instrument), configuration.getPageWidth(instrument)));
                 }
 
-                if (configuration.isRotate()) {
-                    bufferedImage = rotate.process(bufferedImage, configuration.getRotationAngle());
+                if (configuration.isRotate(instrument)) {
+                    bufferedImage = rotate.process(bufferedImage, configuration.getRotationAngle(instrument));
                 }
 
-                if (configuration.isDeskew()) {
+                if (configuration.isDeskew(instrument)) {
                     bufferedImage = deskew.process(bufferedImage);
                 }
 
-                if (configuration.isRemoveEdges()) {
-                    bufferedImage = removeEdges.process(bufferedImage, configuration.getPaperEdgeWidth());
+                if (configuration.isRemoveEdges(instrument)) {
+                    bufferedImage = removeEdges.process(bufferedImage, configuration.getPaperEdgeWidth(instrument));
                 }
 
-                TiffWriter.saveImage(bufferedImage, "Work", inputImage.getNumber(), composition, instrument);
+                TiffWriter.saveImage(bufferedImage, "Work", page.getNumber(), composition, instrument);
             }
         } catch (IOException e) {
             LOGGER.error("Error creating TIFF file", e);
         }
     }
 
-    public static class Configuration {
-        private boolean crop;
-        private boolean rotate;
-        private boolean deskew;
-        private boolean removeEdges;
-
-        private int pageWidth;
-        private int pageHeight;
-
-        private double rotationAngle;
-
-        private int paperEdgeWidth;
-
-        public boolean isCrop() {
-            return crop;
-        }
-
-        public void setCrop(boolean crop) {
-            this.crop = crop;
-        }
-
-        public boolean isRotate() {
-            return rotate;
-        }
-
-        public void setRotate(boolean rotate) {
-            this.rotate = rotate;
-        }
-
-        public boolean isDeskew() {
-            return deskew;
-        }
-
-        public void setDeskew(boolean deskew) {
-            this.deskew = deskew;
-        }
-
-        public boolean isRemoveEdges() {
-            return removeEdges;
-        }
-
-        public void setRemoveEdges(boolean removeEdges) {
-            this.removeEdges = removeEdges;
-        }
-
-        public int getPageWidth() {
-            return pageWidth;
-        }
-
-        public void setPageWidth(int pageWidth) {
-            this.pageWidth = pageWidth;
-        }
-
-        public int getPageHeight() {
-            return pageHeight;
-        }
-
-        public void setPageHeight(int pageHeight) {
-            this.pageHeight = pageHeight;
-        }
-
-        public double getRotationAngle() {
-            return rotationAngle;
-        }
-
-        public void setRotationAngle(double rotationAngle) {
-            this.rotationAngle = rotationAngle;
-        }
-
-        public int getPaperEdgeWidth() {
-            return paperEdgeWidth;
-        }
-
-        public void setPaperEdgeWidth(int paperEdgeWidth) {
-            this.paperEdgeWidth = paperEdgeWidth;
-        }
-    }
-
-    public static class TestConfiguration extends Configuration {
+    public static class TestConfiguration extends ProcessingConfiguration {
         public TestConfiguration() {
             setCrop(true);
             setRotate(false);
