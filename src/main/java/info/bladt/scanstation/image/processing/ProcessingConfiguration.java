@@ -7,14 +7,14 @@ import java.util.Map;
 
 public class ProcessingConfiguration {
 
-    private final static String CROP_KEY = "crop";
-    private final static String ROTATE_KEY = "rotate";
-    private final static String DESKEW_KEY = "deskew";
-    private final static String REMOVE_EDGES_KEY = "removeEdges";
-    private final static String PAGE_WIDTH_KEY = "pageWidth";
-    private final static String PAGE_HEIGHT_KEY = "pageHeight";
-    private final static String ROTATION_ANGLE_KEY = "rotationAngle";
-    private final static String PAGE_EDGE_WIDTH_KEY = "pageEdgeWidth";
+    private static final String CROP_KEY = "crop";
+    private static final String ROTATE_KEY = "rotate";
+    private static final String DESKEW_KEY = "deskew";
+    private static final String REMOVE_EDGES_KEY = "removeEdges";
+    private static final String PAGE_WIDTH_KEY = "pageWidth";
+    private static final String PAGE_HEIGHT_KEY = "pageHeight";
+    private static final String ROTATION_ANGLE_KEY = "rotationAngle";
+    private static final String PAGE_EDGE_WIDTH_KEY = "pageEdgeWidth";
 
     private Map<String, Object> configuration = new HashMap<>();
     private Map<Instrument, Map<String, Object>> instrumentConfiguration = new HashMap<>();
