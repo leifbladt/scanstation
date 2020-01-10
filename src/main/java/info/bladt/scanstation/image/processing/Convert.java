@@ -16,18 +16,6 @@ public class Convert {
         return binary;
     }
 
-    public static class Configuration {
-        private final ImageType imageType;
-
-        public Configuration(ImageType imageType) {
-            this.imageType = imageType;
-        }
-
-        public ImageType getImageType() {
-            return imageType;
-        }
-    }
-
     public enum ImageType {
         BINARY(BufferedImage.TYPE_BYTE_BINARY),
         GRAY(BufferedImage.TYPE_BYTE_GRAY);
