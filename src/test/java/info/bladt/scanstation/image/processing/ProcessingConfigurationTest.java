@@ -18,13 +18,20 @@ class ProcessingConfigurationTest {
     }
 
     @Test
+    public void isCrop_NotSet() {
+        boolean crop = configuration.isCrop(INSTRUMENT);
+
+        assertFalse(crop);
+    }
+
+    @Test
     public void isCrop_GlobalFalse_InstrumentTrue() {
         configuration.setCrop(false);
         configuration.setCrop(INSTRUMENT, true);
 
         boolean crop = configuration.isCrop(INSTRUMENT);
 
-        assertEquals(crop, true);
+        assertTrue(crop);
     }
 
     @Test
@@ -34,7 +41,7 @@ class ProcessingConfigurationTest {
 
         boolean crop = configuration.isCrop(INSTRUMENT);
 
-        assertEquals(crop, false);
+        assertFalse(crop);
     }
 
     @Test
@@ -43,7 +50,7 @@ class ProcessingConfigurationTest {
 
         boolean crop = configuration.isCrop(INSTRUMENT);
 
-        assertEquals(crop, false);
+        assertFalse(crop);
     }
 
     @Test
@@ -52,7 +59,14 @@ class ProcessingConfigurationTest {
 
         boolean crop = configuration.isCrop(INSTRUMENT);
 
-        assertEquals(crop, true);
+        assertTrue(crop);
+    }
+
+    @Test
+    public void isRotate_NotSet() {
+        boolean rotate = configuration.isRotate(INSTRUMENT);
+
+        assertFalse(rotate);
     }
 
     @Test
@@ -62,7 +76,7 @@ class ProcessingConfigurationTest {
 
         boolean rotate = configuration.isRotate(INSTRUMENT);
 
-        assertEquals(rotate, true);
+        assertTrue(rotate);
     }
 
     @Test
@@ -72,7 +86,7 @@ class ProcessingConfigurationTest {
 
         boolean rotate = configuration.isRotate(INSTRUMENT);
 
-        assertEquals(rotate, false);
+        assertFalse(rotate);
     }
 
     @Test
@@ -81,7 +95,7 @@ class ProcessingConfigurationTest {
 
         boolean rotate = configuration.isRotate(INSTRUMENT);
 
-        assertEquals(rotate, false);
+        assertFalse(rotate);
     }
 
     @Test
@@ -90,7 +104,7 @@ class ProcessingConfigurationTest {
 
         boolean rotate = configuration.isRotate(INSTRUMENT);
 
-        assertEquals(rotate, true);
+        assertTrue(rotate);
     }
 
 
