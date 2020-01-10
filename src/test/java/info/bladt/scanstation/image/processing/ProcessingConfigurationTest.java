@@ -1,90 +1,122 @@
 package info.bladt.scanstation.image.processing;
 
 import info.bladt.scanstation.model.Instrument;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
 
 class ProcessingConfigurationTest {
 
-    public static final Instrument INSTRUMENT = Instrument.INSTRUMENTS.get(0);
+    private static final Instrument INSTRUMENT = Instrument.INSTRUMENTS.get(0);
 
-    @Test
-    void isCrop() {
-        ProcessingConfiguration configuration = new ProcessingConfiguration();
+    private ProcessingConfiguration configuration;
 
-        boolean crop = configuration.isCrop();
-
-        assertEquals(crop, false);
+    @BeforeEach
+    public void setUp() {
+        configuration = new ProcessingConfiguration();
     }
 
     @Test
-    void isCrop_GlobalFalse() {
-        ProcessingConfiguration configuration = new ProcessingConfiguration();
+    public void isCrop_GlobalFalse_InstrumentTrue() {
         configuration.setCrop(false);
+        configuration.setCrop(INSTRUMENT, true);
 
-        boolean crop = configuration.isCrop();
-
-        assertEquals(crop, false);
-    }
-
-    @Test
-    void isCrop_GlobalTrue() {
-        ProcessingConfiguration configuration = new ProcessingConfiguration();
-        configuration.setCrop(true);
-
-        boolean crop = configuration.isCrop();
+        boolean crop = configuration.isCrop(INSTRUMENT);
 
         assertEquals(crop, true);
     }
 
     @Test
-    void isCrop_GlobalFalse_InstrumentTrue() {
-        ProcessingConfiguration configuration = new ProcessingConfiguration();
-        configuration.setCrop(false);
-        configuration.setCrop(INSTRUMENT, true);
-
-        boolean cropGlobal = configuration.isCrop();
-        boolean cropInstrument = configuration.isCrop(INSTRUMENT);
-
-        assertEquals(cropGlobal, false);
-        assertEquals(cropInstrument, true);
-    }
-
-    @Test
-    void isCrop_GlobalTrue_InstrumentFalse() {
-        ProcessingConfiguration configuration = new ProcessingConfiguration();
+    public void isCrop_GlobalTrue_InstrumentFalse() {
         configuration.setCrop(true);
         configuration.setCrop(INSTRUMENT, false);
 
-        boolean cropGlobal = configuration.isCrop();
-        boolean cropInstrument = configuration.isCrop(INSTRUMENT);
+        boolean crop = configuration.isCrop(INSTRUMENT);
 
-        assertEquals(cropGlobal, true);
-        assertEquals(cropInstrument, false);
+        assertEquals(crop, false);
     }
 
     @Test
-    void isCrop_GlobalFalse_InstrumentNotSet() {
-        ProcessingConfiguration configuration = new ProcessingConfiguration();
+    public void isCrop_GlobalFalse_InstrumentNotSet() {
         configuration.setCrop(false);
 
-        boolean cropGlobal = configuration.isCrop();
-        boolean cropInstrument = configuration.isCrop(INSTRUMENT);
+        boolean crop = configuration.isCrop(INSTRUMENT);
 
-        assertEquals(cropGlobal, false);
-        assertEquals(cropInstrument, false);
+        assertEquals(crop, false);
     }
 
     @Test
-    void isCrop_GlobalTrue_InstrumentNotSet() {
-        ProcessingConfiguration configuration = new ProcessingConfiguration();
+    public void isCrop_GlobalTrue_InstrumentNotSet() {
         configuration.setCrop(true);
 
-        boolean cropGlobal = configuration.isCrop();
-        boolean cropInstrument = configuration.isCrop(INSTRUMENT);
+        boolean crop = configuration.isCrop(INSTRUMENT);
 
-        assertEquals(cropGlobal, true);
-        assertEquals(cropInstrument, true);
+        assertEquals(crop, true);
+    }
+
+    @Test
+    public void isRotate_GlobalFalse_InstrumentTrue() {
+        configuration.setRotate(false);
+        configuration.setRotate(INSTRUMENT, true);
+
+        boolean rotate = configuration.isRotate(INSTRUMENT);
+
+        assertEquals(rotate, true);
+    }
+
+    @Test
+    public void isRotate_GlobalTrue_InstrumentFalse() {
+        configuration.setRotate(true);
+        configuration.setRotate(INSTRUMENT, false);
+
+        boolean rotate = configuration.isRotate(INSTRUMENT);
+
+        assertEquals(rotate, false);
+    }
+
+    @Test
+    public void isRotate_GlobalFalse_InstrumentNotSet() {
+        configuration.setRotate(false);
+
+        boolean rotate = configuration.isRotate(INSTRUMENT);
+
+        assertEquals(rotate, false);
+    }
+
+    @Test
+    public void isRotate_GlobalTrue_InstrumentNotSet() {
+        configuration.setRotate(true);
+
+        boolean rotate = configuration.isRotate(INSTRUMENT);
+
+        assertEquals(rotate, true);
+    }
+
+
+    @Test
+    public void getRotationAngle_NotSet() {
+        double rotationAngle = configuration.getRotationAngle(INSTRUMENT);
+
+        assertEquals(rotationAngle, 0.0);
+    }
+
+    @Test
+    public void getRotationAngle_InstrumentSet() {
+        configuration.setRotationAngle(37.5);
+        configuration.setRotationAngle(45.0, INSTRUMENT);
+
+        double rotationAngle = configuration.getRotationAngle(INSTRUMENT);
+
+        assertEquals(rotationAngle, 45.0);
+    }
+
+    @Test
+    public void getRotationAngle_InstrumentNotSet() {
+        configuration.setRotationAngle(37.5);
+
+        double rotationAngle = configuration.getRotationAngle(INSTRUMENT);
+
+        assertEquals(rotationAngle, 37.5);
     }
 }

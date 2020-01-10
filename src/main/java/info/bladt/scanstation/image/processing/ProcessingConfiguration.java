@@ -7,184 +7,160 @@ import java.util.Map;
 
 public class ProcessingConfiguration {
 
-    // Global configuration
-    Configuration configuration = new Configuration();
+    private final static String CROP_KEY = "crop";
+    private final static String ROTATE_KEY = "rotate";
+    private final static String DESKEW_KEY = "deskew";
+    private final static String REMOVE_EDGES_KEY = "removeEdges";
+    private final static String PAGE_WIDTH_KEY = "pageWidth";
+    private final static String PAGE_HEIGHT_KEY = "pageHeight";
+    private final static String ROTATION_ANGLE_KEY = "rotationAngle";
+    private final static String PAGE_EDGE_WIDTH_KEY = "pageEdgeWidth";
 
-    // Instrument specific configuration
-    Map<Instrument, Configuration> instrumentConfigurationMap = new HashMap<>();
-
-    public boolean isCrop() {
-        return isCrop(null);
-    }
+    private Map<String, Object> configuration = new HashMap<>();
+    private Map<Instrument, Map<String, Object>> instrumentConfiguration = new HashMap<>();
 
     public boolean isCrop(Instrument instrument) {
-        Configuration instrumentConfiguration = instrumentConfigurationMap.get(instrument);
-
-        if (instrumentConfiguration != null) {
-            return instrumentConfiguration.isCrop();
-        } else {
-            return configuration.isCrop();
-        }
+        return getBooleanValue(CROP_KEY, instrument);
     }
 
     public void setCrop(boolean crop) {
-        configuration.setCrop(crop);
+        setValue(CROP_KEY, crop);
     }
 
     public void setCrop(Instrument instrument, boolean crop) {
-        instrumentConfigurationMap.computeIfAbsent(instrument, i -> {
-            Configuration c = new Configuration();
-            c.setCrop(crop);
-            return c;
-        });
+        setValue(CROP_KEY, crop, instrument);
     }
 
-    public boolean isRotate() {
-        return isRotate(null);
-    }
 
     public boolean isRotate(Instrument instrument) {
-        return configuration.isRotate();
+        return getBooleanValue(ROTATE_KEY, instrument);
     }
 
     public void setRotate(boolean rotate) {
-        configuration.setRotate(rotate);
+        setValue(ROTATE_KEY, rotate);
     }
 
+    public void setRotate(Instrument instrument, boolean rotate) {
+        setValue(ROTATE_KEY, rotate, instrument);
+    }
+
+
     public boolean isDeskew(Instrument instrument) {
-        return configuration.isDeskew();
+        return getBooleanValue(DESKEW_KEY, instrument);
     }
 
     public void setDeskew(boolean deskew) {
-        configuration.setDeskew(deskew);
+        setValue(DESKEW_KEY, deskew);
     }
 
+    public void setDeskew(boolean deskew, Instrument instrument) {
+        setValue(DESKEW_KEY, deskew, instrument);
+    }
+
+
     public boolean isRemoveEdges(Instrument instrument) {
-        return configuration.isRemoveEdges();
+        return getBooleanValue(REMOVE_EDGES_KEY, instrument);
     }
 
     public void setRemoveEdges(boolean removeEdges) {
-        configuration.setRemoveEdges(removeEdges);
+        setValue(REMOVE_EDGES_KEY, removeEdges);
     }
 
+    public void setRemoveEdges(boolean removeEdges, Instrument instrument) {
+        setValue(REMOVE_EDGES_KEY, removeEdges, instrument);
+    }
+
+
     public int getPageWidth(Instrument instrument) {
-        return configuration.getPageWidth();
+        return getIntegerValue(PAGE_WIDTH_KEY, instrument);
     }
 
     public void setPageWidth(int pageWidth) {
-        configuration.setPageWidth(pageWidth);
+        setValue(PAGE_WIDTH_KEY, pageWidth);
     }
 
+    public void setPageWidth(int pageWidth, Instrument instrument) {
+        setValue(PAGE_WIDTH_KEY, pageWidth, instrument);
+    }
+
+
     public int getPageHeight(Instrument instrument) {
-        return configuration.getPageHeight();
+        return getIntegerValue(PAGE_HEIGHT_KEY, instrument);
     }
 
     public void setPageHeight(int pageHeight) {
-        configuration.setPageHeight(pageHeight);
+        setValue(PAGE_HEIGHT_KEY, pageHeight);
     }
 
+    public void setPageHeight(int pageHeight, Instrument instrument) {
+        setValue(PAGE_HEIGHT_KEY, pageHeight, instrument);
+    }
+
+
     public double getRotationAngle(Instrument instrument) {
-        return configuration.getRotationAngle();
+        return getDoubleValue(ROTATION_ANGLE_KEY, instrument);
     }
 
     public void setRotationAngle(double rotationAngle) {
-        configuration.setRotationAngle(rotationAngle);
+        setValue(ROTATION_ANGLE_KEY, rotationAngle);
     }
 
+    public void setRotationAngle(double rotationAngle, Instrument instrument) {
+        setValue(ROTATION_ANGLE_KEY, rotationAngle, instrument);
+    }
+
+
     public int getPaperEdgeWidth(Instrument instrument) {
-        return configuration.getPaperEdgeWidth();
+        return getIntegerValue(PAGE_EDGE_WIDTH_KEY, instrument);
     }
 
     public void setPaperEdgeWidth(int paperEdgeWidth) {
-        configuration.setPaperEdgeWidth(paperEdgeWidth);
+        setValue(PAGE_EDGE_WIDTH_KEY, paperEdgeWidth);
     }
 
-    private class Configuration {
-        private boolean crop;
-        private boolean rotate;
-        private boolean deskew;
-        private boolean removeEdges;
-        private int pageWidth;
-        private int pageHeight;
-        private double rotationAngle;
-        private int paperEdgeWidth;
+    public void setPaperEdgeWidth(int paperEdgeWidth, Instrument instrument) {
+        setValue(PAGE_EDGE_WIDTH_KEY, paperEdgeWidth, instrument);
+    }
 
-        public boolean isCrop() {
-            return crop;
+    private Object getValue(String key, Instrument instrument) {
+        Object value = null;
+        Map<String, Object> instrumentMap = instrumentConfiguration.get(instrument);
+
+        if (instrumentMap != null) {
+            value = instrumentMap.get(key);
         }
 
-        public void setCrop(boolean crop) {
-            this.crop = crop;
+        if (value == null) {
+            value = configuration.get(key);
         }
 
-        public boolean isRotate() {
-            return rotate;
-        }
+        return value;
+    }
 
-        public void setRotate(boolean rotate) {
-            this.rotate = rotate;
-        }
+    private Boolean getBooleanValue(String key, Instrument instrument) {
+        Object value = getValue(key, instrument);
+        return (value != null) ? (Boolean)value : Boolean.FALSE;
+    }
 
-        public boolean isDeskew() {
-            return deskew;
-        }
+    private Integer getIntegerValue(String key, Instrument instrument) {
+        Object value = getValue(key, instrument);
+        return (value != null) ? (Integer)value : null;
+    }
 
-        public void setDeskew(boolean deskew) {
-            this.deskew = deskew;
-        }
+    private Double getDoubleValue(String key, Instrument instrument) {
+        Object value = getValue(key, instrument);
+        return (value != null) ? (Double)value : 0d;
+    }
 
-        public boolean isRemoveEdges() {
-            return removeEdges;
-        }
+    private void setValue(String key, Object value) {
+        configuration.put(key, value);
+    }
 
-        public void setRemoveEdges(boolean removeEdges) {
-            this.removeEdges = removeEdges;
-        }
-
-        public int getPageWidth() {
-            return pageWidth;
-        }
-
-        public void setPageWidth(int pageWidth) {
-            this.pageWidth = pageWidth;
-        }
-
-        public int getPageHeight() {
-            return pageHeight;
-        }
-
-        public void setPageHeight(int pageHeight) {
-            this.pageHeight = pageHeight;
-        }
-
-        public double getRotationAngle() {
-            return rotationAngle;
-        }
-
-        public void setRotationAngle(double rotationAngle) {
-            this.rotationAngle = rotationAngle;
-        }
-
-        public int getPaperEdgeWidth() {
-            return paperEdgeWidth;
-        }
-
-        public void setPaperEdgeWidth(int paperEdgeWidth) {
-            this.paperEdgeWidth = paperEdgeWidth;
-        }
-
-        @Override
-        public String toString() {
-            return "ProcessingConfiguration{" +
-                    "crop=" + crop +
-                    ", rotate=" + rotate +
-                    ", deskew=" + deskew +
-                    ", removeEdges=" + removeEdges +
-                    ", pageWidth=" + pageWidth +
-                    ", pageHeight=" + pageHeight +
-                    ", rotationAngle=" + rotationAngle +
-                    ", paperEdgeWidth=" + paperEdgeWidth +
-                    '}';
-        }
+    private void setValue(String key, Object value, Instrument instrument) {
+        instrumentConfiguration.computeIfAbsent(instrument, i -> {
+            Map<String, Object> c = new HashMap<>();
+            c.put(key , value);
+            return c;
+        });
     }
 }
