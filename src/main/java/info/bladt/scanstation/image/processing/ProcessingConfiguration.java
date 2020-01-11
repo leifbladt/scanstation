@@ -144,7 +144,7 @@ public class ProcessingConfiguration {
 
     private Integer getIntegerValue(String key, Instrument instrument) {
         Object value = getValue(key, instrument);
-        return (value != null) ? (Integer)value : null;
+        return (value != null) ? (Integer)value : 0;
     }
 
     private Double getDoubleValue(String key, Instrument instrument) {
