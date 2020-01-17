@@ -38,27 +38,28 @@ public class Converter {
         try {
             List<TiffReader.Page> inputImages = TiffReader.getInputImages("Scan", composition, instrument);
             for (TiffReader.Page page : inputImages) {
+                int pageNumber = page.getNumber();
                 BufferedImage bufferedImage = ImageIO.read(page.getPath().toFile());
 
                 bufferedImage = convert.process(bufferedImage, ImageType.GRAY);
 
-                if (configuration.isCrop(instrument)) {
-                    bufferedImage = crop.process(bufferedImage, new Rectangle(configuration.getPageHeight(instrument), configuration.getPageWidth(instrument)));
+                if (configuration.isCrop(instrument, pageNumber)) {
+                    bufferedImage = crop.process(bufferedImage, new Rectangle(configuration.getPageHeight(instrument, pageNumber), configuration.getPageWidth(instrument, pageNumber)));
                 }
 
-                if (configuration.isRotate(instrument)) {
-                    bufferedImage = rotate.process(bufferedImage, configuration.getRotationAngle(instrument));
+                if (configuration.isRotate(instrument, pageNumber)) {
+                    bufferedImage = rotate.process(bufferedImage, configuration.getRotationAngle(instrument, pageNumber));
                 }
 
-                if (configuration.isDeskew(instrument)) {
+                if (configuration.isDeskew(instrument, pageNumber)) {
                     bufferedImage = deskew.process(bufferedImage);
                 }
 
-                if (configuration.isRemoveEdges(instrument)) {
-                    bufferedImage = removeEdges.process(bufferedImage, configuration.getPaperEdgeWidth(instrument));
+                if (configuration.isRemoveEdges(instrument, pageNumber)) {
+                    bufferedImage = removeEdges.process(bufferedImage, configuration.getPaperEdgeWidth(instrument, pageNumber));
                 }
 
-                TiffWriter.saveImage(bufferedImage, "Work", page.getNumber(), composition, instrument);
+                TiffWriter.saveImage(bufferedImage, "Work", pageNumber, composition, instrument);
             }
         } catch (IOException e) {
             LOGGER.error("Error creating TIFF file", e);

@@ -12,116 +12,146 @@ public class ProcessingConfiguration {
 
     private Map<CompoundKey, Object> configuration = new HashMap<>();
 
-    public boolean isCrop(Instrument instrument) {
-        return getBooleanValue(CROP_KEY, instrument);
+    public boolean isCrop(Instrument instrument, Integer page) {
+        return getBooleanValue(CROP_KEY, instrument, page);
     }
 
     public void setCrop(boolean crop) {
-        setValue(CROP_KEY, crop);
+        setCrop(null, null, crop);
     }
 
     public void setCrop(Instrument instrument, boolean crop) {
-        setValue(CROP_KEY, crop, instrument);
+        setCrop(instrument, null, crop);
     }
 
+    public void setCrop(Instrument instrument, Integer page, boolean crop) {
+        setValue(CROP_KEY, crop, instrument, page);
+    }
 
-    public boolean isRotate(Instrument instrument) {
-        return getBooleanValue(ROTATE_KEY, instrument);
+    public boolean isRotate(Instrument instrument, Integer page) {
+        return getBooleanValue(ROTATE_KEY, instrument, page);
     }
 
     public void setRotate(boolean rotate) {
-        setValue(ROTATE_KEY, rotate);
+        setRotate(null, null, rotate);
     }
 
     public void setRotate(Instrument instrument, boolean rotate) {
-        setValue(ROTATE_KEY, rotate, instrument);
+        setRotate(instrument, null, rotate);
+    }
+
+    public void setRotate(Instrument instrument, Integer page, boolean rotate) {
+        setValue(ROTATE_KEY, rotate, instrument, page);
     }
 
 
-    public boolean isDeskew(Instrument instrument) {
-        return getBooleanValue(DESKEW_KEY, instrument);
+    public boolean isDeskew(Instrument instrument, Integer page) {
+        return getBooleanValue(DESKEW_KEY, instrument, page);
     }
 
     public void setDeskew(boolean deskew) {
-        setValue(DESKEW_KEY, deskew);
+        setDeskew(deskew, null, null);
     }
 
     public void setDeskew(boolean deskew, Instrument instrument) {
-        setValue(DESKEW_KEY, deskew, instrument);
+        setDeskew(deskew, instrument, null);
+    }
+
+    public void setDeskew(boolean deskew, Instrument instrument, Integer page) {
+        setValue(DESKEW_KEY, deskew, instrument, page);
     }
 
 
-    public boolean isRemoveEdges(Instrument instrument) {
-        return getBooleanValue(REMOVE_EDGES_KEY, instrument);
+    public boolean isRemoveEdges(Instrument instrument, Integer page) {
+        return getBooleanValue(REMOVE_EDGES_KEY, instrument, page);
     }
 
     public void setRemoveEdges(boolean removeEdges) {
-        setValue(REMOVE_EDGES_KEY, removeEdges);
+        setRemoveEdges(removeEdges, null, null);
     }
 
     public void setRemoveEdges(boolean removeEdges, Instrument instrument) {
-        setValue(REMOVE_EDGES_KEY, removeEdges, instrument);
+        setRemoveEdges(removeEdges, instrument, null);
+    }
+
+    public void setRemoveEdges(boolean removeEdges, Instrument instrument, Integer page) {
+        setValue(REMOVE_EDGES_KEY, removeEdges, instrument, page);
     }
 
 
-    public int getPageWidth(Instrument instrument) {
-        return getIntegerValue(PAGE_WIDTH_KEY, instrument);
+    public int getPageWidth(Instrument instrument, Integer page) {
+        return getIntegerValue(PAGE_WIDTH_KEY, instrument, page);
     }
 
     public void setPageWidth(int pageWidth) {
-        setValue(PAGE_WIDTH_KEY, pageWidth);
+        setPageWidth(pageWidth, null, null);
     }
 
     public void setPageWidth(int pageWidth, Instrument instrument) {
-        setValue(PAGE_WIDTH_KEY, pageWidth, instrument);
+        setPageWidth(pageWidth, instrument, null);
+    }
+
+    public void setPageWidth(int pageWidth, Instrument instrument, Integer page) {
+        setValue(PAGE_WIDTH_KEY, pageWidth, instrument, page);
     }
 
 
-    public int getPageHeight(Instrument instrument) {
-        return getIntegerValue(PAGE_HEIGHT_KEY, instrument);
+    public int getPageHeight(Instrument instrument, Integer page) {
+        return getIntegerValue(PAGE_HEIGHT_KEY, instrument, page);
     }
 
     public void setPageHeight(int pageHeight) {
-        setValue(PAGE_HEIGHT_KEY, pageHeight);
+        setPageHeight(pageHeight, null, null);
     }
 
     public void setPageHeight(int pageHeight, Instrument instrument) {
-        setValue(PAGE_HEIGHT_KEY, pageHeight, instrument);
+        setPageHeight(pageHeight, instrument, null);
+    }
+
+    public void setPageHeight(int pageHeight, Instrument instrument, Integer page) {
+        setValue(PAGE_HEIGHT_KEY, pageHeight, instrument, page);
     }
 
 
-    public double getRotationAngle(Instrument instrument) {
-        return getDoubleValue(ROTATION_ANGLE_KEY, instrument);
+    public double getRotationAngle(Instrument instrument, Integer page) {
+        return getDoubleValue(ROTATION_ANGLE_KEY, instrument, page);
     }
 
     public void setRotationAngle(double rotationAngle) {
-        setValue(ROTATION_ANGLE_KEY, rotationAngle);
+        setRotationAngle(rotationAngle, null, null);
     }
 
     public void setRotationAngle(double rotationAngle, Instrument instrument) {
-        setValue(ROTATION_ANGLE_KEY, rotationAngle, instrument);
+        setRotationAngle(rotationAngle, instrument, null);
+    }
+
+    public void setRotationAngle(double rotationAngle, Instrument instrument, Integer page) {
+        setValue(ROTATION_ANGLE_KEY, rotationAngle, instrument, page);
     }
 
 
-    public int getPaperEdgeWidth(Instrument instrument) {
-        return getIntegerValue(PAGE_EDGE_WIDTH_KEY, instrument);
+    public int getPaperEdgeWidth(Instrument instrument, Integer page) {
+        return getIntegerValue(PAGE_EDGE_WIDTH_KEY, instrument, page);
     }
 
     public void setPaperEdgeWidth(int paperEdgeWidth) {
-        setValue(PAGE_EDGE_WIDTH_KEY, paperEdgeWidth);
+        setPaperEdgeWidth(paperEdgeWidth, null, null);
     }
 
     public void setPaperEdgeWidth(int paperEdgeWidth, Instrument instrument) {
-        setValue(PAGE_EDGE_WIDTH_KEY, paperEdgeWidth, instrument);
+        setPaperEdgeWidth(paperEdgeWidth, instrument, null);
     }
 
-    private Object getValue(Key key, Instrument instrument) {
-        CompoundKey compoundKey = new CompoundKey(key, instrument);
-        Object value = null;
-        Object instrumentMap = configuration.get(compoundKey);
+    public void setPaperEdgeWidth(int paperEdgeWidth, Instrument instrument, Integer page) {
+        setValue(PAGE_EDGE_WIDTH_KEY, paperEdgeWidth, instrument, page);
+    }
 
-        if (instrumentMap != null) {
-            value = instrumentMap;
+    private Object getValue(Key key, Instrument instrument, Integer page) {
+
+        Object value = configuration.get(new CompoundKey(key, instrument, page));
+
+        if (value == null) {
+            value = configuration.get(new CompoundKey(key, instrument));
         }
 
         if (value == null) {
@@ -131,27 +161,23 @@ public class ProcessingConfiguration {
         return value;
     }
 
-    private Boolean getBooleanValue(Key key, Instrument instrument) {
-        Object value = getValue(key, instrument);
+    private Boolean getBooleanValue(Key key, Instrument instrument, Integer page) {
+        Object value = getValue(key, instrument, page);
         return (value != null) ? (Boolean)value : Boolean.FALSE;
     }
 
-    private Integer getIntegerValue(Key key, Instrument instrument) {
-        Object value = getValue(key, instrument);
+    private Integer getIntegerValue(Key key, Instrument instrument, Integer page) {
+        Object value = getValue(key, instrument, page);
         return (value != null) ? (Integer)value : 0;
     }
 
-    private Double getDoubleValue(Key key, Instrument instrument) {
-        Object value = getValue(key, instrument);
+    private Double getDoubleValue(Key key, Instrument instrument, Integer page) {
+        Object value = getValue(key, instrument, page);
         return (value != null) ? (Double)value : 0d;
     }
 
-    private void setValue(Key key, Object value) {
-        configuration.put(new CompoundKey(key), value);
-    }
-
-    private void setValue(Key key, Object value, Instrument instrument) {
-        configuration.put(new CompoundKey(key, instrument), value);
+    private void setValue(Key key, Object value, Instrument instrument, Integer page) {
+        configuration.put(new CompoundKey(key, instrument, page), value);
     }
 
     private class CompoundKey {

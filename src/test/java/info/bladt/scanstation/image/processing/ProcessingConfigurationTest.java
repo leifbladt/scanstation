@@ -19,7 +19,7 @@ class ProcessingConfigurationTest {
 
     @Test
     public void isCrop_NotSet() {
-        boolean crop = configuration.isCrop(INSTRUMENT);
+        boolean crop = configuration.isCrop(INSTRUMENT, 1);
 
         assertFalse(crop);
     }
@@ -29,7 +29,18 @@ class ProcessingConfigurationTest {
         configuration.setCrop(false);
         configuration.setCrop(INSTRUMENT, true);
 
-        boolean crop = configuration.isCrop(INSTRUMENT);
+        boolean crop = configuration.isCrop(INSTRUMENT, 1);
+
+        assertTrue(crop);
+    }
+
+    @Test
+    public void isCrop_GlobalFalse_InstrumentFalse_PageTrue() {
+        configuration.setCrop(false);
+        configuration.setCrop(INSTRUMENT, false);
+        configuration.setCrop(INSTRUMENT, 1, true);
+
+        boolean crop = configuration.isCrop(INSTRUMENT, 1);
 
         assertTrue(crop);
     }
@@ -39,7 +50,18 @@ class ProcessingConfigurationTest {
         configuration.setCrop(true);
         configuration.setCrop(INSTRUMENT, false);
 
-        boolean crop = configuration.isCrop(INSTRUMENT);
+        boolean crop = configuration.isCrop(INSTRUMENT, 1);
+
+        assertFalse(crop);
+    }
+
+    @Test
+    public void isCrop_GlobalTrue_InstrumentTrue_PageFalse() {
+        configuration.setCrop(true);
+        configuration.setCrop(INSTRUMENT, true);
+        configuration.setCrop(INSTRUMENT, 1, false);
+
+        boolean crop = configuration.isCrop(INSTRUMENT, 1);
 
         assertFalse(crop);
     }
@@ -48,7 +70,7 @@ class ProcessingConfigurationTest {
     public void isCrop_GlobalFalse_InstrumentNotSet() {
         configuration.setCrop(false);
 
-        boolean crop = configuration.isCrop(INSTRUMENT);
+        boolean crop = configuration.isCrop(INSTRUMENT, null);
 
         assertFalse(crop);
     }
@@ -57,14 +79,14 @@ class ProcessingConfigurationTest {
     public void isCrop_GlobalTrue_InstrumentNotSet() {
         configuration.setCrop(true);
 
-        boolean crop = configuration.isCrop(INSTRUMENT);
+        boolean crop = configuration.isCrop(INSTRUMENT, null);
 
         assertTrue(crop);
     }
 
     @Test
     public void isRotate_NotSet() {
-        boolean rotate = configuration.isRotate(INSTRUMENT);
+        boolean rotate = configuration.isRotate(INSTRUMENT, null);
 
         assertFalse(rotate);
     }
@@ -74,7 +96,7 @@ class ProcessingConfigurationTest {
         configuration.setRotate(false);
         configuration.setRotate(INSTRUMENT, true);
 
-        boolean rotate = configuration.isRotate(INSTRUMENT);
+        boolean rotate = configuration.isRotate(INSTRUMENT, null);
 
         assertTrue(rotate);
     }
@@ -84,7 +106,7 @@ class ProcessingConfigurationTest {
         configuration.setRotate(true);
         configuration.setRotate(INSTRUMENT, false);
 
-        boolean rotate = configuration.isRotate(INSTRUMENT);
+        boolean rotate = configuration.isRotate(INSTRUMENT, null);
 
         assertFalse(rotate);
     }
@@ -93,7 +115,7 @@ class ProcessingConfigurationTest {
     public void isRotate_GlobalFalse_InstrumentNotSet() {
         configuration.setRotate(false);
 
-        boolean rotate = configuration.isRotate(INSTRUMENT);
+        boolean rotate = configuration.isRotate(INSTRUMENT, null);
 
         assertFalse(rotate);
     }
@@ -102,7 +124,7 @@ class ProcessingConfigurationTest {
     public void isRotate_GlobalTrue_InstrumentNotSet() {
         configuration.setRotate(true);
 
-        boolean rotate = configuration.isRotate(INSTRUMENT);
+        boolean rotate = configuration.isRotate(INSTRUMENT, null);
 
         assertTrue(rotate);
     }
@@ -110,7 +132,7 @@ class ProcessingConfigurationTest {
 
     @Test
     public void getRotationAngle_NotSet() {
-        double rotationAngle = configuration.getRotationAngle(INSTRUMENT);
+        double rotationAngle = configuration.getRotationAngle(INSTRUMENT, null);
 
         assertEquals(rotationAngle, 0.0);
     }
@@ -120,7 +142,7 @@ class ProcessingConfigurationTest {
         configuration.setRotationAngle(37.5);
         configuration.setRotationAngle(45.0, INSTRUMENT);
 
-        double rotationAngle = configuration.getRotationAngle(INSTRUMENT);
+        double rotationAngle = configuration.getRotationAngle(INSTRUMENT, null);
 
         assertEquals(rotationAngle, 45.0);
     }
@@ -129,14 +151,14 @@ class ProcessingConfigurationTest {
     public void getRotationAngle_InstrumentNotSet() {
         configuration.setRotationAngle(37.5);
 
-        double rotationAngle = configuration.getRotationAngle(INSTRUMENT);
+        double rotationAngle = configuration.getRotationAngle(INSTRUMENT, null);
 
         assertEquals(rotationAngle, 37.5);
     }
 
     @Test
     public void getPageHeight_NotSet() {
-        int rotationAngle = configuration.getPageHeight(INSTRUMENT);
+        int rotationAngle = configuration.getPageHeight(INSTRUMENT, null);
 
         assertEquals(rotationAngle, 0);
     }
@@ -146,7 +168,7 @@ class ProcessingConfigurationTest {
         configuration.setPageHeight(297);
         configuration.setPageHeight(210, INSTRUMENT);
 
-        int rotationAngle = configuration.getPageHeight(INSTRUMENT);
+        int rotationAngle = configuration.getPageHeight(INSTRUMENT, null);
 
         assertEquals(rotationAngle, 210);
     }
@@ -155,7 +177,7 @@ class ProcessingConfigurationTest {
     public void getPageHeight_InstrumentNotSet() {
         configuration.setPageHeight(297);
 
-        int rotationAngle = configuration.getPageHeight(INSTRUMENT);
+        int rotationAngle = configuration.getPageHeight(INSTRUMENT, null);
 
         assertEquals(rotationAngle, 297);
     }
