@@ -4,20 +4,13 @@ import info.bladt.scanstation.model.Instrument;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
+
+import static info.bladt.scanstation.image.processing.ProcessingConfiguration.Key.*;
 
 public class ProcessingConfiguration {
 
-    private static final String CROP_KEY = "crop";
-    private static final String ROTATE_KEY = "rotate";
-    private static final String DESKEW_KEY = "deskew";
-    private static final String REMOVE_EDGES_KEY = "removeEdges";
-    private static final String PAGE_WIDTH_KEY = "pageWidth";
-    private static final String PAGE_HEIGHT_KEY = "pageHeight";
-    private static final String ROTATION_ANGLE_KEY = "rotationAngle";
-    private static final String PAGE_EDGE_WIDTH_KEY = "pageEdgeWidth";
-
-    private Map<String, Object> configuration = new HashMap<>();
-    private Map<Instrument, Map<String, Object>> instrumentConfiguration = new HashMap<>();
+    private Map<CompoundKey, Object> configuration = new HashMap<>();
 
     public boolean isCrop(Instrument instrument) {
         return getBooleanValue(CROP_KEY, instrument);
@@ -122,45 +115,96 @@ public class ProcessingConfiguration {
         setValue(PAGE_EDGE_WIDTH_KEY, paperEdgeWidth, instrument);
     }
 
-    private Object getValue(String key, Instrument instrument) {
+    private Object getValue(Key key, Instrument instrument) {
+        CompoundKey compoundKey = new CompoundKey(key, instrument);
         Object value = null;
-        Map<String, Object> instrumentMap = instrumentConfiguration.get(instrument);
+        Object instrumentMap = configuration.get(compoundKey);
 
         if (instrumentMap != null) {
-            value = instrumentMap.get(key);
+            value = instrumentMap;
         }
 
         if (value == null) {
-            value = configuration.get(key);
+            value = configuration.get(new CompoundKey(key));
         }
 
         return value;
     }
 
-    private Boolean getBooleanValue(String key, Instrument instrument) {
+    private Boolean getBooleanValue(Key key, Instrument instrument) {
         Object value = getValue(key, instrument);
         return (value != null) ? (Boolean)value : Boolean.FALSE;
     }
 
-    private Integer getIntegerValue(String key, Instrument instrument) {
+    private Integer getIntegerValue(Key key, Instrument instrument) {
         Object value = getValue(key, instrument);
         return (value != null) ? (Integer)value : 0;
     }
 
-    private Double getDoubleValue(String key, Instrument instrument) {
+    private Double getDoubleValue(Key key, Instrument instrument) {
         Object value = getValue(key, instrument);
         return (value != null) ? (Double)value : 0d;
     }
 
-    private void setValue(String key, Object value) {
-        configuration.put(key, value);
+    private void setValue(Key key, Object value) {
+        configuration.put(new CompoundKey(key), value);
     }
 
-    private void setValue(String key, Object value, Instrument instrument) {
-        instrumentConfiguration.computeIfAbsent(instrument, i -> {
-            Map<String, Object> c = new HashMap<>();
-            c.put(key , value);
-            return c;
-        });
+    private void setValue(Key key, Object value, Instrument instrument) {
+        configuration.put(new CompoundKey(key, instrument), value);
     }
+
+    private class CompoundKey {
+        private final Key key;
+        private final Instrument instrument;
+        private final Integer page;
+
+        public CompoundKey(Key key) {
+            this(key, null, null);
+        }
+
+        public CompoundKey(Key key, Instrument instrument) {
+            this(key, instrument, null);
+        }
+
+        public CompoundKey(Key key, Instrument instrument, Integer page) {
+            this.key = key;
+            this.instrument = instrument;
+            this.page = page;
+        }
+
+        @Override
+        public boolean equals(Object o) {
+            if (this == o) return true;
+            if (o == null || getClass() != o.getClass()) return false;
+            CompoundKey that = (CompoundKey) o;
+            return Objects.equals(key, that.key) &&
+                    Objects.equals(instrument, that.instrument) &&
+                    Objects.equals(page, that.page);
+        }
+
+        @Override
+        public int hashCode() {
+            return Objects.hash(key, instrument, page);
+        }
+
+        @Override
+        public String toString() {
+            return "CompoundKey{" +
+                    "key='" + key + '\'' +
+                    ", instrument=" + instrument +
+                    ", page=" + page +
+                    '}';
+        }
+    }
+     public enum Key {
+         CROP_KEY,
+         ROTATE_KEY,
+         DESKEW_KEY,
+         REMOVE_EDGES_KEY,
+         PAGE_WIDTH_KEY,
+         PAGE_HEIGHT_KEY,
+         ROTATION_ANGLE_KEY,
+         PAGE_EDGE_WIDTH_KEY
+     }
 }
