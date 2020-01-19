@@ -76,6 +76,9 @@ public class ScanController {
     @FXML
     private Button editAndExportButton;
 
+    @FXML
+    private Button editAndExportAllButton;
+
     private ScanModule scanModule;
 
     @FXML
@@ -89,6 +92,7 @@ public class ScanController {
         editButton.setOnAction(new EditEventHandler());
         exportButton.setOnAction(new ExportEventHandler());
         editAndExportButton.setOnAction(new EditAndExportEventHandler());
+        editAndExportAllButton.setOnAction(new EditAndExportAllEventHandler());
         refreshInstrumentsButton.setOnAction(new RefreshInstrumentsHandler());
 
         compositionChoiceBox.setItems(FXCollections.observableArrayList(COMPOSITIONS));
@@ -297,6 +301,54 @@ public class ScanController {
                 editButton.setDisable(false);
                 exportButton.setDisable(false);
                 editAndExportButton.setDisable(false);
+            });
+
+            new Thread(export).start();
+        }
+    }
+
+    private class EditAndExportAllEventHandler implements EventHandler<ActionEvent> {
+
+        @Override
+        public void handle(ActionEvent actionEvent) {
+            Task<Void> export = new Task<>() {
+                @Override
+                protected Void call() {
+                    editButton.setDisable(true);
+                    exportButton.setDisable(true);
+                    editAndExportButton.setDisable(true);
+                    editAndExportAllButton.setDisable(true);
+
+                    FlowerdaleConfiguration flowerdaleConfiguration = new FlowerdaleConfiguration();
+                    PdfExporter pdfExporter = new PdfExporter();
+                    Converter converter = new Converter();
+                    Composition composition = compositionChoiceBox.getValue();
+
+                    for (Instrument instrument : editInstrumentChoiceBox.getItems()) {
+                        LOGGER.debug("Process {}", instrument);
+                        converter.process(composition, instrument, flowerdaleConfiguration.getProcessingConfiguration());
+                        pdfExporter.savePdf(composition, instrument, flowerdaleConfiguration.getExportConfiguration());
+                    }
+
+
+                    return null;
+                }
+            };
+
+            export.setOnSucceeded(e -> {
+                LOGGER.info("Successfully saved PDF file");
+                editButton.setDisable(false);
+                exportButton.setDisable(false);
+                editAndExportButton.setDisable(false);
+                editAndExportAllButton.setDisable(false);
+            });
+
+            export.setOnFailed(e -> {
+                LOGGER.error("Failed to save PDF file ({})", e);
+                editButton.setDisable(false);
+                exportButton.setDisable(false);
+                editAndExportButton.setDisable(false);
+                editAndExportAllButton.setDisable(false);
             });
 
             new Thread(export).start();
