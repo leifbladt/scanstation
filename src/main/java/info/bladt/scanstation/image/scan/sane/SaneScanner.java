@@ -16,6 +16,8 @@ public class SaneScanner implements Scanner {
 
     private static final Logger LOGGER = LogManager.getLogger(SaneScanner.class);
 
+    private SaneDevice saneDevice = null;
+
     @Override
     public BufferedImage acquireImage() {
         SaneDevice device = null;
@@ -24,15 +26,8 @@ public class SaneScanner implements Scanner {
             LOGGER.debug("### Connecting to SANE");
             InetAddress address = InetAddress.getByName("scanner.fritz.box");
             SaneSession session = SaneSession.withRemoteSane(address);
+            device = getDevice(session);
 
-            LOGGER.debug("### List devices");
-            List<SaneDevice> devices = session.listDevices();
-            for (SaneDevice d : devices) {
-                LOGGER.debug("{}: {}", d.getVendor(), d.getModel());
-            }
-
-            LOGGER.debug("### Prepare device");
-            device = devices.get(0);
             device.open();
 
             // Set scan options
@@ -55,5 +50,20 @@ public class SaneScanner implements Scanner {
                 }
             }
         }
+    }
+
+    private SaneDevice getDevice(SaneSession session) throws IOException, SaneException {
+
+        if (saneDevice == null) {
+            LOGGER.debug("### List devices");
+            List<SaneDevice> devices = session.listDevices();
+            for (SaneDevice d : devices) {
+                LOGGER.debug("{}: {}", d.getVendor(), d.getModel());
+            }
+
+            saneDevice = devices.get(0);
+        }
+
+        return saneDevice;
     }
 }
