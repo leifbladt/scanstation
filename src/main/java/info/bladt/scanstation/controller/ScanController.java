@@ -69,6 +69,9 @@ public class ScanController {
     @FXML
     private Button exportButton;
 
+    @FXML
+    private Button editAndExportButton;
+
     private ScanModule scanModule;
 
     @FXML
@@ -81,6 +84,7 @@ public class ScanController {
         finishButton.setOnAction(new FinishEventHandler());
         editButton.setOnAction(new EditEventHandler());
         exportButton.setOnAction(new ExportEventHandler());
+        editAndExportButton.setOnAction(new EditAndExportEventHandler());
 
         compositionChoiceBox.setItems(FXCollections.observableArrayList(COMPOSITIONS));
         compositionChoiceBox.setValue(COMPOSITIONS.get(0));
@@ -250,6 +254,44 @@ public class ScanController {
             export.setOnFailed(e -> {
                 LOGGER.error("Failed to save PDF file ({})", e);
                 exportButton.setDisable(false);
+            });
+
+            new Thread(export).start();
+        }
+    }
+
+    private class EditAndExportEventHandler implements EventHandler<ActionEvent> {
+
+        @Override
+        public void handle(ActionEvent actionEvent) {
+            Task<Void> export = new Task<>() {
+                @Override
+                protected Void call() {
+                    editButton.setDisable(true);
+                    exportButton.setDisable(true);
+                    editAndExportButton.setDisable(true);
+
+                    new Converter().process(compositionChoiceBox.getValue(), editInstrumentChoiceBox.getValue(), new FlowerdaleConfiguration().getProcessingConfiguration());
+
+                    PdfExporter pdfExporter = new PdfExporter();
+                    pdfExporter.savePdf(compositionChoiceBox.getValue(), editInstrumentChoiceBox.getValue(), new FlowerdaleConfiguration().getExportConfiguration());
+
+                    return null;
+                }
+            };
+
+            export.setOnSucceeded(e -> {
+                LOGGER.info("Successfully saved PDF file");
+                editButton.setDisable(false);
+                exportButton.setDisable(false);
+                editAndExportButton.setDisable(false);
+            });
+
+            export.setOnFailed(e -> {
+                LOGGER.error("Failed to save PDF file ({})", e);
+                editButton.setDisable(false);
+                exportButton.setDisable(false);
+                editAndExportButton.setDisable(false);
             });
 
             new Thread(export).start();
