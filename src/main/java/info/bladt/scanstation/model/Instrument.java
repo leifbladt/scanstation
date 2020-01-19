@@ -4,6 +4,8 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import static info.bladt.scanstation.model.Key.*;
 
@@ -131,9 +133,15 @@ public class Instrument {
     }
 
     public static Instrument parse(String instrument) {
-        if (instrument.contains("_")) {
-            String[] s = instrument.split("_");
-            return new Instrument(s[0], Key.parse(s[1]));
+
+        if (instrument == null || instrument.isBlank()) {
+            return null;
+        }
+
+        Pattern pattern = Pattern.compile("(.*)_(.*)");
+        Matcher matcher = pattern.matcher(instrument);
+        if (matcher.find()) {
+            return new Instrument(matcher.group(1), Key.parse(matcher.group(2)));
         } else {
             return new Instrument(instrument);
         }
