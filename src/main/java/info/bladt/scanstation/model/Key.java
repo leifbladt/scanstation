@@ -1,5 +1,7 @@
 package info.bladt.scanstation.model;
 
+import java.util.Arrays;
+
 public enum Key {
     C("C"),
     E_FLAT("Eb"),
@@ -8,18 +10,17 @@ public enum Key {
 
     private final String displayName;
 
-    private Key(String displayName) {
+    Key(String displayName) {
         this.displayName = displayName;
     }
 
     public static Key parse(String key) {
-       switch (key) {
-           case "C": return C;
-           case "Eb": return E_FLAT;
-           case "F": return F;
-           case "Bb": return B_FLAT;
-           default: return null;
-       }
+
+        if (key == null || key.isBlank()) {
+            return null;
+        }
+
+        return Arrays.stream(Key.values()).filter(k -> k.displayName.equals(key)).findFirst().orElse(null);
     }
     @Override
     public String toString() {
