@@ -19,7 +19,7 @@ public class TiffReader {
     private TiffReader() {}
 
     public static List<Page> getInputImages(String folder, Composition composition, Instrument instrument) throws IOException {
-        Path inputPath = Path.of(getScanStationDirectory(), folder, composition.getName());
+        Path inputPath = Path.of(getScanStationDirectory(), composition.getName(), folder);
 
         try (Stream<Path> pathStream = Files.find(inputPath, 1,
                 (path, basicFileAttributes) -> path.toFile().getName().matches(instrument.getFilenamePart() + " [0-9][0-9].tif"))) {

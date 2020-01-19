@@ -34,7 +34,7 @@ public class PdfExporter {
 
         try (PDDocument doc = new PDDocument()) {
 
-            Path outputPath = Path.of(getScanStationDirectory(), "Export", composition.getName());
+            Path outputPath = Path.of(getScanStationDirectory(), composition.getName(), "Export");
             Files.createDirectories(outputPath);
             Path outputPath2 = Path.of(outputPath.toString(), instrument.getFilenamePart() + ".pdf");
 

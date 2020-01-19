@@ -24,7 +24,7 @@ public class TiffWriter {
 
     public static void saveImage(BufferedImage image, String folder, int page, Composition composition, Instrument instrument) {
         try {
-            Path path = Path.of(getScanStationDirectory(), folder, composition.getName());
+            Path path = Path.of(getScanStationDirectory(), composition.getName(), folder);
             Files.createDirectories(path);
 
             Path path2 = Path.of(path.toString(), String.format("%s %02d.tif", instrument.getFilenamePart(), page));
