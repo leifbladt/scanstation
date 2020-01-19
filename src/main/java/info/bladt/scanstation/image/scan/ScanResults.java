@@ -15,7 +15,7 @@ public class ScanResults {
 
         try {
             List<TiffReader.Page> inputImages = TiffReader.getInputImages("Scan", composition);
-            return inputImages.stream().map(i -> i.getInstrument()).collect(Collectors.toSet());
+            return inputImages.stream().map(TiffReader.Page::getInstrument).collect(Collectors.toSet());
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
