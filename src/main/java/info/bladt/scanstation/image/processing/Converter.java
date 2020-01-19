@@ -65,17 +65,4 @@ public class Converter {
             LOGGER.error("Error creating TIFF file", e);
         }
     }
-
-    public static class TestConfiguration extends ProcessingConfiguration {
-        public TestConfiguration() {
-            setCrop(true);
-            setRotate(false);
-            setDeskew(true);
-            setRemoveEdges(true);
-
-            setPageHeight(4250);
-            setPageWidth(3140);
-            setPaperEdgeWidth(70);
-        }
-    }
 }

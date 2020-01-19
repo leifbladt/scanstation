@@ -30,7 +30,7 @@ public class PdfExporter {
 
     private final Convert convert = new Convert();
 
-    public void savePdf(Composition composition, Instrument instrument, Configuration configuration) {
+    public void savePdf(Composition composition, Instrument instrument, ExportConfiguration configuration) {
 
         try (PDDocument doc = new PDDocument()) {
 
@@ -40,7 +40,7 @@ public class PdfExporter {
 
             List<TiffReader.Page> inputImages = TiffReader.getInputImages("Work", composition, instrument);
             for (TiffReader.Page inputImage : inputImages) {
-                PDPage page = new PDPage(PDRectangle.A5);
+                PDPage page = new PDPage(PDRectangle.A4);
 //                PDPage page = new PDPage(new PDRectangle(PDRectangle.A5.getHeight(), PDRectangle.A5.getWidth()));
 
                 BufferedImage bufferedImage = ImageIO.read(inputImage.getPath().toFile());
@@ -76,35 +76,5 @@ public class PdfExporter {
     private float calculateScale(PDRectangle mediaBox, PDImageXObject image) {
         float scale = Math.min(mediaBox.getWidth() / image.getWidth(), mediaBox.getHeight() / image.getHeight());
         return Math.min(scale, 1f); // Don't upscale image
-    }
-
-    public static class Configuration {
-
-        private boolean scaleToFit;
-        private float scale;
-
-        public boolean isScaleToFit() {
-            return scaleToFit;
-        }
-
-        public void setScaleToFit(boolean scaleToFit) {
-            this.scaleToFit = scaleToFit;
-        }
-
-        public float getScale() {
-            return scale;
-        }
-
-        public void setScale(float scale) {
-            this.scale = scale;
-        }
-    }
-
-    public static class TestConfiguration extends Configuration {
-
-        private TestConfiguration() {
-            setScaleToFit(false);
-            setScale(72 / 600f);
-        }
     }
 }

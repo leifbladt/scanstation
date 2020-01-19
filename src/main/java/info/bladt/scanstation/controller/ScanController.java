@@ -1,5 +1,6 @@
 package info.bladt.scanstation.controller;
 
+import info.bladt.scanstation.image.FlowerdaleConfiguration;
 import info.bladt.scanstation.image.export.PdfExporter;
 import info.bladt.scanstation.image.processing.Converter;
 import info.bladt.scanstation.image.scan.ScanModule;
@@ -208,7 +209,7 @@ public class ScanController {
                 @Override
                 protected Void call() {
                     editButton.setDisable(true);
-                    new Converter().process(compositionChoiceBox.getValue(), editInstrumentChoiceBox.getValue(), new Converter.TestConfiguration());
+                    new Converter().process(compositionChoiceBox.getValue(), editInstrumentChoiceBox.getValue(), new FlowerdaleConfiguration().getProcessingConfiguration());
                     return null;
                 }
             };
@@ -236,7 +237,7 @@ public class ScanController {
                 protected Void call() {
                     exportButton.setDisable(true);
                     PdfExporter pdfExporter = new PdfExporter();
-                    pdfExporter.savePdf(compositionChoiceBox.getValue(), editInstrumentChoiceBox.getValue(), new PdfExporter.Configuration());
+                    pdfExporter.savePdf(compositionChoiceBox.getValue(), editInstrumentChoiceBox.getValue(), new FlowerdaleConfiguration().getExportConfiguration());
                     return null;
                 }
             };
