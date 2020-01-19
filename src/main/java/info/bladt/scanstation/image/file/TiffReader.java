@@ -18,6 +18,28 @@ public class TiffReader {
 
     private TiffReader() {}
 
+    public static List<Page> getInputImages(String folder, Composition composition) throws IOException {
+        Path inputPath = Path.of(getScanStationDirectory(), composition.getName(), folder);
+
+        try (Stream<Path> pathStream = Files.find(inputPath, 1,
+                (path, basicFileAttributes) -> path.toFile().getName().matches( ".*[0-9][0-9].tif"))) {
+
+            return pathStream
+                    .map(path -> {
+                        Path fileName = path.getFileName();
+                        Pattern pattern = Pattern.compile("(.*) ([0-9][0-9]).tif");
+                        Matcher matcher = pattern.matcher(fileName.toString());
+                        if (matcher.find()) {
+                            Instrument instrument = Instrument.parse(matcher.group(1));
+                            return new Page(instrument, Integer.parseInt(matcher.group(2)), path);
+                        } else {
+                            throw new RuntimeException("Could not extract page number");
+                        }
+                    })
+                    .collect(Collectors.toList());
+        }
+    }
+
     public static List<Page> getInputImages(String folder, Composition composition, Instrument instrument) throws IOException {
         Path inputPath = Path.of(getScanStationDirectory(), composition.getName(), folder);
 
@@ -29,7 +51,7 @@ public class TiffReader {
                         Pattern pattern = Pattern.compile(".*([0-9][0-9]).tif");
                         Matcher matcher = pattern.matcher(path.toString());
                         if (matcher.find()) {
-                            return new Page(Integer.parseInt(matcher.group(1)), path);
+                            return new Page(instrument, Integer.parseInt(matcher.group(1)), path);
                         } else {
                             throw new RuntimeException("Could not extract page number");
                         }
@@ -39,12 +61,18 @@ public class TiffReader {
     }
 
     public static class Page {
+        private final Instrument instrument;
         private final int number;
         private final Path path;
 
-        public Page(int number, Path path) {
+        public Page(Instrument instrument, int number, Path path) {
+            this.instrument = instrument;
             this.number = number;
             this.path = path;
+        }
+
+        public Instrument getInstrument() {
+            return instrument;
         }
 
         public int getNumber() {

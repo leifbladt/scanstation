@@ -114,6 +114,15 @@ public class Instrument {
         }
     }
 
+    public static Instrument parse(String instrument) {
+        if (instrument.contains("_")) {
+            String[] s = instrument.split("_");
+            return new Instrument(s[0], Key.parse(s[1]));
+        } else {
+            return new Instrument(instrument);
+        }
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

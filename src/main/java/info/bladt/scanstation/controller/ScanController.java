@@ -4,6 +4,7 @@ import info.bladt.scanstation.image.FlowerdaleConfiguration;
 import info.bladt.scanstation.image.export.PdfExporter;
 import info.bladt.scanstation.image.processing.Converter;
 import info.bladt.scanstation.image.scan.ScanModule;
+import info.bladt.scanstation.image.scan.ScanResults;
 import info.bladt.scanstation.image.scan.ScannerFactory;
 import info.bladt.scanstation.model.Composition;
 import info.bladt.scanstation.model.Instrument;
@@ -64,6 +65,9 @@ public class ScanController {
     private ChoiceBox<String> scannerChoiceBox;
 
     @FXML
+    private Button refreshInstrumentsButton;
+
+    @FXML
     private ChoiceBox<Instrument> editInstrumentChoiceBox;
 
     @FXML
@@ -85,6 +89,7 @@ public class ScanController {
         editButton.setOnAction(new EditEventHandler());
         exportButton.setOnAction(new ExportEventHandler());
         editAndExportButton.setOnAction(new EditAndExportEventHandler());
+        refreshInstrumentsButton.setOnAction(new RefreshInstrumentsHandler());
 
         compositionChoiceBox.setItems(FXCollections.observableArrayList(COMPOSITIONS));
         compositionChoiceBox.setValue(COMPOSITIONS.get(0));
@@ -295,6 +300,16 @@ public class ScanController {
             });
 
             new Thread(export).start();
+        }
+    }
+
+    private class RefreshInstrumentsHandler implements EventHandler<ActionEvent> {
+
+        @Override
+        public void handle(ActionEvent actionEvent) {
+            ScanResults scanResults = new ScanResults();
+            editInstrumentChoiceBox.setItems(FXCollections.observableArrayList(scanResults.getInstruments(compositionChoiceBox.getValue())));
+            editInstrumentChoiceBox.setValue(editInstrumentChoiceBox.getItems().get(0));
         }
     }
 }
