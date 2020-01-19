@@ -3,6 +3,7 @@ package info.bladt.scanstation.model;
 public enum Key {
     C("C"),
     E_FLAT("Eb"),
+    F("F"),
     B_FLAT("Bb");
 
     private final String displayName;
