@@ -22,7 +22,7 @@ public class Convert {
 
         private final int bufferedImageType;
 
-        private ImageType(int bufferedImageType) {
+        ImageType(int bufferedImageType) {
             this.bufferedImageType = bufferedImageType;
         }
 
