@@ -8,6 +8,9 @@ import java.util.Objects;
 public class Composition {
 
     public static final List<Composition> COMPOSITIONS = Collections.unmodifiableList(Arrays.asList(
+            new Composition("Puttin on the Ritz"),
+            new Composition("Schmelzende Riesen"),
+            new Composition("Titanic"),
             new Composition("March of the Trouts (Forellen-Marsch)"),
             new Composition("Flowerdale"),
             new Composition("Men Of Harlech"),
