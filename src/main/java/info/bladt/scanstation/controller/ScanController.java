@@ -1,6 +1,7 @@
 package info.bladt.scanstation.controller;
 
-import info.bladt.scanstation.image.FlowerdaleConfiguration;
+import info.bladt.scanstation.image.Configuration;
+import info.bladt.scanstation.image.ConfigurationFactory;
 import info.bladt.scanstation.image.export.PdfExporter;
 import info.bladt.scanstation.image.processing.Converter;
 import info.bladt.scanstation.image.scan.ScanModule;
@@ -222,7 +223,8 @@ public class ScanController {
                 @Override
                 protected Void call() {
                     editButton.setDisable(true);
-                    new Converter().process(compositionChoiceBox.getValue(), editInstrumentChoiceBox.getValue(), new FlowerdaleConfiguration().getProcessingConfiguration());
+                    Composition composition = compositionChoiceBox.getValue();
+                    new Converter().process(composition, editInstrumentChoiceBox.getValue(), ConfigurationFactory.getConfiguration(composition).getProcessingConfiguration());
                     return null;
                 }
             };
@@ -250,7 +252,8 @@ public class ScanController {
                 protected Void call() {
                     exportButton.setDisable(true);
                     PdfExporter pdfExporter = new PdfExporter();
-                    pdfExporter.savePdf(compositionChoiceBox.getValue(), editInstrumentChoiceBox.getValue(), new FlowerdaleConfiguration().getExportConfiguration());
+                    Composition composition = compositionChoiceBox.getValue();
+                    pdfExporter.savePdf(composition, editInstrumentChoiceBox.getValue(), ConfigurationFactory.getConfiguration(composition).getExportConfiguration());
                     return null;
                 }
             };
@@ -280,10 +283,13 @@ public class ScanController {
                     exportButton.setDisable(true);
                     editAndExportButton.setDisable(true);
 
-                    new Converter().process(compositionChoiceBox.getValue(), editInstrumentChoiceBox.getValue(), new FlowerdaleConfiguration().getProcessingConfiguration());
+                    Composition composition = compositionChoiceBox.getValue();
+                    Configuration configuration = ConfigurationFactory.getConfiguration(composition);
+
+                    new Converter().process(composition, editInstrumentChoiceBox.getValue(), configuration.getProcessingConfiguration());
 
                     PdfExporter pdfExporter = new PdfExporter();
-                    pdfExporter.savePdf(compositionChoiceBox.getValue(), editInstrumentChoiceBox.getValue(), new FlowerdaleConfiguration().getExportConfiguration());
+                    pdfExporter.savePdf(composition, editInstrumentChoiceBox.getValue(), configuration.getExportConfiguration());
 
                     return null;
                 }
@@ -319,15 +325,15 @@ public class ScanController {
                     editAndExportButton.setDisable(true);
                     editAndExportAllButton.setDisable(true);
 
-                    FlowerdaleConfiguration flowerdaleConfiguration = new FlowerdaleConfiguration();
+                    Composition composition = compositionChoiceBox.getValue();
+                    Configuration configuration = ConfigurationFactory.getConfiguration(composition);
                     PdfExporter pdfExporter = new PdfExporter();
                     Converter converter = new Converter();
-                    Composition composition = compositionChoiceBox.getValue();
 
                     for (Instrument instrument : editInstrumentChoiceBox.getItems()) {
                         LOGGER.debug("Process {}", instrument);
-                        converter.process(composition, instrument, flowerdaleConfiguration.getProcessingConfiguration());
-                        pdfExporter.savePdf(composition, instrument, flowerdaleConfiguration.getExportConfiguration());
+                        converter.process(composition, instrument, configuration.getProcessingConfiguration());
+                        pdfExporter.savePdf(composition, instrument, configuration.getExportConfiguration());
                     }
 
 

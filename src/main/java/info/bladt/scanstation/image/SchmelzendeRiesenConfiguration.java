@@ -4,9 +4,9 @@ import info.bladt.scanstation.image.export.ExportConfiguration;
 import info.bladt.scanstation.image.processing.ProcessingConfiguration;
 import info.bladt.scanstation.image.processing.RemoveEdges;
 
-public class FlowerdaleConfiguration extends Configuration {
+public class SchmelzendeRiesenConfiguration extends Configuration {
 
-    public FlowerdaleConfiguration() {
+    public SchmelzendeRiesenConfiguration() {
         setProcessingConfiguration(new FlowerdaleProcessingConfiguration());
         setExportConfiguration(new FlowerdaleExportConfiguration());
     }

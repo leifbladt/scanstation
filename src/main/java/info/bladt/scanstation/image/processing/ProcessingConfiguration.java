@@ -1,5 +1,6 @@
 package info.bladt.scanstation.image.processing;
 
+import info.bladt.scanstation.image.processing.RemoveEdges.Width;
 import info.bladt.scanstation.model.Instrument;
 
 import java.util.HashMap;
@@ -130,19 +131,19 @@ public class ProcessingConfiguration {
     }
 
 
-    public int getPaperEdgeWidth(Instrument instrument, Integer page) {
-        return getIntegerValue(PAGE_EDGE_WIDTH_KEY, instrument, page);
+    public Width getPaperEdgeWidth(Instrument instrument, Integer page) {
+        return getWidthValue(PAGE_EDGE_WIDTH_KEY, instrument, page);
     }
 
-    public void setPaperEdgeWidth(int paperEdgeWidth) {
+    public void setPaperEdgeWidth(Width paperEdgeWidth) {
         setPaperEdgeWidth(paperEdgeWidth, null, null);
     }
 
-    public void setPaperEdgeWidth(int paperEdgeWidth, Instrument instrument) {
+    public void setPaperEdgeWidth(Width paperEdgeWidth, Instrument instrument) {
         setPaperEdgeWidth(paperEdgeWidth, instrument, null);
     }
 
-    public void setPaperEdgeWidth(int paperEdgeWidth, Instrument instrument, Integer page) {
+    public void setPaperEdgeWidth(Width paperEdgeWidth, Instrument instrument, Integer page) {
         setValue(PAGE_EDGE_WIDTH_KEY, paperEdgeWidth, instrument, page);
     }
 
@@ -163,17 +164,22 @@ public class ProcessingConfiguration {
 
     private Boolean getBooleanValue(Key key, Instrument instrument, Integer page) {
         Object value = getValue(key, instrument, page);
-        return (value != null) ? (Boolean)value : Boolean.FALSE;
+        return (value != null) ? (Boolean) value : Boolean.FALSE;
     }
 
     private Integer getIntegerValue(Key key, Instrument instrument, Integer page) {
         Object value = getValue(key, instrument, page);
-        return (value != null) ? (Integer)value : 0;
+        return (value != null) ? (Integer) value : 0;
     }
 
     private Double getDoubleValue(Key key, Instrument instrument, Integer page) {
         Object value = getValue(key, instrument, page);
-        return (value != null) ? (Double)value : 0d;
+        return (value != null) ? (Double) value : 0d;
+    }
+
+    private Width getWidthValue(Key key, Instrument instrument, Integer page) {
+        Object value = getValue(key, instrument, page);
+        return (value != null) ? (Width) value : null;
     }
 
     private void setValue(Key key, Object value, Instrument instrument, Integer page) {
@@ -223,14 +229,15 @@ public class ProcessingConfiguration {
                     '}';
         }
     }
-     public enum Key {
-         CROP_KEY,
-         ROTATE_KEY,
-         DESKEW_KEY,
-         REMOVE_EDGES_KEY,
-         PAGE_WIDTH_KEY,
-         PAGE_HEIGHT_KEY,
-         ROTATION_ANGLE_KEY,
-         PAGE_EDGE_WIDTH_KEY
-     }
+
+    public enum Key {
+        CROP_KEY,
+        ROTATE_KEY,
+        DESKEW_KEY,
+        REMOVE_EDGES_KEY,
+        PAGE_WIDTH_KEY,
+        PAGE_HEIGHT_KEY,
+        ROTATION_ANGLE_KEY,
+        PAGE_EDGE_WIDTH_KEY
+    }
 }

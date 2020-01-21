@@ -5,7 +5,7 @@ import org.junit.jupiter.api.Test;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 class RemoveEdgesTest {
 
@@ -18,7 +18,8 @@ class RemoveEdgesTest {
         int imageHeight = 500;
         int edgeWidth = 50;
 
-        BufferedImage bufferedImage = removeEdges.process(createImage(imageWidth, imageHeight, 0), edgeWidth);
+        RemoveEdges.Width width = new RemoveEdges.Width(edgeWidth);
+        BufferedImage bufferedImage = removeEdges.process(createImage(imageWidth, imageHeight, 0), width);
 
         BufferedImage subimage1 = bufferedImage.getSubimage(0, 0, imageHeight, edgeWidth);
         BufferedImage subimage2 = bufferedImage.getSubimage(0, imageHeight - edgeWidth, imageWidth, edgeWidth);
@@ -50,7 +51,7 @@ class RemoveEdgesTest {
             return false;
         }
 
-        int width  = imgA.getWidth();
+        int width = imgA.getWidth();
         int height = imgA.getHeight();
 
         // Loop over every pixel.
