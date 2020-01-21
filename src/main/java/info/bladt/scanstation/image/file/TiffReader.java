@@ -40,7 +40,7 @@ public class TiffReader {
                                 Instrument i = Instrument.parse(matcher.group(1));
                                 return new Page(i, Integer.parseInt(matcher.group(2)), path);
                             } else {
-                                throw new RuntimeException("Could not extract page number");
+                                throw new RuntimeException("Could not extract page number (" +  fileName + ")");
                             }
                     })
                     .collect(Collectors.toList());
