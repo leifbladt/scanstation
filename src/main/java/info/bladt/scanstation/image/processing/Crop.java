@@ -7,10 +7,7 @@ public class Crop {
 
     public BufferedImage process(BufferedImage input, Rectangle rectangle) {
 
-//        BufferedImage cropped = input.getSubimage(0, 0, input.getWidth(), input.getHeight()); //fill in the corners of the desired crop location here
-//        BufferedImage cropped = input.getSubimage(0, 0, 3970, 3400); //fill in the corners of the desired crop location here
-//        BufferedImage cropped = input.getSubimage(0, 0, 3140, 4250); //fill in the corners of the desired crop location here
-        BufferedImage cropped = input.getSubimage(0, 0, rectangle.getWidth(), rectangle.getHeight()); //fill in the corners of the desired crop location here
+        BufferedImage cropped = input.getSubimage(rectangle.getX(), rectangle.getY(), rectangle.getWidth(), rectangle.getHeight());
 
         BufferedImage copyOfImage = new BufferedImage(cropped.getWidth(), cropped.getHeight(), input.getType());
         Graphics g = copyOfImage.createGraphics();
@@ -21,12 +18,28 @@ public class Crop {
     }
 
     public static class Rectangle {
+        private final int x;
+        private final int y;
         private final int height;
         private final int width;
 
         public Rectangle(int height, int width) {
+            this(0, 0, height, width);
+        }
+
+        public Rectangle(int x, int y, int height, int width) {
+            this.x = x;
+            this.y = y;
             this.height = height;
             this.width = width;
+        }
+
+        public int getX() {
+            return x;
+        }
+
+        public int getY() {
+            return y;
         }
 
         public int getWidth() {
