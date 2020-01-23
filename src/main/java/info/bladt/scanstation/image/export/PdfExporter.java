@@ -79,6 +79,7 @@ public class PdfExporter {
         switch (pageSize) {
             case DIN_A5:
                 rectangle = PDRectangle.A5;
+                break;
             case DIN_A4:
             default:
                 rectangle = PDRectangle.A4;
