@@ -40,8 +40,7 @@ public class PdfExporter {
 
             List<TiffReader.Page> inputImages = TiffReader.getInputImages("Work", composition, instrument);
             for (TiffReader.Page inputImage : inputImages) {
-                PDPage page = new PDPage(PDRectangle.A4);
-//                PDPage page = new PDPage(new PDRectangle(PDRectangle.A5.getHeight(), PDRectangle.A5.getWidth()));
+                PDPage page = new PDPage(convert(configuration.getPageSize(instrument), configuration.getPageOrientation(instrument)));
 
                 BufferedImage bufferedImage = ImageIO.read(inputImage.getPath().toFile());
                 BufferedImage binaryImage = convert.process(bufferedImage, ImageType.BINARY);
@@ -52,10 +51,10 @@ public class PdfExporter {
 
                     float scale;
 
-                    if (configuration.isScaleToFit()) {
+                    if (configuration.isScaleToFit(instrument)) {
                         scale = calculateScale(mediaBox, image);
                     } else {
-                        scale = configuration.getScale();
+                        scale = configuration.getScale(instrument);
                     }
                     float newWidth = image.getWidth() * scale;
                     float newHeight = image.getHeight() * scale;
@@ -71,6 +70,25 @@ public class PdfExporter {
         } catch (IOException e) {
             LOGGER.error("Error creating PDF file", e);
         }
+    }
+
+    private PDRectangle convert(ExportConfiguration.PageSize pageSize, ExportConfiguration.PageOrientation pageOrientation) {
+
+        PDRectangle rectangle;
+
+        switch (pageSize) {
+            case DIN_A5:
+                rectangle = PDRectangle.A5;
+            case DIN_A4:
+            default:
+                rectangle = PDRectangle.A4;
+        }
+
+        if (pageOrientation == ExportConfiguration.PageOrientation.LANDSCAPE) {
+            rectangle = new PDRectangle(rectangle.getHeight(), rectangle.getWidth());
+        }
+
+        return rectangle;
     }
 
     private float calculateScale(PDRectangle mediaBox, PDImageXObject image) {
