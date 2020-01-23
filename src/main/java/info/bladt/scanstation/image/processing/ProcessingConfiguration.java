@@ -126,8 +126,10 @@ public class ProcessingConfiguration {
         setRotationAngle(rotationAngle, instrument, null);
     }
 
-    public void setRotationAngle(double rotationAngle, Instrument instrument, Integer page) {
-        setValue(ROTATION_ANGLE_KEY, rotationAngle, instrument, page);
+    public void setRotationAngle(double rotationAngle, Instrument instrument, Integer... pages) {
+        for (Integer page : pages) {
+            setValue(ROTATION_ANGLE_KEY, rotationAngle, instrument, page);
+        }
     }
 
 
