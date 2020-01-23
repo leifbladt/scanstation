@@ -26,19 +26,22 @@ public class PuttingOnTheRitzConfiguration extends Configuration {
             setPageWidth(4800);
             setPaperEdgeWidth(new RemoveEdges.Width(20, 70, 70, 70));
 
-            setPageHeight(6082, new Instrument("1st Bass", E_FLAT));
-            setPageWidth(4292, new Instrument("1st Bass", E_FLAT));
-            setPaperEdgeWidth(new RemoveEdges.Width(70, 70, 70, 70), new Instrument("1st Bass", E_FLAT));
+            Instrument firstBass = new Instrument("1st Bass", E_FLAT);
+            setPageHeight(6082, firstBass);
+            setPageWidth(4292, firstBass);
+            setPaperEdgeWidth(new RemoveEdges.Width(70, 70, 70, 70), firstBass);
 
-            setPageHeight(6082, new Instrument("2nd Bass", B_FLAT));
-            setPageWidth(4292, new Instrument("2nd Bass", B_FLAT));
-            setPaperEdgeWidth(new RemoveEdges.Width(70, 70, 70, 70), new Instrument("2nd Bass", B_FLAT));
+            Instrument secondBass = new Instrument("2nd Bass", B_FLAT);
+            setPageHeight(6082, secondBass);
+            setPageWidth(4292, secondBass);
+            setPaperEdgeWidth(new RemoveEdges.Width(70, 70, 70, 70), secondBass);
 
-            setRotate(new Instrument("Score"), true);
-            setCrop(new Instrument("Score"), false);
-            setPaperEdgeWidth(new RemoveEdges.Width(75, 250, 75, 75), new Instrument("Score"));
-            setRotationAngle(-90, new Instrument("Score"), 1, 3, 5, 7, 9, 11, 13, 15);
-            setRotationAngle(90, new Instrument("Score"), 2, 4, 6, 8, 10, 12, 14, 16);
+            Instrument score = new Instrument("Score");
+            setRotate(score, true);
+            setCrop(score, false);
+            setPaperEdgeWidth(new RemoveEdges.Width(75, 250, 75, 75), score);
+            setRotationAngle(-90, score, 1, 3, 5, 7, 9, 11, 13, 15);
+            setRotationAngle(90, score, 2, 4, 6, 8, 10, 12, 14, 16);
 
         }
 
