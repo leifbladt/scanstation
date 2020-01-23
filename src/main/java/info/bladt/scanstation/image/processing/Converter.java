@@ -47,16 +47,16 @@ public class Converter {
                     bufferedImage = crop.process(bufferedImage, new Rectangle(configuration.getPageHeight(instrument, pageNumber), configuration.getPageWidth(instrument, pageNumber)));
                 }
 
+                if (configuration.isRemoveEdges(instrument, pageNumber)) {
+                    bufferedImage = removeEdges.process(bufferedImage, configuration.getPaperEdgeWidth(instrument, pageNumber));
+                }
+
                 if (configuration.isRotate(instrument, pageNumber)) {
                     bufferedImage = rotate.process(bufferedImage, configuration.getRotationAngle(instrument, pageNumber), false);
                 }
 
                 if (configuration.isDeskew(instrument, pageNumber)) {
                     bufferedImage = deskew.process(bufferedImage);
-                }
-
-                if (configuration.isRemoveEdges(instrument, pageNumber)) {
-                    bufferedImage = removeEdges.process(bufferedImage, configuration.getPaperEdgeWidth(instrument, pageNumber));
                 }
 
                 TiffWriter.saveImage(bufferedImage, "Work", pageNumber, composition, instrument);
