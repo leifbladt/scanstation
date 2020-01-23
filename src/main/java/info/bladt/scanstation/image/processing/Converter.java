@@ -48,7 +48,7 @@ public class Converter {
                 }
 
                 if (configuration.isRotate(instrument, pageNumber)) {
-                    bufferedImage = rotate.process(bufferedImage, configuration.getRotationAngle(instrument, pageNumber));
+                    bufferedImage = rotate.process(bufferedImage, configuration.getRotationAngle(instrument, pageNumber), false);
                 }
 
                 if (configuration.isDeskew(instrument, pageNumber)) {

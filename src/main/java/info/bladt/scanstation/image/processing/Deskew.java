@@ -18,7 +18,7 @@ public class Deskew {
     public BufferedImage process(BufferedImage input) {
         double skewRadians = findSkew(convert.process(input, ImageType.BINARY));
 
-        return rotate.process(input, Math.toDegrees(skewRadians));
+        return rotate.process(input, Math.toDegrees(skewRadians), true);
     }
 
     static int getByteWidth(final int width) {

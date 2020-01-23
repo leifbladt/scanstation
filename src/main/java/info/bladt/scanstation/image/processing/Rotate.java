@@ -5,7 +5,13 @@ import java.awt.image.BufferedImage;
 
 public class Rotate {
 
-    public BufferedImage process(BufferedImage input, double angle) {
+    private final  Crop crop;
+
+    public Rotate() {
+        crop = new Crop();
+    }
+
+    public BufferedImage process(BufferedImage input, double angle, boolean retainDimensions) {
 
         double sin = Math.abs(Math.sin(Math.toRadians(angle)));
         double cos = Math.abs(Math.cos(Math.toRadians(angle)));
@@ -25,6 +31,10 @@ public class Rotate {
         g.rotate(Math.toRadians(angle), w / 2, h / 2);
         g.drawRenderedImage(input, null);
         g.dispose();
+
+        if (retainDimensions) {
+            rotated = crop.process(rotated, new Crop.Rectangle(h, w));
+        }
 
         return rotated;
     }
