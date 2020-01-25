@@ -8,6 +8,7 @@ import info.bladt.scanstation.image.scan.ScanModule;
 import info.bladt.scanstation.image.scan.ScanResults;
 import info.bladt.scanstation.image.scan.ScannerFactory;
 import info.bladt.scanstation.model.Composition;
+import info.bladt.scanstation.model.CompositionModule;
 import info.bladt.scanstation.model.Instrument;
 import javafx.collections.FXCollections;
 import javafx.concurrent.Task;
@@ -24,7 +25,8 @@ import javafx.scene.layout.HBox;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import static info.bladt.scanstation.model.Composition.COMPOSITIONS;
+import java.util.List;
+
 import static info.bladt.scanstation.model.Instrument.INSTRUMENTS;
 
 
@@ -82,9 +84,12 @@ public class ScanController {
 
     private ScanModule scanModule;
 
+    private CompositionModule compositionModule;
+
     @FXML
     private void initialize() {
         scanModule = new ScanModule();
+        compositionModule = new CompositionModule();
 
         scanButton.setOnAction(new ScanEventHandler());
         nextPageButton.setOnAction(new NextPageEventHandler());
@@ -96,8 +101,9 @@ public class ScanController {
         editAndExportAllButton.setOnAction(new EditAndExportAllEventHandler());
         refreshInstrumentsButton.setOnAction(new RefreshInstrumentsHandler());
 
-        compositionChoiceBox.setItems(FXCollections.observableArrayList(COMPOSITIONS));
-        compositionChoiceBox.setValue(COMPOSITIONS.get(0));
+        List<Composition> compositions = compositionModule.getCompositions();
+        compositionChoiceBox.setItems(FXCollections.observableArrayList(compositions));
+        compositionChoiceBox.setValue(compositions.get(0));
 
         scanInstrumentChoiceBox.setItems(FXCollections.observableArrayList(INSTRUMENTS));
         scanInstrumentChoiceBox.setValue(INSTRUMENTS.get(0));
