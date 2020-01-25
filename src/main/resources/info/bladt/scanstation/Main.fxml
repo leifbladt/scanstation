@@ -9,7 +9,7 @@
       <ToolBar prefHeight="40.0" prefWidth="200.0">
         <items>
                           <Label text="Composition" />
-                          <ChoiceBox fx:id="compositionChoiceBox" prefWidth="150.0" />
+                          <ChoiceBox fx:id="compositionChoiceBox" prefWidth="300.0" />
         </items>
       </ToolBar>
         <SplitPane dividerPositions="0.17370892018779344" prefHeight="885.0" prefWidth="1280.0">
