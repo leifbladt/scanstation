@@ -34,7 +34,7 @@ public class VesuviusConfiguration extends Configuration {
             setPageSize(PageSize.DIN_A4);
             setPageOrientation(PageOrientation.PORTRAIT);
             setScaleToFit(false);
-            setScale(72 / 600f * 1.05f);
+            setScale(72 / 600f * 1.08f);
         }
     }
 }

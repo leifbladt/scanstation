@@ -22,8 +22,10 @@ public class ConfigurationFactory {
             case "Buster Strikes Back":
                 return new BusterStrikesBackConfiguration();
             case "Vesuvius":
-            default:
                 return new VesuviusConfiguration();
+            case "Sounds of Sousa":
+            default:
+                return new SoundsOfSousaConfiguration();
         }
     }
 }

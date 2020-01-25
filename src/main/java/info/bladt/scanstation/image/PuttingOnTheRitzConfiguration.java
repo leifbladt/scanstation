@@ -21,6 +21,7 @@ public class PuttingOnTheRitzConfiguration extends Configuration {
             setRotate(false);
             setDeskew(true);
             setRemoveEdges(true);
+            setAdjustContrast(true);
 
             setPageHeight(6700);
             setPageWidth(4800);
