@@ -16,8 +16,14 @@ public class ConfigurationFactory {
             case "Titanic":
                 return new TitanicConfiguration();
             case "Flowerdale":
-            default:
                 return new FlowerdaleConfiguration();
+            case "Abide With Me":
+                return new AbideWithMeConfiguration();
+            case "Buster Strikes Back":
+                return new BusterStrikesBackConfiguration();
+            case "Vesuvius":
+            default:
+                return new VesuviusConfiguration();
         }
     }
 }
