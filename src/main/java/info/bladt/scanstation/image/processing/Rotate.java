@@ -28,7 +28,7 @@ public class Rotate {
         g.fillRect(0, 0, newW, newH);
 
         g.translate((newW - w) / 2, (newH - h) / 2);
-        g.rotate(Math.toRadians(angle), w / 2, h / 2);
+        g.rotate(Math.toRadians(angle), w / 2d, h / 2d);
         g.drawRenderedImage(input, null);
         g.dispose();
 
