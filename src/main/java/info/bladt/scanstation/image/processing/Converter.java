@@ -24,6 +24,7 @@ public class Converter {
     private final Deskew deskew;
     private final RemoveEdges removeEdges;
     private final Rotate rotate;
+    private final Contrast contrast;
 
     public Converter() {
         convert = new Convert();
@@ -31,6 +32,7 @@ public class Converter {
         deskew = new Deskew();
         removeEdges = new RemoveEdges();
         rotate = new Rotate();
+        contrast = new Contrast();
     }
 
     public void process(Composition composition, Instrument instrument, ProcessingConfiguration configuration) {
@@ -53,6 +55,10 @@ public class Converter {
 
                 if (configuration.isRotate(instrument, pageNumber)) {
                     bufferedImage = rotate.process(bufferedImage, configuration.getRotationAngle(instrument, pageNumber), false);
+                }
+
+                if (configuration.isAdjustContrast(instrument, pageNumber)) {
+                    bufferedImage = contrast.process(bufferedImage);
                 }
 
                 if (configuration.isDeskew(instrument, pageNumber)) {

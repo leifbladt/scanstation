@@ -79,6 +79,22 @@ public class ProcessingConfiguration {
         setValue(REMOVE_EDGES_KEY, removeEdges, instrument, page);
     }
 
+    public boolean isAdjustContrast(Instrument instrument, Integer page) {
+        return getBooleanValue(ADJUST_CONTRAST_KEY, instrument, page);
+    }
+
+    public void setAdjustContrast(boolean adjustContrast) {
+        setAdjustContrast(adjustContrast, null, null);
+    }
+
+    public void setAdjustContrast(boolean adjustContrast, Instrument instrument) {
+        setAdjustContrast(adjustContrast, instrument, null);
+    }
+
+    public void setAdjustContrast(boolean adjustContrast, Instrument instrument, Integer page) {
+        setValue(ADJUST_CONTRAST_KEY, adjustContrast, instrument, page);
+    }
+
 
     public int getPageWidth(Instrument instrument, Integer page) {
         return getIntegerValue(PAGE_WIDTH_KEY, instrument, page);
@@ -101,6 +117,7 @@ public class ProcessingConfiguration {
         return getIntegerValue(PAGE_HEIGHT_KEY, instrument, page);
     }
 
+    // TODO Rename to imageHeight
     public void setPageHeight(int pageHeight) {
         setPageHeight(pageHeight, null, null);
     }
@@ -242,6 +259,7 @@ public class ProcessingConfiguration {
         ROTATE_KEY,
         DESKEW_KEY,
         REMOVE_EDGES_KEY,
+        ADJUST_CONTRAST_KEY,
         PAGE_WIDTH_KEY,
         PAGE_HEIGHT_KEY,
         ROTATION_ANGLE_KEY,
