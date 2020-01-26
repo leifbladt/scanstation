@@ -84,12 +84,11 @@ public class ScanController {
 
     private ScanModule scanModule;
 
-    private CompositionModule compositionModule;
-
     @FXML
     private void initialize() {
+        CompositionModule compositionModule = new CompositionModule();
+
         scanModule = new ScanModule();
-        compositionModule = new CompositionModule();
 
         scanButton.setOnAction(new ScanEventHandler());
         nextPageButton.setOnAction(new NextPageEventHandler());
