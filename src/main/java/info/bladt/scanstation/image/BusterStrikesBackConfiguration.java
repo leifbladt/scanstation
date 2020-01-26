@@ -22,8 +22,8 @@ public class BusterStrikesBackConfiguration extends Configuration {
             setRemoveEdges(true);
             setAdjustContrast(true);
 
-            setPageHeight(6760);
-            setPageWidth(4750);
+            setImageHeight(6760);
+            setImageWidth(4750);
             setPaperEdgeWidth(new RemoveEdges.Width(70));
 
             Instrument firstBass = new Instrument("1st Bass", C);

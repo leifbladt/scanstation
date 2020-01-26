@@ -23,18 +23,18 @@ public class PuttingOnTheRitzConfiguration extends Configuration {
             setRemoveEdges(true);
             setAdjustContrast(true);
 
-            setPageHeight(6700);
-            setPageWidth(4800);
+            setImageHeight(6700);
+            setImageWidth(4800);
             setPaperEdgeWidth(new RemoveEdges.Width(20, 70, 70, 70));
 
             Instrument firstBass = new Instrument("1st Bass", E_FLAT);
-            setPageHeight(6082, firstBass);
-            setPageWidth(4292, firstBass);
+            setImageHeight(6082, firstBass);
+            setImageWidth(4292, firstBass);
             setPaperEdgeWidth(new RemoveEdges.Width(70, 70, 70, 70), firstBass);
 
             Instrument secondBass = new Instrument("2nd Bass", B_FLAT);
-            setPageHeight(6082, secondBass);
-            setPageWidth(4292, secondBass);
+            setImageHeight(6082, secondBass);
+            setImageWidth(4292, secondBass);
             setPaperEdgeWidth(new RemoveEdges.Width(70, 70, 70, 70), secondBass);
 
             Instrument score = new Instrument("Score");

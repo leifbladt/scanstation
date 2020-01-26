@@ -19,8 +19,8 @@ public class VesuviusConfiguration extends Configuration {
             setRemoveEdges(true);
             setAdjustContrast(true);
 
-            setPageHeight(6372);
-            setPageWidth(4344);
+            setImageHeight(6372);
+            setImageWidth(4344);
             setPaperEdgeWidth(new RemoveEdges.Width(70));
         }
 

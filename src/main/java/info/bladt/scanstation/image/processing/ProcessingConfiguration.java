@@ -130,38 +130,37 @@ public class ProcessingConfiguration {
     }
 
 
-    public int getPageWidth(Instrument instrument, Integer page) {
-        return getIntegerValue(PAGE_WIDTH_KEY, instrument, page);
+    public int getImageWidth(Instrument instrument, Integer page) {
+        return getIntegerValue(IMAGE_WIDTH_KEY, instrument, page);
     }
 
-    public void setPageWidth(int pageWidth) {
-        setPageWidth(pageWidth, null, null);
+    public void setImageWidth(int pageWidth) {
+        setImageWidth(pageWidth, null, null);
     }
 
-    public void setPageWidth(int pageWidth, Instrument instrument) {
-        setPageWidth(pageWidth, instrument, null);
+    public void setImageWidth(int pageWidth, Instrument instrument) {
+        setImageWidth(pageWidth, instrument, null);
     }
 
-    public void setPageWidth(int pageWidth, Instrument instrument, Integer page) {
-        setValue(PAGE_WIDTH_KEY, pageWidth, instrument, page);
+    public void setImageWidth(int pageWidth, Instrument instrument, Integer page) {
+        setValue(IMAGE_WIDTH_KEY, pageWidth, instrument, page);
     }
 
 
-    public int getPageHeight(Instrument instrument, Integer page) {
-        return getIntegerValue(PAGE_HEIGHT_KEY, instrument, page);
+    public int getImageHeight(Instrument instrument, Integer page) {
+        return getIntegerValue(IMAGE_HEIGHT_KEY, instrument, page);
     }
 
-    // TODO Rename to imageHeight
-    public void setPageHeight(int pageHeight) {
-        setPageHeight(pageHeight, null, null);
+    public void setImageHeight(int pageHeight) {
+        setImageHeight(pageHeight, null, null);
     }
 
-    public void setPageHeight(int pageHeight, Instrument instrument) {
-        setPageHeight(pageHeight, instrument, null);
+    public void setImageHeight(int pageHeight, Instrument instrument) {
+        setImageHeight(pageHeight, instrument, null);
     }
 
-    public void setPageHeight(int pageHeight, Instrument instrument, Integer page) {
-        setValue(PAGE_HEIGHT_KEY, pageHeight, instrument, page);
+    public void setImageHeight(int pageHeight, Instrument instrument, Integer page) {
+        setValue(IMAGE_HEIGHT_KEY, pageHeight, instrument, page);
     }
 
 
@@ -294,8 +293,8 @@ public class ProcessingConfiguration {
         DESKEW_KEY,
         REMOVE_EDGES_KEY,
         ADJUST_CONTRAST_KEY,
-        PAGE_WIDTH_KEY,
-        PAGE_HEIGHT_KEY,
+        IMAGE_WIDTH_KEY,
+        IMAGE_HEIGHT_KEY,
         IMAGE_X_KEY,
         IMAGE_Y_KEY,
         ROTATION_ANGLE_KEY,

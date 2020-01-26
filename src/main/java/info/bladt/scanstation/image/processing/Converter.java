@@ -49,8 +49,8 @@ public class Converter {
                     bufferedImage = crop.process(bufferedImage, new Rectangle(
                             configuration.getImageX(instrument, pageNumber),
                             configuration.getImageY(instrument, pageNumber),
-                            configuration.getPageHeight(instrument, pageNumber),
-                            configuration.getPageWidth(instrument, pageNumber)));
+                            configuration.getImageHeight(instrument, pageNumber),
+                            configuration.getImageWidth(instrument, pageNumber)));
                 }
 
                 if (configuration.isRemoveEdges(instrument, pageNumber)) {

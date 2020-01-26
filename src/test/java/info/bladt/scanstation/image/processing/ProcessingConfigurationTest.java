@@ -158,26 +158,26 @@ class ProcessingConfigurationTest {
 
     @Test
     public void getPageHeight_NotSet() {
-        int rotationAngle = configuration.getPageHeight(INSTRUMENT, null);
+        int rotationAngle = configuration.getImageHeight(INSTRUMENT, null);
 
         assertEquals(0, rotationAngle);
     }
 
     @Test
     public void getPageHeight_InstrumentSet() {
-        configuration.setPageHeight(297);
-        configuration.setPageHeight(210, INSTRUMENT);
+        configuration.setImageHeight(297);
+        configuration.setImageHeight(210, INSTRUMENT);
 
-        int rotationAngle = configuration.getPageHeight(INSTRUMENT, null);
+        int rotationAngle = configuration.getImageHeight(INSTRUMENT, null);
 
         assertEquals(210, rotationAngle);
     }
 
     @Test
     public void getPageHeight_InstrumentNotSet() {
-        configuration.setPageHeight(297);
+        configuration.setImageHeight(297);
 
-        int rotationAngle = configuration.getPageHeight(INSTRUMENT, null);
+        int rotationAngle = configuration.getImageHeight(INSTRUMENT, null);
 
         assertEquals(297, rotationAngle);
     }

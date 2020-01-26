@@ -22,8 +22,8 @@ public class SoundsOfSousaConfiguration extends Configuration {
             setRemoveEdges(true);
             setAdjustContrast(true);
 
-            setPageHeight(6052);
-            setPageWidth(4272);
+            setImageHeight(6052);
+            setImageWidth(4272);
             setPaperEdgeWidth(new RemoveEdges.Width(70));
 
             Instrument firstBass = new Instrument("1st Bass", C);
