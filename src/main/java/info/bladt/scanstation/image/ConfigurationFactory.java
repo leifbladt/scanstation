@@ -24,8 +24,9 @@ public class ConfigurationFactory {
             case "Vesuvius":
                 return new VesuviusConfiguration();
             case "Sounds of Sousa":
-            default:
                 return new SoundsOfSousaConfiguration();
+            default:
+                return new DefaultConfiguration();
         }
     }
 }
