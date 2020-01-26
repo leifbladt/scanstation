@@ -62,6 +62,9 @@ public class ScanController {
     private ChoiceBox<Composition> compositionChoiceBox;
 
     @FXML
+    private Button refreshCompositionButton;
+
+    @FXML
     private ChoiceBox<Instrument> scanInstrumentChoiceBox;
 
     @FXML
@@ -84,11 +87,13 @@ public class ScanController {
 
     private ScanModule scanModule;
 
+    private CompositionModule compositionModule;
+
     @FXML
     private void initialize() {
-        CompositionModule compositionModule = new CompositionModule();
 
         scanModule = new ScanModule();
+        compositionModule = new CompositionModule();
 
         scanButton.setOnAction(new ScanEventHandler());
         nextPageButton.setOnAction(new NextPageEventHandler());
@@ -98,6 +103,7 @@ public class ScanController {
         exportButton.setOnAction(new ExportEventHandler());
         editAndExportButton.setOnAction(new EditAndExportEventHandler());
         editAndExportAllButton.setOnAction(new EditAndExportAllEventHandler());
+        refreshCompositionButton.setOnAction(new RefreshCompositionHandler());
         refreshInstrumentsButton.setOnAction(new RefreshInstrumentsHandler());
 
         List<Composition> compositions = compositionModule.getCompositions();
@@ -373,6 +379,18 @@ public class ScanController {
             ScanResults scanResults = new ScanResults();
             editInstrumentChoiceBox.setItems(FXCollections.observableArrayList(scanResults.getInstruments(compositionChoiceBox.getValue())));
             editInstrumentChoiceBox.setValue(editInstrumentChoiceBox.getItems().get(0));
+        }
+    }
+
+    private class RefreshCompositionHandler implements EventHandler<ActionEvent> {
+
+        @Override
+        public void handle(ActionEvent actionEvent) {
+            LOGGER.debug("Refresh compositions");
+            Composition value = compositionChoiceBox.getValue();
+            List<Composition> compositions = compositionModule.getCompositions();
+            compositionChoiceBox.setItems(FXCollections.observableArrayList(compositions));
+            compositionChoiceBox.setValue(value);
         }
     }
 }
