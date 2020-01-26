@@ -96,6 +96,40 @@ public class ProcessingConfiguration {
     }
 
 
+    public int getImageX(Instrument instrument, Integer page) {
+        return getIntegerValue(IMAGE_X_KEY, instrument, page);
+    }
+
+    public void setImageX(int pageWidth) {
+        setImageX(pageWidth, null, null);
+    }
+
+    public void setImageX(int pageWidth, Instrument instrument) {
+        setImageX(pageWidth, instrument, null);
+    }
+
+    public void setImageX(int pageWidth, Instrument instrument, Integer page) {
+        setValue(IMAGE_X_KEY, pageWidth, instrument, page);
+    }
+
+
+    public int getImageY(Instrument instrument, Integer page) {
+        return getIntegerValue(IMAGE_Y_KEY, instrument, page);
+    }
+
+    public void setImageY(int pageWidth) {
+        setImageY(pageWidth, null, null);
+    }
+
+    public void setImageY(int pageWidth, Instrument instrument) {
+        setImageY(pageWidth, instrument, null);
+    }
+
+    public void setImageY(int pageWidth, Instrument instrument, Integer page) {
+        setValue(IMAGE_Y_KEY, pageWidth, instrument, page);
+    }
+
+
     public int getPageWidth(Instrument instrument, Integer page) {
         return getIntegerValue(PAGE_WIDTH_KEY, instrument, page);
     }
@@ -262,6 +296,8 @@ public class ProcessingConfiguration {
         ADJUST_CONTRAST_KEY,
         PAGE_WIDTH_KEY,
         PAGE_HEIGHT_KEY,
+        IMAGE_X_KEY,
+        IMAGE_Y_KEY,
         ROTATION_ANGLE_KEY,
         PAGE_EDGE_WIDTH_KEY
     }

@@ -46,7 +46,11 @@ public class Converter {
                 bufferedImage = convert.process(bufferedImage, ImageType.GRAY);
 
                 if (configuration.isCrop(instrument, pageNumber)) {
-                    bufferedImage = crop.process(bufferedImage, new Rectangle(configuration.getPageHeight(instrument, pageNumber), configuration.getPageWidth(instrument, pageNumber)));
+                    bufferedImage = crop.process(bufferedImage, new Rectangle(
+                            configuration.getImageX(instrument, pageNumber),
+                            configuration.getImageY(instrument, pageNumber),
+                            configuration.getPageHeight(instrument, pageNumber),
+                            configuration.getPageWidth(instrument, pageNumber)));
                 }
 
                 if (configuration.isRemoveEdges(instrument, pageNumber)) {
