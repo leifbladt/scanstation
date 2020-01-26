@@ -7,12 +7,12 @@ import info.bladt.scanstation.image.processing.RemoveEdges;
 public class TitanicConfiguration extends Configuration {
 
     public TitanicConfiguration() {
-        setProcessingConfiguration(new FlowerdaleProcessingConfiguration());
-        setExportConfiguration(new FlowerdaleExportConfiguration());
+        setProcessingConfiguration(new TitanicProcessingConfiguration());
+        setExportConfiguration(new TitanicExportConfiguration());
     }
 
-    public static class FlowerdaleProcessingConfiguration extends ProcessingConfiguration {
-        public FlowerdaleProcessingConfiguration() {
+    public static class TitanicProcessingConfiguration extends ProcessingConfiguration {
+        public TitanicProcessingConfiguration() {
             setCrop(false);
             setRotate(false);
             setDeskew(true);
@@ -23,8 +23,8 @@ public class TitanicConfiguration extends Configuration {
 
     }
 
-    public static class FlowerdaleExportConfiguration extends ExportConfiguration {
-        private FlowerdaleExportConfiguration() {
+    public static class TitanicExportConfiguration extends ExportConfiguration {
+        private TitanicExportConfiguration() {
             setScaleToFit(false);
             setScale(72 / 300f * 0.9f);
         }

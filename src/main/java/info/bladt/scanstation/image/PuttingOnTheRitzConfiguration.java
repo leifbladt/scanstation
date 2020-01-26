@@ -11,12 +11,12 @@ import static info.bladt.scanstation.model.Key.E_FLAT;
 public class PuttingOnTheRitzConfiguration extends Configuration {
 
     public PuttingOnTheRitzConfiguration() {
-        setProcessingConfiguration(new FlowerdaleProcessingConfiguration());
-        setExportConfiguration(new FlowerdaleExportConfiguration());
+        setProcessingConfiguration(new PuttingOnTheRitzProcessingConfiguration());
+        setExportConfiguration(new PuttingOnTheRitzExportConfiguration());
     }
 
-    public static class FlowerdaleProcessingConfiguration extends ProcessingConfiguration {
-        public FlowerdaleProcessingConfiguration() {
+    public static class PuttingOnTheRitzProcessingConfiguration extends ProcessingConfiguration {
+        public PuttingOnTheRitzProcessingConfiguration() {
             setCrop(true);
             setRotate(false);
             setDeskew(true);
@@ -48,8 +48,8 @@ public class PuttingOnTheRitzConfiguration extends Configuration {
 
     }
 
-    public static class FlowerdaleExportConfiguration extends ExportConfiguration {
-        private FlowerdaleExportConfiguration() {
+    public static class PuttingOnTheRitzExportConfiguration extends ExportConfiguration {
+        private PuttingOnTheRitzExportConfiguration() {
             setPageSize(PageSize.DIN_A4);
             setPageOrientation(PageOrientation.PORTRAIT);
             setScaleToFit(false);

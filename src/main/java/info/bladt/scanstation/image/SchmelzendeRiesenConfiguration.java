@@ -7,12 +7,12 @@ import info.bladt.scanstation.image.processing.RemoveEdges;
 public class SchmelzendeRiesenConfiguration extends Configuration {
 
     public SchmelzendeRiesenConfiguration() {
-        setProcessingConfiguration(new FlowerdaleProcessingConfiguration());
-        setExportConfiguration(new FlowerdaleExportConfiguration());
+        setProcessingConfiguration(new SchmelzendeRiesenProcessingConfiguration());
+        setExportConfiguration(new SchmelzendeRiesenExportConfiguration());
     }
 
-    public static class FlowerdaleProcessingConfiguration extends ProcessingConfiguration {
-        public FlowerdaleProcessingConfiguration() {
+    public static class SchmelzendeRiesenProcessingConfiguration extends ProcessingConfiguration {
+        public SchmelzendeRiesenProcessingConfiguration() {
             setCrop(false);
             setRotate(false);
             setDeskew(true);
@@ -23,8 +23,8 @@ public class SchmelzendeRiesenConfiguration extends Configuration {
 
     }
 
-    public static class FlowerdaleExportConfiguration extends ExportConfiguration {
-        private FlowerdaleExportConfiguration() {
+    public static class SchmelzendeRiesenExportConfiguration extends ExportConfiguration {
+        private SchmelzendeRiesenExportConfiguration() {
             setScaleToFit(false);
             setScale(72 / 600f);
         }
