@@ -64,22 +64,6 @@
 <!--                                                            </graphic>-->
                                                         </Button>
                                                         <ChoiceBox fx:id="editInstrumentChoiceBox" prefWidth="150.0" />
-                                                        <Button fx:id="editButton" defaultButton="true" mnemonicParsing="false" text="Edit">
-                                                            <opaqueInsets>
-                                                                <Insets />
-                                                            </opaqueInsets>
-                                                            <VBox.margin>
-                                                                <Insets top="20.0" />
-                                                            </VBox.margin>
-                                                        </Button>
-                                                        <Button fx:id="exportButton" defaultButton="false" mnemonicParsing="false" text="Export to PDF">
-                                                            <opaqueInsets>
-                                                                <Insets />
-                                                            </opaqueInsets>
-                                                            <VBox.margin>
-                                                                <Insets top="20.0" />
-                                                            </VBox.margin>
-                                                        </Button>
                                                         <Button fx:id="editAndExportButton" defaultButton="false" mnemonicParsing="false" text="Edit and export to PDF">
                                                             <opaqueInsets>
                                                                 <Insets />

@@ -50,9 +50,6 @@ public class ScanController {
     private Button finishButton;
 
     @FXML
-    private Button editButton;
-
-    @FXML
     private ImageView imageView;
 
     @FXML
@@ -77,9 +74,6 @@ public class ScanController {
     private ChoiceBox<Instrument> editInstrumentChoiceBox;
 
     @FXML
-    private Button exportButton;
-
-    @FXML
     private Button editAndExportButton;
 
     @FXML
@@ -99,8 +93,6 @@ public class ScanController {
         nextPageButton.setOnAction(new NextPageEventHandler());
         retryButton.setOnAction(new RetryEventHandler());
         finishButton.setOnAction(new FinishEventHandler());
-        editButton.setOnAction(new EditEventHandler());
-        exportButton.setOnAction(new ExportEventHandler());
         editAndExportButton.setOnAction(new EditAndExportEventHandler());
         editAndExportAllButton.setOnAction(new EditAndExportAllEventHandler());
         refreshCompositionButton.setOnAction(new RefreshCompositionHandler());
@@ -226,63 +218,6 @@ public class ScanController {
         }
     }
 
-    private class EditEventHandler implements EventHandler<ActionEvent> {
-
-        @Override
-        public void handle(ActionEvent actionEvent) {
-            Task<Void> export = new Task<>() {
-                @Override
-                protected Void call() {
-                    editButton.setDisable(true);
-                    Composition composition = compositionChoiceBox.getValue();
-                    new Converter().process(composition, editInstrumentChoiceBox.getValue(), ConfigurationFactory.getConfiguration(composition).getProcessingConfiguration());
-                    return null;
-                }
-            };
-
-            export.setOnSucceeded(e -> {
-                LOGGER.info("Successfully saved TIFF files");
-                editButton.setDisable(false);
-            });
-
-            export.setOnFailed(e -> {
-                LOGGER.error("Failed to save TIFF files ({})", e);
-                editButton.setDisable(false);
-            });
-
-            new Thread(export).start();
-        }
-    }
-
-    private class ExportEventHandler implements EventHandler<ActionEvent> {
-
-        @Override
-        public void handle(ActionEvent actionEvent) {
-            Task<Void> export = new Task<>() {
-                @Override
-                protected Void call() {
-                    exportButton.setDisable(true);
-                    PdfExporter pdfExporter = new PdfExporter();
-                    Composition composition = compositionChoiceBox.getValue();
-                    pdfExporter.savePdf(composition, editInstrumentChoiceBox.getValue(), ConfigurationFactory.getConfiguration(composition).getExportConfiguration());
-                    return null;
-                }
-            };
-
-            export.setOnSucceeded(e -> {
-                LOGGER.info("Successfully saved PDF file");
-                exportButton.setDisable(false);
-            });
-
-            export.setOnFailed(e -> {
-                LOGGER.error("Failed to save PDF file ({})", e);
-                exportButton.setDisable(false);
-            });
-
-            new Thread(export).start();
-        }
-    }
-
     private class EditAndExportEventHandler implements EventHandler<ActionEvent> {
 
         @Override
@@ -290,9 +225,8 @@ public class ScanController {
             Task<Void> export = new Task<>() {
                 @Override
                 protected Void call() {
-                    editButton.setDisable(true);
-                    exportButton.setDisable(true);
                     editAndExportButton.setDisable(true);
+                    editAndExportAllButton.setDefaultButton(true);
 
                     Composition composition = compositionChoiceBox.getValue();
                     Configuration configuration = ConfigurationFactory.getConfiguration(composition);
@@ -308,16 +242,14 @@ public class ScanController {
 
             export.setOnSucceeded(e -> {
                 LOGGER.info("Successfully saved PDF file");
-                editButton.setDisable(false);
-                exportButton.setDisable(false);
                 editAndExportButton.setDisable(false);
+                editAndExportAllButton.setDefaultButton(false);
             });
 
             export.setOnFailed(e -> {
                 LOGGER.error("Failed to save PDF file ({})", e);
-                editButton.setDisable(false);
-                exportButton.setDisable(false);
                 editAndExportButton.setDisable(false);
+                editAndExportAllButton.setDisable(false);
             });
 
             new Thread(export).start();
@@ -331,8 +263,6 @@ public class ScanController {
             Task<Void> export = new Task<>() {
                 @Override
                 protected Void call() {
-                    editButton.setDisable(true);
-                    exportButton.setDisable(true);
                     editAndExportButton.setDisable(true);
                     editAndExportAllButton.setDisable(true);
 
@@ -354,16 +284,12 @@ public class ScanController {
 
             export.setOnSucceeded(e -> {
                 LOGGER.info("Successfully saved PDF file");
-                editButton.setDisable(false);
-                exportButton.setDisable(false);
                 editAndExportButton.setDisable(false);
                 editAndExportAllButton.setDisable(false);
             });
 
             export.setOnFailed(e -> {
                 LOGGER.error("Failed to save PDF file ({})", e);
-                editButton.setDisable(false);
-                exportButton.setDisable(false);
                 editAndExportButton.setDisable(false);
                 editAndExportAllButton.setDisable(false);
             });
