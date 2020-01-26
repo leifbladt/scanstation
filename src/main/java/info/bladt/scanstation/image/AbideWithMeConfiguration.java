@@ -3,10 +3,6 @@ package info.bladt.scanstation.image;
 import info.bladt.scanstation.image.export.ExportConfiguration;
 import info.bladt.scanstation.image.processing.ProcessingConfiguration;
 import info.bladt.scanstation.image.processing.RemoveEdges;
-import info.bladt.scanstation.model.Instrument;
-
-import static info.bladt.scanstation.model.Key.B_FLAT;
-import static info.bladt.scanstation.model.Key.E_FLAT;
 
 public class AbideWithMeConfiguration extends Configuration {
 

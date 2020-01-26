@@ -4,7 +4,6 @@ import info.bladt.scanstation.image.export.ExportConfiguration;
 import info.bladt.scanstation.image.processing.ProcessingConfiguration;
 import info.bladt.scanstation.image.processing.RemoveEdges;
 import info.bladt.scanstation.model.Instrument;
-import info.bladt.scanstation.model.Key;
 
 import static info.bladt.scanstation.model.Key.C;
 
