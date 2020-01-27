@@ -9,7 +9,7 @@ import java.util.regex.Pattern;
 
 import static info.bladt.scanstation.model.Key.*;
 
-public class Instrument {
+public class Instrument implements Comparable<Instrument> {
 
     public static final List<Instrument> INSTRUMENTS = Collections.unmodifiableList(Arrays.asList(
             new Instrument("Melodie", C),
@@ -156,6 +156,15 @@ public class Instrument {
     }
 
     @Override
+    public String toString() {
+        if (getKey() == null) {
+            return name;
+        } else {
+            return String.format("%s (%s)", getName(), getKey().toString());
+        }
+    }
+
+    @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
@@ -170,11 +179,7 @@ public class Instrument {
     }
 
     @Override
-    public String toString() {
-        if (getKey() == null) {
-            return name;
-        } else {
-            return String.format("%s (%s)", getName(), getKey().toString());
-        }
+    public int compareTo(Instrument o) {
+        return getFilenamePart().compareTo(o.getFilenamePart());
     }
 }
