@@ -4,7 +4,7 @@
     <artifactId>scanstation</artifactId>
     <version>0.3-SNAPSHOT</version>
     <properties>
-        <maven.compiler.release>13</maven.compiler.release>
+        <maven.compiler.release>11</maven.compiler.release>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 
         <sonar.projectKey>leifbladt_scanstation</sonar.projectKey>
@@ -19,7 +19,7 @@
                 <artifactId>maven-compiler-plugin</artifactId>
                 <version>3.8.1</version>
                 <configuration>
-                    <release>13</release>
+                    <release>11</release>
                     <source>11</source>
                     <target>11</target>
                 </configuration>
@@ -54,7 +54,7 @@
             <plugin>
                 <groupId>org.openjfx</groupId>
                 <artifactId>javafx-maven-plugin</artifactId>
-                <version>0.0.3</version>
+                <version>0.0.4</version>
                 <configuration>
                     <mainClass>info.bladt.scanstation.ScanStationApp</mainClass>
                 </configuration>
