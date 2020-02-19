@@ -24,7 +24,6 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Controller;
 
 import java.util.List;
