@@ -25,6 +25,10 @@ public class ConfigurationFactory {
                 return new VesuviusConfiguration();
             case "Sounds of Sousa":
                 return new SoundsOfSousaConfiguration();
+            case "Death or Glory":
+                return new DeathOrGloryConfiguration();
+            case "Share My Yoke":
+                return new ShareMyYokeConfiguration();
             default:
                 return new DefaultConfiguration();
         }

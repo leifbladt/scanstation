@@ -24,12 +24,14 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.springframework.stereotype.Controller;
 
 import java.util.List;
 
 import static info.bladt.scanstation.model.Instrument.INSTRUMENTS;
 
 
+@Controller
 public class ScanController {
 
     private static final Logger LOGGER = LogManager.getLogger(ScanController.class);

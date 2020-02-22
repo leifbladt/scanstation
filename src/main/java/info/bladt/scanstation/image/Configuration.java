@@ -1,5 +1,6 @@
 package info.bladt.scanstation.image;
 
+import com.fasterxml.jackson.annotation.JsonValue;
 import info.bladt.scanstation.image.export.ExportConfiguration;
 import info.bladt.scanstation.image.processing.ProcessingConfiguration;
 
@@ -25,6 +26,7 @@ public class Configuration {
         this.exportConfiguration = exportConfiguration;
     }
 
+    @JsonValue
     @Override
     public String toString() {
         return "Configuration{" +

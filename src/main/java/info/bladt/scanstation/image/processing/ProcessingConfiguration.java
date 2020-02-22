@@ -1,16 +1,20 @@
 package info.bladt.scanstation.image.processing;
 
+import com.fasterxml.jackson.annotation.JsonValue;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import info.bladt.scanstation.image.CompoundKeySerializer;
 import info.bladt.scanstation.image.processing.RemoveEdges.Width;
 import info.bladt.scanstation.model.Instrument;
 
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Objects;
 
-import static info.bladt.scanstation.image.processing.ProcessingConfiguration.Key.*;
+import static info.bladt.scanstation.image.processing.Key.*;
 
 public class ProcessingConfiguration {
 
+    @JsonValue
+    @JsonSerialize(keyUsing = CompoundKeySerializer.class)
     private Map<CompoundKey, Object> configuration = new HashMap<>();
 
     public boolean isCrop(Instrument instrument, Integer page) {
@@ -243,61 +247,7 @@ public class ProcessingConfiguration {
         configuration.put(new CompoundKey(key, instrument, page), value);
     }
 
-    private class CompoundKey {
-        private final Key key;
-        private final Instrument instrument;
-        private final Integer page;
-
-        public CompoundKey(Key key) {
-            this(key, null, null);
-        }
-
-        public CompoundKey(Key key, Instrument instrument) {
-            this(key, instrument, null);
-        }
-
-        public CompoundKey(Key key, Instrument instrument, Integer page) {
-            this.key = key;
-            this.instrument = instrument;
-            this.page = page;
-        }
-
-        @Override
-        public boolean equals(Object o) {
-            if (this == o) return true;
-            if (o == null || getClass() != o.getClass()) return false;
-            CompoundKey that = (CompoundKey) o;
-            return Objects.equals(key, that.key) &&
-                    Objects.equals(instrument, that.instrument) &&
-                    Objects.equals(page, that.page);
-        }
-
-        @Override
-        public int hashCode() {
-            return Objects.hash(key, instrument, page);
-        }
-
-        @Override
-        public String toString() {
-            return "CompoundKey{" +
-                    "key='" + key + '\'' +
-                    ", instrument=" + instrument +
-                    ", page=" + page +
-                    '}';
-        }
-    }
-
-    public enum Key {
-        CROP_KEY,
-        ROTATE_KEY,
-        DESKEW_KEY,
-        REMOVE_EDGES_KEY,
-        ADJUST_CONTRAST_KEY,
-        IMAGE_WIDTH_KEY,
-        IMAGE_HEIGHT_KEY,
-        IMAGE_X_KEY,
-        IMAGE_Y_KEY,
-        ROTATION_ANGLE_KEY,
-        PAGE_EDGE_WIDTH_KEY
+    public Map<CompoundKey, Object> getConfiguration() {
+        return configuration;
     }
 }
