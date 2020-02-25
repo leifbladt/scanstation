@@ -8,7 +8,7 @@ import java.io.IOException;
 public class CompoundKeyDeserializer extends KeyDeserializer {
 
     @Override
-    public Object deserializeKey(String key, DeserializationContext ctxt) throws IOException {
+    public Object deserializeKey(String key, DeserializationContext ctxt) {
         return new CompoundKey(key);
     }
 }
