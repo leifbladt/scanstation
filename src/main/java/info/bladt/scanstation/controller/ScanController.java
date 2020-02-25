@@ -235,7 +235,6 @@ public class ScanController {
                     editAndExportAllButton.setDefaultButton(true);
 
                     Composition composition = compositionChoiceBox.getValue();
-                    LOGGER.info(configurationService);
                     Configuration configuration = configurationService.getConfiguration(composition);
 
                     new Converter().process(composition, editInstrumentChoiceBox.getValue(), configuration.getProcessingConfiguration());
@@ -274,7 +273,6 @@ public class ScanController {
                     editAndExportAllButton.setDisable(true);
 
                     Composition composition = compositionChoiceBox.getValue();
-                    LOGGER.info(configurationService);
                     Configuration configuration = configurationService.getConfiguration(composition);
                     PdfExporter pdfExporter = new PdfExporter();
                     Converter converter = new Converter();
