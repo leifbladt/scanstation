@@ -10,7 +10,7 @@ import info.bladt.scanstation.model.Instrument;
 import java.util.HashMap;
 import java.util.Map;
 
-import static info.bladt.scanstation.image.export.Key.*;
+import static info.bladt.scanstation.image.export.ExportKey.*;
 
 
 public class ExportConfiguration {
@@ -80,21 +80,21 @@ public class ExportConfiguration {
         setValue(PAGE_ORIENTATION_KEY, pageOrientation, instrument);
     }
 
-    private void setValue(Key key, Object value, Instrument instrument) {
+    private void setValue(ExportKey key, Object value, Instrument instrument) {
         configuration.put(new CompoundKey(key, instrument), value);
     }
 
-    private Boolean getBooleanValue(Key key, Instrument instrument) {
+    private Boolean getBooleanValue(ExportKey key, Instrument instrument) {
         Object value = getValue(key, instrument);
         return (value != null) ? Boolean.valueOf(value.toString()) : Boolean.FALSE;
     }
 
-    private Float getFloatValue(Key key, Instrument instrument) {
+    private Float getFloatValue(ExportKey key, Instrument instrument) {
         Object value = getValue(key, instrument);
         return (value != null) ? Float.valueOf(value.toString()) : null;
     }
 
-    private Object getValue(Key key, Instrument instrument) {
+    private Object getValue(ExportKey key, Instrument instrument) {
 
         Object value = configuration.get(new CompoundKey(key, instrument));
 

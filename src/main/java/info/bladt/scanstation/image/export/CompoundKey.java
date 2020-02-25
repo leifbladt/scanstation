@@ -7,14 +7,14 @@ import org.springframework.util.StringUtils;
 import java.util.Objects;
 
 class CompoundKey {
-    private final Key key;
+    private final ExportKey key;
     private final Instrument instrument;
 
-    public CompoundKey(Key key) {
+    public CompoundKey(ExportKey key) {
         this(key, null);
     }
 
-    public CompoundKey(Key key, Instrument instrument) {
+    public CompoundKey(ExportKey key, Instrument instrument) {
         this.key = key;
         this.instrument = instrument;
     }
@@ -23,10 +23,10 @@ class CompoundKey {
         String[] split = StringUtils.split(key, "/");
 
         if (split == null) {
-            this.key = Key.valueOf(key);
+            this.key = ExportKey.valueOf(key);
             this.instrument = null;
         } else if (split.length == 2) {
-            this.key = Key.valueOf(split[0]);
+            this.key = ExportKey.valueOf(split[0]);
             this.instrument = new Instrument(split[1]);
         } else {
             throw new RuntimeException("Can't deserialize key " + key);
