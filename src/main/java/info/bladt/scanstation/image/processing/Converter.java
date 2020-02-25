@@ -54,7 +54,12 @@ public class Converter {
                 }
 
                 if (configuration.isRemoveEdges(instrument, pageNumber)) {
-                    bufferedImage = removeEdges.process(bufferedImage, configuration.getPaperEdgeWidth(instrument, pageNumber));
+                    bufferedImage = removeEdges.process(bufferedImage, new RemoveEdges.Width(
+                            configuration.getPaperEdgeWidthLeft(instrument, pageNumber),
+                            configuration.getPaperEdgeWidthTop(instrument, pageNumber),
+                            configuration.getPaperEdgeWidthRight(instrument, pageNumber),
+                            configuration.getPaperEdgeWidthBottom(instrument, pageNumber)
+                    ));
                 }
 
                 if (configuration.isRotate(instrument, pageNumber)) {

@@ -1,16 +1,34 @@
 package info.bladt.scanstation.image.export;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonValue;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import info.bladt.scanstation.model.Instrument;
 
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Objects;
 
-import static info.bladt.scanstation.image.export.ExportConfiguration.Key.*;
+import static info.bladt.scanstation.image.export.Key.*;
+
 
 public class ExportConfiguration {
 
-    private Map<CompoundKey, Object> configuration = new HashMap<>();
+    @JsonValue
+    @JsonProperty("configuration")
+    @JsonSerialize(keyUsing = CompoundKeySerializer.class)
+    @JsonDeserialize(keyUsing = CompoundKeyDeserializer.class)
+    private Map<CompoundKey, Object> configuration;
+
+    public ExportConfiguration() {
+        this.configuration = new HashMap<>();
+    }
+
+    @JsonCreator
+    public ExportConfiguration(Map<CompoundKey, Object> configuration) {
+        this.configuration = configuration;
+    }
 
     public boolean isScaleToFit(Instrument instrument) {
         return getBooleanValue(SCALE_TO_FIT_KEY, instrument);
@@ -38,7 +56,7 @@ public class ExportConfiguration {
 
     public PageSize getPageSize(Instrument instrument) {
         Object value = getValue(PAGE_SIZE_KEY, instrument);
-        return (value != null) ? (PageSize) value : null;
+        return (value != null) ? PageSize.valueOf(value.toString()) : null;
     }
 
     public void setPageSize(PageSize pageSize) {
@@ -51,7 +69,7 @@ public class ExportConfiguration {
 
     public PageOrientation getPageOrientation(Instrument instrument) {
         Object value = getValue(PAGE_ORIENTATION_KEY, instrument);
-        return (value != null) ? (PageOrientation)value : null;
+        return (value != null) ? PageOrientation.valueOf(value.toString()) : null;
     }
 
     public void setPageOrientation(PageOrientation pageOrientation) {
@@ -68,12 +86,12 @@ public class ExportConfiguration {
 
     private Boolean getBooleanValue(Key key, Instrument instrument) {
         Object value = getValue(key, instrument);
-        return (value != null) ? (Boolean) value : Boolean.FALSE;
+        return (value != null) ? Boolean.valueOf(value.toString()) : Boolean.FALSE;
     }
 
     private Float getFloatValue(Key key, Instrument instrument) {
         Object value = getValue(key, instrument);
-        return (value != null) ? (Float) value : null;
+        return (value != null) ? Float.valueOf(value.toString()) : null;
     }
 
     private Object getValue(Key key, Instrument instrument) {
@@ -87,56 +105,10 @@ public class ExportConfiguration {
         return value;
     }
 
-    private class CompoundKey {
-        private final Key key;
-        private final Instrument instrument;
-
-        public CompoundKey(Key key) {
-            this(key, null);
-        }
-
-        public CompoundKey(Key key, Instrument instrument) {
-            this.key = key;
-            this.instrument = instrument;
-        }
-
-        @Override
-        public boolean equals(Object o) {
-            if (this == o) return true;
-            if (o == null || getClass() != o.getClass()) return false;
-            CompoundKey that = (CompoundKey) o;
-            return key == that.key &&
-                    Objects.equals(instrument, that.instrument);
-        }
-
-        @Override
-        public int hashCode() {
-            return Objects.hash(key, instrument);
-        }
-
-        @Override
-        public String toString() {
-            return "CompoundKey{" +
-                    "key='" + key + '\'' +
-                    ", instrument=" + instrument +
-                    '}';
-        }
-    }
-
-    public enum Key {
-        SCALE_TO_FIT_KEY,
-        SCALE_KEY,
-        PAGE_SIZE_KEY,
-        PAGE_ORIENTATION_KEY
-    }
-
-    public enum PageSize {
-        DIN_A4,
-        DIN_A5
-    }
-
-    public enum PageOrientation {
-        LANDSCAPE,
-        PORTRAIT
+    @Override
+    public String toString() {
+        return "ExportConfiguration{" +
+                "configuration=" + configuration +
+                '}';
     }
 }

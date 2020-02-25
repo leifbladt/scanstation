@@ -72,7 +72,7 @@ public class PdfExporter {
         }
     }
 
-    private PDRectangle convert(ExportConfiguration.PageSize pageSize, ExportConfiguration.PageOrientation pageOrientation) {
+    private PDRectangle convert(PageSize pageSize, PageOrientation pageOrientation) {
 
         PDRectangle rectangle;
 
@@ -85,7 +85,7 @@ public class PdfExporter {
                 rectangle = PDRectangle.A4;
         }
 
-        if (pageOrientation == ExportConfiguration.PageOrientation.LANDSCAPE) {
+        if (pageOrientation == PageOrientation.LANDSCAPE) {
             rectangle = new PDRectangle(rectangle.getHeight(), rectangle.getWidth());
         }
 
