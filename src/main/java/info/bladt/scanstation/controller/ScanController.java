@@ -1,7 +1,7 @@
 package info.bladt.scanstation.controller;
 
 import info.bladt.scanstation.image.Configuration;
-import info.bladt.scanstation.image.ConfigurationFactory;
+import info.bladt.scanstation.image.ConfigurationService;
 import info.bladt.scanstation.image.export.PdfExporter;
 import info.bladt.scanstation.image.processing.Converter;
 import info.bladt.scanstation.image.scan.ScanModule;
@@ -24,6 +24,7 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 
 import java.util.List;
@@ -84,6 +85,9 @@ public class ScanController {
     private ScanModule scanModule;
 
     private CompositionModule compositionModule;
+
+    @Autowired
+    private ConfigurationService configurationService;
 
     @FXML
     private void initialize() {
@@ -231,7 +235,7 @@ public class ScanController {
                     editAndExportAllButton.setDefaultButton(true);
 
                     Composition composition = compositionChoiceBox.getValue();
-                    Configuration configuration = ConfigurationFactory.getConfiguration(composition);
+                    Configuration configuration = configurationService.getConfiguration(composition);
 
                     new Converter().process(composition, editInstrumentChoiceBox.getValue(), configuration.getProcessingConfiguration());
 
@@ -269,7 +273,7 @@ public class ScanController {
                     editAndExportAllButton.setDisable(true);
 
                     Composition composition = compositionChoiceBox.getValue();
-                    Configuration configuration = ConfigurationFactory.getConfiguration(composition);
+                    Configuration configuration = configurationService.getConfiguration(composition);
                     PdfExporter pdfExporter = new PdfExporter();
                     Converter converter = new Converter();
 

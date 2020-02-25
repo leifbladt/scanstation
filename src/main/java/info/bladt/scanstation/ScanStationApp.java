@@ -10,10 +10,8 @@ import org.apache.logging.log4j.Logger;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.ConfigurableApplicationContext;
-import org.springframework.context.annotation.ComponentScan;
 
 @SpringBootApplication
-@ComponentScan({"info.bladt.scanstation"})
 public class ScanStationApp extends Application {
 
     private static final Logger LOGGER = LogManager.getLogger(ScanStationApp.class);
@@ -24,7 +22,7 @@ public class ScanStationApp extends Application {
     public void start(Stage primaryStage) {
 
         try {
-            fxmlLoader = new FXMLLoader(ScanStationApp.class.getResource("Main.fxml"));
+            fxmlLoader.setLocation(ScanStationApp.class.getResource("Main.fxml"));
 
             // Load scene
             VBox pane = fxmlLoader.load();
