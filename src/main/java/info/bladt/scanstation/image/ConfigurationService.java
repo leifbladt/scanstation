@@ -6,6 +6,7 @@ import info.bladt.scanstation.image.processing.ProcessingConfiguration;
 import info.bladt.scanstation.model.Composition;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.springframework.stereotype.Service;
 
 import java.io.IOException;
 import java.nio.file.Files;
@@ -13,11 +14,12 @@ import java.nio.file.Path;
 
 import static info.bladt.scanstation.configuration.ApplicationProperties.getScanStationDirectory;
 
-public class ConfigurationFactory {
+@Service
+public class ConfigurationService {
 
-    private static final Logger LOGGER = LogManager.getLogger(ConfigurationFactory.class);
+    private static final Logger LOGGER = LogManager.getLogger(ConfigurationService.class);
 
-    private ConfigurationFactory() {
+    private ConfigurationService() {
     }
 
     public static Configuration getConfiguration(Composition composition) {
