@@ -69,16 +69,19 @@ class CompoundKey {
     @JsonValue
     @Override
     public String toString() {
-        String s = key.toString();
+        StringBuilder sb = new StringBuilder();
+        sb.append(key.toString());
 
         if (instrument != null) {
-            s = s + "/" + instrument.toString();
-
-            if (page != null) {
-                s = s + "/" + page;
-            }
+            sb.append("/");
+            sb.append(instrument.toString());
         }
 
-        return s;
+        if (page != null) {
+            sb.append("/");
+            sb.append(page);
+        }
+
+        return sb.toString();
     }
 }

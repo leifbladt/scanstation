@@ -50,12 +50,14 @@ class CompoundKey {
     @JsonValue
     @Override
     public String toString() {
-        String s = key.toString();
+        StringBuilder sb = new StringBuilder();
+        sb.append(key.toString());
 
         if (instrument != null) {
-            s = s + "/" + instrument.toString();
+            sb.append("/");
+            sb.append(instrument.toString());
         }
 
-        return s;
+        return sb.toString();
     }
 }
