@@ -13,6 +13,7 @@ import org.apache.pdfbox.pdmodel.PDPageContentStream;
 import org.apache.pdfbox.pdmodel.common.PDRectangle;
 import org.apache.pdfbox.pdmodel.graphics.image.LosslessFactory;
 import org.apache.pdfbox.pdmodel.graphics.image.PDImageXObject;
+import org.springframework.stereotype.Service;
 
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
@@ -24,9 +25,10 @@ import java.util.List;
 import static info.bladt.scanstation.configuration.ApplicationProperties.getScanStationDirectory;
 import static org.apache.pdfbox.pdmodel.PDPageContentStream.AppendMode.APPEND;
 
-public class PdfExporter {
+@Service
+public class ExportService {
 
-    private static final Logger LOGGER = LogManager.getLogger(PdfExporter.class);
+    private static final Logger LOGGER = LogManager.getLogger(ExportService.class);
 
     private final Convert convert = new Convert();
 

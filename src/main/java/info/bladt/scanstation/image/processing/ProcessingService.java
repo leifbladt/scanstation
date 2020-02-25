@@ -7,6 +7,7 @@ import info.bladt.scanstation.model.Composition;
 import info.bladt.scanstation.model.Instrument;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.springframework.stereotype.Service;
 
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
@@ -15,9 +16,10 @@ import java.util.List;
 
 import static info.bladt.scanstation.image.processing.Convert.ImageType;
 
-public class Converter {
+@Service
+public class ProcessingService {
 
-    private static final Logger LOGGER = LogManager.getLogger(Converter.class);
+    private static final Logger LOGGER = LogManager.getLogger(ProcessingService.class);
 
     private final Convert convert;
     private final Crop crop;
@@ -26,7 +28,7 @@ public class Converter {
     private final Rotate rotate;
     private final Contrast contrast;
 
-    public Converter() {
+    public ProcessingService() {
         convert = new Convert();
         crop = new Crop();
         deskew = new Deskew();

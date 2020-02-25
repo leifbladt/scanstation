@@ -2,8 +2,8 @@ package info.bladt.scanstation.controller;
 
 import info.bladt.scanstation.image.Configuration;
 import info.bladt.scanstation.image.ConfigurationService;
-import info.bladt.scanstation.image.export.PdfExporter;
-import info.bladt.scanstation.image.processing.Converter;
+import info.bladt.scanstation.image.export.ExportService;
+import info.bladt.scanstation.image.processing.ProcessingService;
 import info.bladt.scanstation.image.scan.ScanModule;
 import info.bladt.scanstation.image.scan.ScanResults;
 import info.bladt.scanstation.image.scan.ScannerFactory;
@@ -88,6 +88,12 @@ public class ScanController {
 
     @Autowired
     private ConfigurationService configurationService;
+
+    @Autowired
+    private ProcessingService processingService;
+
+    @Autowired
+    private ExportService exportService;
 
     @FXML
     private void initialize() {
@@ -237,10 +243,9 @@ public class ScanController {
                     Composition composition = compositionChoiceBox.getValue();
                     Configuration configuration = configurationService.getConfiguration(composition);
 
-                    new Converter().process(composition, editInstrumentChoiceBox.getValue(), configuration.getProcessingConfiguration());
+                    processingService.process(composition, editInstrumentChoiceBox.getValue(), configuration.getProcessingConfiguration());
 
-                    PdfExporter pdfExporter = new PdfExporter();
-                    pdfExporter.savePdf(composition, editInstrumentChoiceBox.getValue(), configuration.getExportConfiguration());
+                    exportService.savePdf(composition, editInstrumentChoiceBox.getValue(), configuration.getExportConfiguration());
 
                     return null;
                 }
@@ -274,15 +279,12 @@ public class ScanController {
 
                     Composition composition = compositionChoiceBox.getValue();
                     Configuration configuration = configurationService.getConfiguration(composition);
-                    PdfExporter pdfExporter = new PdfExporter();
-                    Converter converter = new Converter();
 
                     for (Instrument instrument : editInstrumentChoiceBox.getItems()) {
                         LOGGER.debug("Process {}", instrument);
-                        converter.process(composition, instrument, configuration.getProcessingConfiguration());
-                        pdfExporter.savePdf(composition, instrument, configuration.getExportConfiguration());
+                        processingService.process(composition, instrument, configuration.getProcessingConfiguration());
+                        exportService.savePdf(composition, instrument, configuration.getExportConfiguration());
                     }
-
 
                     return null;
                 }
