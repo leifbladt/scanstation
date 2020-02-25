@@ -4,6 +4,8 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import info.bladt.scanstation.image.export.ExportConfiguration;
 import info.bladt.scanstation.image.processing.ProcessingConfiguration;
 import info.bladt.scanstation.model.Composition;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.io.IOException;
 import java.nio.file.Files;
@@ -12,6 +14,8 @@ import java.nio.file.Path;
 import static info.bladt.scanstation.configuration.ApplicationProperties.getScanStationDirectory;
 
 public class ConfigurationFactory {
+
+    private static final Logger LOGGER = LogManager.getLogger(ConfigurationFactory.class);
 
     private ConfigurationFactory() {
     }
@@ -37,7 +41,7 @@ public class ConfigurationFactory {
             return mapper.readValue(lines, ProcessingConfiguration.class);
 
         } catch (IOException e) {
-            e.printStackTrace();
+            LOGGER.error("Can't read processing configuration from file ({})", composition, e);
             return null;
         }
     }
@@ -53,7 +57,7 @@ public class ConfigurationFactory {
             return mapper.readValue(lines, ExportConfiguration.class);
 
         } catch (IOException e) {
-            e.printStackTrace();
+            LOGGER.error("Can't read export configuration from file ({})", composition, e);
             return null;
         }
     }
