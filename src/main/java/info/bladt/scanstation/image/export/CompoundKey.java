@@ -25,16 +25,11 @@ class CompoundKey {
         if (split == null) {
             this.key = Key.valueOf(key);
             this.instrument = null;
+        } else if (split.length == 2) {
+            this.key = Key.valueOf(split[0]);
+            this.instrument = new Instrument(split[1]);
         } else {
-
-            switch (split.length) {
-                case 2:
-                    this.key = Key.valueOf(split[0]);
-                    this.instrument = new Instrument(split[1]);
-                    break;
-                default:
-                    throw new RuntimeException("Can't deserialize key " + key);
-            }
+            throw new RuntimeException("Can't deserialize key " + key);
         }
     }
 
