@@ -27,7 +27,7 @@ class CompoundKey {
             this.instrument = null;
         } else if (split.length == 2) {
             this.key = ExportKey.valueOf(split[0]);
-            this.instrument = new Instrument(split[1]);
+            this.instrument = Instrument.parse(split[1]);
         } else {
             throw new RuntimeException("Can't deserialize key " + key);
         }

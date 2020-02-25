@@ -37,12 +37,12 @@ class CompoundKey {
             switch (split.length) {
                 case 2:
                     this.key = Key.valueOf(split[0]);
-                    this.instrument = new Instrument(split[1]);
+                    this.instrument = Instrument.parse(split[1]);
                     this.page = null;
                     break;
                 case 3:
                     this.key = Key.valueOf(split[0]);
-                    this.instrument = new Instrument(split[1]);
+                    this.instrument = Instrument.parse(split[1]);
                     this.page = Integer.parseInt(split[2]);
                     break;
                 default:

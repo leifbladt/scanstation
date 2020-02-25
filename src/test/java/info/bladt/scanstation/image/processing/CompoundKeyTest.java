@@ -25,10 +25,9 @@ class CompoundKeyTest {
 
     @Test
     public void constructor_OnlyKeyAndInstrumentWithKey() {
-        CompoundKey compoundKey = new CompoundKey("CROP_KEY/Bass (C)");
+        CompoundKey compoundKey = new CompoundKey("CROP_KEY/Bass_C");
 
-        // TODO Check with equality on CompoundKey
-        assertEquals(new CompoundKey(CROP_KEY, new Instrument("Bass", Key.C)).toString(), compoundKey.toString());
+        assertEquals(new CompoundKey(CROP_KEY, new Instrument("Bass", Key.C)), compoundKey);
     }
 
     @Test
