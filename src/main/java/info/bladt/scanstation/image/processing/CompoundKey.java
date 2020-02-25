@@ -2,10 +2,11 @@ package info.bladt.scanstation.image.processing;
 
 import com.fasterxml.jackson.annotation.JsonValue;
 import info.bladt.scanstation.model.Instrument;
+import org.springframework.util.StringUtils;
 
 import java.util.Objects;
 
-public class CompoundKey {
+class CompoundKey {
     private final Key key;
     private final Instrument instrument;
     private final Integer page;
@@ -22,6 +23,32 @@ public class CompoundKey {
         this.key = key;
         this.instrument = instrument;
         this.page = page;
+    }
+
+    public CompoundKey(String key) {
+        String[] split = StringUtils.split(key, "/");
+
+        if (split == null) {
+            this.key = Key.valueOf(key);
+            this.instrument = null;
+            this.page = null;
+        } else {
+
+            switch (split.length) {
+                case 2:
+                    this.key = Key.valueOf(split[0]);
+                    this.instrument = Instrument.parse(split[1]);
+                    this.page = null;
+                    break;
+                case 3:
+                    this.key = Key.valueOf(split[0]);
+                    this.instrument = Instrument.parse(split[1]);
+                    this.page = Integer.parseInt(split[2]);
+                    break;
+                default:
+                    throw new RuntimeException("Can't deserialize key " + key);
+            }
+        }
     }
 
     @Override
@@ -42,16 +69,19 @@ public class CompoundKey {
     @JsonValue
     @Override
     public String toString() {
-        String s = key.toString();
+        StringBuilder sb = new StringBuilder();
+        sb.append(key.toString());
 
         if (instrument != null) {
-            s = s + "/" + instrument.toString();
-
-            if (page != null) {
-                s = s + "/" + page;
-            }
+            sb.append("/");
+            sb.append(instrument.toString());
         }
 
-        return s;
+        if (page != null) {
+            sb.append("/");
+            sb.append(page);
+        }
+
+        return sb.toString();
     }
 }

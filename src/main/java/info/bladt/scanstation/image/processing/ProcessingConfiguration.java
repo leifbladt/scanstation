@@ -1,9 +1,10 @@
 package info.bladt.scanstation.image.processing;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonValue;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
-import info.bladt.scanstation.image.CompoundKeySerializer;
-import info.bladt.scanstation.image.processing.RemoveEdges.Width;
 import info.bladt.scanstation.model.Instrument;
 
 import java.util.HashMap;
@@ -14,8 +15,19 @@ import static info.bladt.scanstation.image.processing.Key.*;
 public class ProcessingConfiguration {
 
     @JsonValue
+    @JsonProperty("configuration")
     @JsonSerialize(keyUsing = CompoundKeySerializer.class)
-    private Map<CompoundKey, Object> configuration = new HashMap<>();
+    @JsonDeserialize(keyUsing = CompoundKeyDeserializer.class)
+    private final Map<CompoundKey, Object> configuration;
+
+    public ProcessingConfiguration() {
+        configuration = new HashMap<>();
+    }
+
+    @JsonCreator
+    public ProcessingConfiguration(Map<CompoundKey, Object> configuration) {
+        this.configuration = configuration;
+    }
 
     public boolean isCrop(Instrument instrument, Integer page) {
         return getBooleanValue(CROP_KEY, instrument, page);
@@ -191,22 +203,89 @@ public class ProcessingConfiguration {
         }
     }
 
-
-    public Width getPaperEdgeWidth(Instrument instrument, Integer page) {
-        return getWidthValue(PAGE_EDGE_WIDTH_KEY, instrument, page);
-    }
-
-    public void setPaperEdgeWidth(Width paperEdgeWidth) {
+    public void setPaperEdgeWidth(Integer paperEdgeWidth) {
         setPaperEdgeWidth(paperEdgeWidth, null, null);
     }
 
-    public void setPaperEdgeWidth(Width paperEdgeWidth, Instrument instrument) {
+    public void setPaperEdgeWidth(Integer paperEdgeWidth, Instrument instrument) {
         setPaperEdgeWidth(paperEdgeWidth, instrument, null);
     }
 
-    public void setPaperEdgeWidth(Width paperEdgeWidth, Instrument instrument, Integer page) {
-        setValue(PAGE_EDGE_WIDTH_KEY, paperEdgeWidth, instrument, page);
+    public void setPaperEdgeWidth(Integer paperEdgeWidth, Instrument instrument, Integer page) {
+        setPaperEdgeWidthLeft(paperEdgeWidth, instrument, page);
+        setPaperEdgeWidthTop(paperEdgeWidth, instrument, page);
+        setPaperEdgeWidthRight(paperEdgeWidth, instrument, page);
+        setPaperEdgeWidthBottom(paperEdgeWidth, instrument, page);
     }
+
+
+    public Integer getPaperEdgeWidthLeft(Instrument instrument, Integer page) {
+        return getIntegerValue(PAGE_EDGE_WIDTH_LEFT_KEY, instrument, page);
+    }
+
+    public void setPaperEdgeWidthLeft(Integer paperEdgeWidth) {
+        setPaperEdgeWidthLeft(paperEdgeWidth, null, null);
+    }
+
+    public void setPaperEdgeWidthLeft(Integer paperEdgeWidth, Instrument instrument) {
+        setPaperEdgeWidthLeft(paperEdgeWidth, instrument, null);
+    }
+
+    public void setPaperEdgeWidthLeft(Integer paperEdgeWidth, Instrument instrument, Integer page) {
+        setValue(PAGE_EDGE_WIDTH_LEFT_KEY, paperEdgeWidth, instrument, page);
+    }
+
+
+    public Integer getPaperEdgeWidthRight(Instrument instrument, Integer page) {
+        return getIntegerValue(PAGE_EDGE_WIDTH_RIGHT_KEY, instrument, page);
+    }
+
+    public void setPaperEdgeWidthRight(Integer paperEdgeWidth) {
+        setPaperEdgeWidthRight(paperEdgeWidth, null, null);
+    }
+
+    public void setPaperEdgeWidthRight(Integer paperEdgeWidth, Instrument instrument) {
+        setPaperEdgeWidthRight(paperEdgeWidth, instrument, null);
+    }
+
+    public void setPaperEdgeWidthRight(Integer paperEdgeWidth, Instrument instrument, Integer page) {
+        setValue(PAGE_EDGE_WIDTH_RIGHT_KEY, paperEdgeWidth, instrument, page);
+    }
+
+
+    public Integer getPaperEdgeWidthTop(Instrument instrument, Integer page) {
+        return getIntegerValue(PAGE_EDGE_WIDTH_TOP_KEY, instrument, page);
+    }
+
+    public void setPaperEdgeWidthTop(Integer paperEdgeWidth) {
+        setPaperEdgeWidthTop(paperEdgeWidth, null, null);
+    }
+
+    public void setPaperEdgeWidthTop(Integer paperEdgeWidth, Instrument instrument) {
+        setPaperEdgeWidthTop(paperEdgeWidth, instrument, null);
+    }
+
+    public void setPaperEdgeWidthTop(Integer paperEdgeWidth, Instrument instrument, Integer page) {
+        setValue(PAGE_EDGE_WIDTH_TOP_KEY, paperEdgeWidth, instrument, page);
+    }
+
+
+    public Integer getPaperEdgeWidthBottom(Instrument instrument, Integer page) {
+        return getIntegerValue(PAGE_EDGE_WIDTH_BOTTOM_KEY, instrument, page);
+    }
+
+    public void setPaperEdgeWidthBottom(Integer paperEdgeWidth) {
+        setPaperEdgeWidthTop(paperEdgeWidth, null, null);
+    }
+
+    public void setPaperEdgeWidthBottom(Integer paperEdgeWidth, Instrument instrument) {
+        setPaperEdgeWidthTop(paperEdgeWidth, instrument, null);
+    }
+
+    public void setPaperEdgeWidthBottom(Integer paperEdgeWidth, Instrument instrument, Integer page) {
+        setValue(PAGE_EDGE_WIDTH_BOTTOM_KEY, paperEdgeWidth, instrument, page);
+    }
+
 
     private Object getValue(Key key, Instrument instrument, Integer page) {
 
@@ -238,16 +317,14 @@ public class ProcessingConfiguration {
         return (value != null) ? (Double) value : 0d;
     }
 
-    private Width getWidthValue(Key key, Instrument instrument, Integer page) {
-        Object value = getValue(key, instrument, page);
-        return (value != null) ? (Width) value : null;
-    }
-
     private void setValue(Key key, Object value, Instrument instrument, Integer page) {
         configuration.put(new CompoundKey(key, instrument, page), value);
     }
 
-    public Map<CompoundKey, Object> getConfiguration() {
-        return configuration;
+    @Override
+    public String toString() {
+        return "ProcessingConfiguration{" +
+                "configuration=" + configuration +
+                '}';
     }
 }

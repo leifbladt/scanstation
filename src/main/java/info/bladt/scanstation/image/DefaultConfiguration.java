@@ -1,8 +1,9 @@
 package info.bladt.scanstation.image;
 
 import info.bladt.scanstation.image.export.ExportConfiguration;
+import info.bladt.scanstation.image.export.PageOrientation;
+import info.bladt.scanstation.image.export.PageSize;
 import info.bladt.scanstation.image.processing.ProcessingConfiguration;
-import info.bladt.scanstation.image.processing.RemoveEdges;
 
 public class DefaultConfiguration extends Configuration {
 
@@ -19,7 +20,7 @@ public class DefaultConfiguration extends Configuration {
             setRemoveEdges(true);
             setAdjustContrast(true);
 
-            setPaperEdgeWidth(new RemoveEdges.Width(75));
+            setPaperEdgeWidth(75);
         }
 
     }

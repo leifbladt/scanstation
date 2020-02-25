@@ -1,10 +1,9 @@
-package info.bladt.scanstation.image;
+package info.bladt.scanstation.image.export;
 
 import com.fasterxml.jackson.core.JsonGenerator;
 import com.fasterxml.jackson.databind.JsonSerializer;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializerProvider;
-import info.bladt.scanstation.image.processing.CompoundKey;
 
 import java.io.IOException;
 import java.io.StringWriter;
