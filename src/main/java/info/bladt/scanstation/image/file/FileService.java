@@ -1,5 +1,7 @@
 package info.bladt.scanstation.image.file;
 
+import org.springframework.stereotype.Service;
+
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -10,7 +12,8 @@ import java.util.stream.Stream;
 
 import static info.bladt.scanstation.configuration.ApplicationProperties.getScanStationDirectory;
 
-public class FileModule {
+@Service
+public class FileService {
 
     public List<String> getDirectories() {
         Path inputPath = Path.of(getScanStationDirectory());

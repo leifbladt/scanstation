@@ -8,7 +8,7 @@ import info.bladt.scanstation.image.scan.ScanModule;
 import info.bladt.scanstation.image.scan.ScanResults;
 import info.bladt.scanstation.image.scan.ScannerFactory;
 import info.bladt.scanstation.model.Composition;
-import info.bladt.scanstation.model.CompositionModule;
+import info.bladt.scanstation.model.CompositionService;
 import info.bladt.scanstation.model.Instrument;
 import javafx.collections.FXCollections;
 import javafx.concurrent.Task;
@@ -84,7 +84,8 @@ public class ScanController {
 
     private ScanModule scanModule;
 
-    private CompositionModule compositionModule;
+    @Autowired
+    private CompositionService compositionService;
 
     @Autowired
     private ConfigurationService configurationService;
@@ -99,7 +100,6 @@ public class ScanController {
     private void initialize() {
 
         scanModule = new ScanModule();
-        compositionModule = new CompositionModule();
 
         scanButton.setOnAction(new ScanEventHandler());
         nextPageButton.setOnAction(new NextPageEventHandler());
@@ -110,7 +110,7 @@ public class ScanController {
         refreshCompositionButton.setOnAction(new RefreshCompositionHandler());
         refreshInstrumentsButton.setOnAction(new RefreshInstrumentsHandler());
 
-        List<Composition> compositions = compositionModule.getCompositions();
+        List<Composition> compositions = compositionService.getCompositions();
         compositionChoiceBox.setItems(FXCollections.observableArrayList(compositions));
         compositionChoiceBox.setValue(compositions.get(0));
 
@@ -322,7 +322,7 @@ public class ScanController {
         public void handle(ActionEvent actionEvent) {
             LOGGER.debug("Refresh compositions");
             Composition value = compositionChoiceBox.getValue();
-            List<Composition> compositions = compositionModule.getCompositions();
+            List<Composition> compositions = compositionService.getCompositions();
             compositionChoiceBox.setItems(FXCollections.observableArrayList(compositions));
             compositionChoiceBox.setValue(value);
         }
