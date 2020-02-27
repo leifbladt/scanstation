@@ -7,7 +7,7 @@ import info.bladt.scanstation.image.export.ExportService;
 import info.bladt.scanstation.image.processing.ProcessingService;
 import info.bladt.scanstation.image.scan.ScanResults;
 import info.bladt.scanstation.image.scan.ScanService;
-import info.bladt.scanstation.image.scan.ScannerFactory;
+import info.bladt.scanstation.image.scan.ScannerService;
 import info.bladt.scanstation.model.Composition;
 import info.bladt.scanstation.model.Instrument;
 import javafx.collections.FXCollections;
@@ -84,6 +84,9 @@ public class ScanController {
     private ScanService scanService;
 
     @Autowired
+    private ScannerService scannerService;
+
+    @Autowired
     private ConfigurationService configurationService;
 
     @Autowired
@@ -133,7 +136,7 @@ public class ScanController {
                 protected Void call() {
                     scanService.setComposition(compositionChoiceBox.getValue());
                     scanService.setInstrument(scanInstrumentChoiceBox.getValue());
-                    scanService.setScanner(ScannerFactory.getScanner(scannerChoiceBox.getValue()));
+                    scanService.setScanner(scannerService.getScanner(scannerChoiceBox.getValue()));
 
                     scanService.scanPage();
                     return null;
