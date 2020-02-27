@@ -13,16 +13,19 @@ public class Instrument implements Comparable<Instrument> {
     private final Key key;
 
     public Instrument(String instrument) {
-        String[] split = StringUtils.split(instrument, "_");
-
-        if (split == null) {
-            this.name = instrument;
+        if (instrument == null || instrument.isBlank()) {
+            this.name = null;
             this.key = null;
-        } else if (split.length == 2) {
-            this.name = split[0];
-            this.key = Key.parse(split[1]);
         } else {
-            throw new RuntimeException("Can't deserialize instrument " + instrument);
+            Pattern pattern = Pattern.compile("(.*)_(.*)");
+            Matcher matcher = pattern.matcher(instrument);
+            if (matcher.find()) {
+                this.name = matcher.group(1);
+                this.key = Key.parse(matcher.group(2));
+            } else {
+                this.name = instrument;
+                this.key = null;
+            }
         }
     }
 
