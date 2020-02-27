@@ -9,7 +9,6 @@ import info.bladt.scanstation.image.scan.ScanModule;
 import info.bladt.scanstation.image.scan.ScanResults;
 import info.bladt.scanstation.image.scan.ScannerFactory;
 import info.bladt.scanstation.model.Composition;
-import info.bladt.scanstation.model.CompositionService;
 import info.bladt.scanstation.model.Instrument;
 import javafx.collections.FXCollections;
 import javafx.concurrent.Task;
@@ -84,9 +83,6 @@ public class ScanController {
     private ScanModule scanModule;
 
     @Autowired
-    private CompositionService compositionService;
-
-    @Autowired
     private ConfigurationService configurationService;
 
     @Autowired
@@ -112,7 +108,7 @@ public class ScanController {
         refreshCompositionButton.setOnAction(new RefreshCompositionHandler());
         refreshInstrumentsButton.setOnAction(new RefreshInstrumentsHandler());
 
-        List<Composition> compositions = compositionService.getCompositions();
+        List<Composition> compositions = fileService.getCompositions();
         compositionChoiceBox.setItems(FXCollections.observableArrayList(compositions));
         compositionChoiceBox.setValue(compositions.get(0));
 
@@ -325,7 +321,7 @@ public class ScanController {
         public void handle(ActionEvent actionEvent) {
             LOGGER.debug("Refresh compositions");
             Composition value = compositionChoiceBox.getValue();
-            List<Composition> compositions = compositionService.getCompositions();
+            List<Composition> compositions = fileService.getCompositions();
             compositionChoiceBox.setItems(FXCollections.observableArrayList(compositions));
             compositionChoiceBox.setValue(value);
         }

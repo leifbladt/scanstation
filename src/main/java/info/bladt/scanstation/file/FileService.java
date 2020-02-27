@@ -41,6 +41,11 @@ public class FileService {
         }
     }
 
+    public List<Composition> getCompositions() {
+        return getDirectories().stream()
+                .map(Composition::new).collect(Collectors.toList());
+    }
+
     public ProcessingConfiguration readProcessingConfiguration(Composition composition) {
         Path path = Path.of(getScanStationDirectory(), composition.getName(), "processingConfiguration.json");
         return readConfiguration(path, ProcessingConfiguration.class);
