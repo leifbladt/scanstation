@@ -5,8 +5,8 @@ import info.bladt.scanstation.image.Configuration;
 import info.bladt.scanstation.image.ConfigurationService;
 import info.bladt.scanstation.image.export.ExportService;
 import info.bladt.scanstation.image.processing.ProcessingService;
-import info.bladt.scanstation.image.scan.ScanModule;
 import info.bladt.scanstation.image.scan.ScanResults;
+import info.bladt.scanstation.image.scan.ScanService;
 import info.bladt.scanstation.image.scan.ScannerFactory;
 import info.bladt.scanstation.model.Composition;
 import info.bladt.scanstation.model.Instrument;
@@ -80,7 +80,8 @@ public class ScanController {
     @FXML
     private Button editAndExportAllButton;
 
-    private ScanModule scanModule;
+    @Autowired
+    private ScanService scanService;
 
     @Autowired
     private ConfigurationService configurationService;
@@ -96,8 +97,6 @@ public class ScanController {
 
     @FXML
     private void initialize() {
-
-        scanModule = new ScanModule();
 
         scanButton.setOnAction(new ScanEventHandler());
         nextPageButton.setOnAction(new NextPageEventHandler());
@@ -132,19 +131,19 @@ public class ScanController {
             Task<Void> scanImage = new Task<>() {
                 @Override
                 protected Void call() {
-                    scanModule.setComposition(compositionChoiceBox.getValue());
-                    scanModule.setInstrument(scanInstrumentChoiceBox.getValue());
-                    scanModule.setScanner(ScannerFactory.getScanner(scannerChoiceBox.getValue()));
+                    scanService.setComposition(compositionChoiceBox.getValue());
+                    scanService.setInstrument(scanInstrumentChoiceBox.getValue());
+                    scanService.setScanner(ScannerFactory.getScanner(scannerChoiceBox.getValue()));
 
-                    scanModule.scanPage();
+                    scanService.scanPage();
                     return null;
                 }
             };
 
             scanImage.setOnSucceeded(e -> {
-                Image image = SwingFXUtils.toFXImage(scanModule.getPreview(), null);
+                Image image = SwingFXUtils.toFXImage(scanService.getPreview(), null);
 
-                pageLabel.setText(scanModule.getPage() + "");
+                pageLabel.setText(scanService.getPage() + "");
                 imageView.setImage(image);
                 proceed.setVisible(true);
             });
@@ -162,15 +161,15 @@ public class ScanController {
             Task<Void> scanImage = new Task<>() {
                 @Override
                 protected Void call() {
-                    scanModule.scanNextPage();
+                    scanService.scanNextPage();
                     return null;
                 }
             };
 
             scanImage.setOnSucceeded(e -> {
-                Image image = SwingFXUtils.toFXImage(scanModule.getPreview(), null);
+                Image image = SwingFXUtils.toFXImage(scanService.getPreview(), null);
 
-                pageLabel.setText(scanModule.getPage() + "");
+                pageLabel.setText(scanService.getPage() + "");
                 imageView.setImage(image);
             });
 
@@ -187,15 +186,15 @@ public class ScanController {
             Task<Void> scanImage = new Task<>() {
                 @Override
                 protected Void call() {
-                    scanModule.scanPageAgain();
+                    scanService.scanPageAgain();
                     return null;
                 }
             };
 
             scanImage.setOnSucceeded(e -> {
-                Image image = SwingFXUtils.toFXImage(scanModule.getPreview(), null);
+                Image image = SwingFXUtils.toFXImage(scanService.getPreview(), null);
 
-                pageLabel.setText(scanModule.getPage() + "");
+                pageLabel.setText(scanService.getPage() + "");
                 imageView.setImage(image);
             });
 
@@ -210,13 +209,13 @@ public class ScanController {
             Task<Void> scanImage = new Task<>() {
                 @Override
                 protected Void call() {
-                    scanModule.finish();
+                    scanService.finish();
                     return null;
                 }
             };
 
             scanImage.setOnSucceeded(e -> {
-                scanModule.reset();
+                scanService.reset();
 
                 proceed.setVisible(false);
                 imageView.setImage(null);

@@ -3,10 +3,12 @@ package info.bladt.scanstation.image.scan;
 import info.bladt.scanstation.file.TiffWriter;
 import info.bladt.scanstation.model.Composition;
 import info.bladt.scanstation.model.Instrument;
+import org.springframework.stereotype.Service;
 
 import java.awt.image.BufferedImage;
 
-public class ScanModule {
+@Service
+public class ScanService {
 
     private int page = 0;
 
