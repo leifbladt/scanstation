@@ -1,6 +1,6 @@
 package info.bladt.scanstation.image.scan;
 
-import info.bladt.scanstation.image.file.TiffWriter;
+import info.bladt.scanstation.file.TiffWriter;
 import info.bladt.scanstation.model.Composition;
 import info.bladt.scanstation.model.Instrument;
 

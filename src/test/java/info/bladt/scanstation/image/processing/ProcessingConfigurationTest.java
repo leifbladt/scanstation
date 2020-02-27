@@ -4,11 +4,12 @@ import info.bladt.scanstation.model.Instrument;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import static info.bladt.scanstation.model.Key.C;
 import static org.junit.jupiter.api.Assertions.*;
 
 class ProcessingConfigurationTest {
 
-    private static final Instrument INSTRUMENT = Instrument.INSTRUMENTS.get(0);
+    private static final Instrument INSTRUMENT = new Instrument("Melodie", C);
 
     private ProcessingConfiguration configuration;
 

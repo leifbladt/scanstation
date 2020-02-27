@@ -1,5 +1,6 @@
 package info.bladt.scanstation.controller;
 
+import info.bladt.scanstation.file.FileService;
 import info.bladt.scanstation.image.Configuration;
 import info.bladt.scanstation.image.ConfigurationService;
 import info.bladt.scanstation.image.export.ExportService;
@@ -28,8 +29,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 
 import java.util.List;
-
-import static info.bladt.scanstation.model.Instrument.INSTRUMENTS;
 
 
 @Controller
@@ -96,6 +95,9 @@ public class ScanController {
     @Autowired
     private ExportService exportService;
 
+    @Autowired
+    private FileService fileService;
+
     @FXML
     private void initialize() {
 
@@ -114,11 +116,12 @@ public class ScanController {
         compositionChoiceBox.setItems(FXCollections.observableArrayList(compositions));
         compositionChoiceBox.setValue(compositions.get(0));
 
-        scanInstrumentChoiceBox.setItems(FXCollections.observableArrayList(INSTRUMENTS));
-        scanInstrumentChoiceBox.setValue(INSTRUMENTS.get(0));
+        List<Instrument> instruments = fileService.getInstruments();
+        scanInstrumentChoiceBox.setItems(FXCollections.observableArrayList(instruments));
+        scanInstrumentChoiceBox.setValue(instruments.get(0));
 
-        editInstrumentChoiceBox.setItems(FXCollections.observableArrayList(INSTRUMENTS));
-        editInstrumentChoiceBox.setValue(INSTRUMENTS.get(0));
+        editInstrumentChoiceBox.setItems(FXCollections.observableArrayList(instruments));
+        editInstrumentChoiceBox.setValue(instruments.get(0));
 
         scannerChoiceBox.setItems(FXCollections.observableArrayList("Demo", "Canon LiDE 210"));
         scannerChoiceBox.setValue("Demo");
