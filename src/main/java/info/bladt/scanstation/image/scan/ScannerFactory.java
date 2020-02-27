@@ -17,12 +17,4 @@ public class ScannerFactory {
             return new SaneScanner();
         }
     }
-
-    public static Scanner getScanner() {
-        if (USE_DEMO) {
-            return getScanner("Demo");
-        } else {
-            return getScanner("Canon LiDE 210");
-        }
-    }
 }
