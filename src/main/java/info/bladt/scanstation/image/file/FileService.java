@@ -6,6 +6,7 @@ import info.bladt.scanstation.image.processing.ProcessingConfiguration;
 import info.bladt.scanstation.model.Composition;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
@@ -23,6 +24,8 @@ public class FileService {
 
     private static final Logger LOGGER = LogManager.getLogger(FileService.class);
 
+    @Autowired
+    private ObjectMapper objectMapper;
 
     public List<String> getDirectories() {
         Path inputPath = Path.of(getScanStationDirectory());
@@ -37,33 +40,22 @@ public class FileService {
     }
 
     public ProcessingConfiguration readProcessingConfiguration(Composition composition) {
-
-        ObjectMapper mapper = new ObjectMapper();
-
-        try {
-            Path path = Path.of(getScanStationDirectory(), composition.getName(), "processingConfiguration.json");
-            byte[] lines = Files.readAllBytes(path);
-
-            return mapper.readValue(lines, ProcessingConfiguration.class);
-
-        } catch (IOException e) {
-            LOGGER.error("Can't read processing configuration from file ({})", composition, e);
-            return null;
-        }
+        return readConfiguration(composition, "processingConfiguration.json", ProcessingConfiguration.class);
     }
 
     public ExportConfiguration readExportConfiguration(Composition composition) {
+        return readConfiguration(composition, "exportConfiguration.json", ExportConfiguration.class);
+    }
 
-        ObjectMapper mapper = new ObjectMapper();
-
+    private <T> T readConfiguration(Composition composition, String filename, Class<T> clazz) {
         try {
-            Path path = Path.of(getScanStationDirectory(), composition.getName(), "exportConfiguration.json");
+            Path path = Path.of(getScanStationDirectory(), composition.getName(), filename);
             byte[] lines = Files.readAllBytes(path);
 
-            return mapper.readValue(lines, ExportConfiguration.class);
+            return objectMapper.readValue(lines, clazz);
 
         } catch (IOException e) {
-            LOGGER.error("Can't read export configuration from file ({})", composition, e);
+            LOGGER.error("Can't read configuration from file ({})", composition, e);
             return null;
         }
     }
