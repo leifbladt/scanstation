@@ -2,57 +2,10 @@ package info.bladt.scanstation.model;
 
 import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNull;
 
 class InstrumentTest {
-
-    @Test
-    void constructor_NullValue() {
-        Instrument instrument = new Instrument(null);
-
-        assertNull(instrument.getName());
-        assertNull(instrument.getKey());
-    }
-
-    @Test
-    void constructor_EmptyString() {
-        Instrument instrument = new Instrument("");
-
-        assertNull(instrument.getName());
-        assertNull(instrument.getKey());
-    }
-
-    @Test
-    void constructor_OnlyWhitespace() {
-        Instrument instrument = new Instrument("  ");
-
-        assertNull(instrument.getName());
-        assertNull(instrument.getKey());
-    }
-
-    @Test
-    void constructor_InstrumentWithoutKey() {
-        Instrument instrument = new Instrument("Solo Cornet");
-
-        assertEquals("Solo Cornet", instrument.getName());
-        assertNull(instrument.getKey());
-    }
-
-    @Test
-    void constructor_InstrumentWithKey() {
-        Instrument instrument = new Instrument("Solo Cornet_Bb");
-
-        assertEquals("Solo Cornet", instrument.getName());
-        assertEquals(Key.B_FLAT, instrument.getKey());
-    }
-
-    @Test
-    void constructor_InstrumentWithUnknownKey() {
-        Instrument instrument = new Instrument("Solo Cornet_D");
-
-        assertEquals("Solo Cornet", instrument.getName());
-        assertNull(instrument.getKey());
-    }
 
     @Test
     void parse_NullValue() {
@@ -88,6 +41,7 @@ class InstrumentTest {
 
         assertEquals(new Instrument("Solo Cornet", Key.B_FLAT), instrument);
     }
+
     @Test
     void parse_InstrumentWithUnknownKey() {
         Instrument instrument = Instrument.parse("Solo Cornet_D");

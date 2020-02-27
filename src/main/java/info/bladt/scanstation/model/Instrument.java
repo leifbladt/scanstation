@@ -1,11 +1,12 @@
 package info.bladt.scanstation.model;
 
-import org.springframework.util.StringUtils;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 
 import java.util.Objects;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+@JsonDeserialize(using = InstrumentDeserializer.class)
 public class Instrument implements Comparable<Instrument> {
 
     private final String name;
@@ -13,20 +14,7 @@ public class Instrument implements Comparable<Instrument> {
     private final Key key;
 
     public Instrument(String instrument) {
-        if (instrument == null || instrument.isBlank()) {
-            this.name = null;
-            this.key = null;
-        } else {
-            Pattern pattern = Pattern.compile("(.*)_(.*)");
-            Matcher matcher = pattern.matcher(instrument);
-            if (matcher.find()) {
-                this.name = matcher.group(1);
-                this.key = Key.parse(matcher.group(2));
-            } else {
-                this.name = instrument;
-                this.key = null;
-            }
-        }
+        this(instrument, null);
     }
 
     public Instrument(String name, Key key) {
