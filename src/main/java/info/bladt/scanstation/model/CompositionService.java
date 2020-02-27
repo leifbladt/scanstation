@@ -1,6 +1,6 @@
 package info.bladt.scanstation.model;
 
-import info.bladt.scanstation.image.file.FileService;
+import info.bladt.scanstation.file.FileService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

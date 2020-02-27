@@ -1,6 +1,6 @@
 package info.bladt.scanstation.image.export;
 
-import info.bladt.scanstation.image.file.TiffReader;
+import info.bladt.scanstation.file.TiffReader;
 import info.bladt.scanstation.image.processing.Convert;
 import info.bladt.scanstation.image.processing.Convert.ImageType;
 import info.bladt.scanstation.model.Composition;

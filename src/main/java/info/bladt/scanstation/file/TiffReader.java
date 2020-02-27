@@ -1,4 +1,4 @@
-package info.bladt.scanstation.image.file;
+package info.bladt.scanstation.file;
 
 import info.bladt.scanstation.model.Composition;
 import info.bladt.scanstation.model.Instrument;
@@ -18,7 +18,8 @@ import static info.bladt.scanstation.configuration.ApplicationProperties.getScan
 
 public class TiffReader {
 
-    private TiffReader() {}
+    private TiffReader() {
+    }
 
     public static List<Page> getInputImages(String folder, Composition composition) throws IOException {
         return getInputImages(folder, composition, null);
@@ -33,15 +34,15 @@ public class TiffReader {
 
             return pathStream
                     .map(path -> {
-                            Path fileName = path.getFileName();
-                            Pattern pattern = Pattern.compile("(.*) ([0-9][0-9]).tif");
-                            Matcher matcher = pattern.matcher(fileName.toString());
-                            if (matcher.find()) {
-                                Instrument i = Instrument.parse(matcher.group(1));
-                                return new Page(i, Integer.parseInt(matcher.group(2)), path);
-                            } else {
-                                throw new RuntimeException("Could not extract page number (" +  fileName + ")");
-                            }
+                        Path fileName = path.getFileName();
+                        Pattern pattern = Pattern.compile("(.*) ([0-9][0-9]).tif");
+                        Matcher matcher = pattern.matcher(fileName.toString());
+                        if (matcher.find()) {
+                            Instrument i = Instrument.parse(matcher.group(1));
+                            return new Page(i, Integer.parseInt(matcher.group(2)), path);
+                        } else {
+                            throw new RuntimeException("Could not extract page number (" + fileName + ")");
+                        }
                     })
                     .collect(Collectors.toList());
         }

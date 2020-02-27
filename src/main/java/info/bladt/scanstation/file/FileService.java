@@ -1,4 +1,4 @@
-package info.bladt.scanstation.image.file;
+package info.bladt.scanstation.file;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import info.bladt.scanstation.image.export.ExportConfiguration;

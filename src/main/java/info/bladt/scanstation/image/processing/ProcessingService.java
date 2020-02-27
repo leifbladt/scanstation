@@ -1,7 +1,7 @@
 package info.bladt.scanstation.image.processing;
 
-import info.bladt.scanstation.image.file.TiffReader;
-import info.bladt.scanstation.image.file.TiffWriter;
+import info.bladt.scanstation.file.TiffReader;
+import info.bladt.scanstation.file.TiffWriter;
 import info.bladt.scanstation.image.processing.Crop.Rectangle;
 import info.bladt.scanstation.model.Composition;
 import info.bladt.scanstation.model.Instrument;
