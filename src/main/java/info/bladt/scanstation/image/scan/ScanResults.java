@@ -1,5 +1,6 @@
 package info.bladt.scanstation.image.scan;
 
+import info.bladt.scanstation.file.Page;
 import info.bladt.scanstation.file.TiffReader;
 import info.bladt.scanstation.model.Composition;
 import info.bladt.scanstation.model.Instrument;
@@ -13,9 +14,9 @@ public class ScanResults {
     public List<Instrument> getInstruments(Composition composition) {
 
         try {
-            List<TiffReader.Page> inputImages = TiffReader.getInputImages("Scan", composition);
+            List<Page> inputImages = TiffReader.getInputImages("Scan", composition);
             return inputImages.stream()
-                    .map(TiffReader.Page::getInstrument)
+                    .map(Page::getInstrument)
                     .distinct()
                     .sorted()
                     .collect(Collectors.toList());

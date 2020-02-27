@@ -1,5 +1,6 @@
 package info.bladt.scanstation.image.processing;
 
+import info.bladt.scanstation.file.Page;
 import info.bladt.scanstation.file.TiffReader;
 import info.bladt.scanstation.file.TiffWriter;
 import info.bladt.scanstation.image.processing.Crop.Rectangle;
@@ -40,8 +41,8 @@ public class ProcessingService {
     public void process(Composition composition, Instrument instrument, ProcessingConfiguration configuration) {
 
         try {
-            List<TiffReader.Page> inputImages = TiffReader.getInputImages("Scan", composition, instrument);
-            for (TiffReader.Page page : inputImages) {
+            List<Page> inputImages = TiffReader.getInputImages("Scan", composition, instrument);
+            for (Page page : inputImages) {
                 int pageNumber = page.getNumber();
                 BufferedImage bufferedImage = ImageIO.read(page.getPath().toFile());
 

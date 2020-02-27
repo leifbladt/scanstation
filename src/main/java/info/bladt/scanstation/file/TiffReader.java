@@ -51,28 +51,4 @@ public class TiffReader {
     private static BiPredicate<Path, BasicFileAttributes> getByFilename(String fileNameMatcher) {
         return (path, basicFileAttributes) -> path.toFile().getName().matches(fileNameMatcher);
     }
-
-    public static class Page {
-        private final Instrument instrument;
-        private final int number;
-        private final Path path;
-
-        public Page(Instrument instrument, int number, Path path) {
-            this.instrument = instrument;
-            this.number = number;
-            this.path = path;
-        }
-
-        public Instrument getInstrument() {
-            return instrument;
-        }
-
-        public int getNumber() {
-            return number;
-        }
-
-        public Path getPath() {
-            return path;
-        }
-    }
 }

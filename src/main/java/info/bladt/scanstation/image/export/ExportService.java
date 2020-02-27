@@ -1,5 +1,6 @@
 package info.bladt.scanstation.image.export;
 
+import info.bladt.scanstation.file.Page;
 import info.bladt.scanstation.file.TiffReader;
 import info.bladt.scanstation.image.processing.Convert;
 import info.bladt.scanstation.image.processing.Convert.ImageType;
@@ -40,8 +41,8 @@ public class ExportService {
             Files.createDirectories(outputPath);
             Path outputPath2 = Path.of(outputPath.toString(), instrument.getFilenamePart() + ".pdf");
 
-            List<TiffReader.Page> inputImages = TiffReader.getInputImages("Work", composition, instrument);
-            for (TiffReader.Page inputImage : inputImages) {
+            List<Page> inputImages = TiffReader.getInputImages("Work", composition, instrument);
+            for (Page inputImage : inputImages) {
                 PDPage page = new PDPage(convert(configuration.getPageSize(instrument), configuration.getPageOrientation(instrument)));
 
                 BufferedImage bufferedImage = ImageIO.read(inputImage.getPath().toFile());
