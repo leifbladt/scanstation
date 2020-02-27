@@ -1,7 +1,6 @@
 package info.bladt.scanstation.model;
 
 import com.fasterxml.jackson.core.JsonParser;
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.JsonToken;
 import com.fasterxml.jackson.databind.DeserializationContext;
 import com.fasterxml.jackson.databind.deser.std.StdScalarDeserializer;
@@ -15,7 +14,7 @@ public class InstrumentDeserializer extends StdScalarDeserializer<Instrument> {
     }
 
     @Override
-    public Instrument deserialize(JsonParser p, DeserializationContext ctxt) throws IOException, JsonProcessingException {
+    public Instrument deserialize(JsonParser p, DeserializationContext ctxt) throws IOException {
         JsonToken t = p.getCurrentToken();
 
         if (t == JsonToken.VALUE_STRING) {
