@@ -33,20 +33,16 @@ class CompoundKey {
             this.instrument = null;
             this.page = null;
         } else {
+            String split2[] = StringUtils.split(split[1], "/");
 
-            switch (split.length) {
-                case 2:
-                    this.key = Key.valueOf(split[0]);
-                    this.instrument = Instrument.parse(split[1]);
-                    this.page = null;
-                    break;
-                case 3:
-                    this.key = Key.valueOf(split[0]);
-                    this.instrument = Instrument.parse(split[1]);
-                    this.page = Integer.parseInt(split[2]);
-                    break;
-                default:
-                    throw new RuntimeException("Can't deserialize key " + key);
+            if (split2 == null) {
+                this.key = Key.valueOf(split[0]);
+                this.instrument = Instrument.parse(split[1]);
+                this.page = null;
+            } else {
+                this.key = Key.valueOf(split[0]);
+                this.instrument = Instrument.parse(split2[0]);
+                this.page = Integer.parseInt(split2[1]);
             }
         }
     }
